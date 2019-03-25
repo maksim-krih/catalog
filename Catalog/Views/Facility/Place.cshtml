@@ -1,0 +1,49 @@
+﻿@using Catalog.ViewModels;
+@using Catalog.Models;
+@model FacilityViewModel
+
+@{
+    ViewData["Title"] = "Place";
+}
+
+<h2>Place Page</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Price</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+            <th scope="col">Schedule</th>
+        </tr>        
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Model.facility.Name
+            </td>
+            <td>
+                @Model.facility.FacilityType
+            </td>
+            <td>
+                @Model.facility.Price
+            </td>
+            <td>
+                @Model.facility.Rating
+            </td>
+            <td>
+                @Model.facility.Phone
+            </td>
+            <td>
+                @Model.facility.Address.Street
+            </td>
+            <td>
+                @Model.facility.Schedule.WorkingDays
+            </td>
+        </tr>
+    </tbody>
+
+</table>

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Catalog.Models
+namespace Catalog.Models.Facility
 {
-    public enum Price : int
+    public enum FacilityType
     {
-        low, medium, high
+        restaurant, pub, club, bar
     }
 }

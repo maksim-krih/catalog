@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace Catalog.Models
+namespace Catalog.Models.Facility
 {
     public class Schedule
     {

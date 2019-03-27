@@ -1,0 +1,26 @@
+[33mcommit 442d2813232d1e2a4c51e9423b14668ade9166b7[m[33m ([m[1;36mHEAD -> [m[1;32mdev_vitalik[m[33m, [m[1;31morigin/develop[m[33m, [m[1;31morigin/dev_vitalik[m[33m, [m[1;32mdevelop[m[33m)[m
+Merge: 3eabfdf d59bbd7
+Author: maksim-krih <33821107+maksim-krih@users.noreply.github.com>
+Date:   Sat Mar 23 19:56:47 2019 +0200
+
+    Merge pull request #1 from maksim-krih/dev_yura
+    
+    Created Facility and Feedback models
+
+[33mcommit d59bbd7ff325ee452525dafbe046086bf3770c6c[m[33m ([m[1;31morigin/dev_yura[m[33m)[m
+Author: Yuriy <yuriy.paslavsky@gmail.com>
+Date:   Sat Mar 23 14:22:10 2019 +0200
+
+    Created Facility and Feedback models
+
+[33mcommit 3eabfdfcdeb872a284df2217013cf4cc8c16f0fc[m[33m ([m[1;31morigin/max[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmaster[m[33m)[m
+Author: maksim-krih <maksimkrih@gmail.com>
+Date:   Wed Mar 20 13:17:02 2019 +0200
+
+    Init commit
+
+[33mcommit 0e7465ecd9b6beb1b2bfdd5e323b71059b2430e9[m
+Author: maksim-krih <33821107+maksim-krih@users.noreply.github.com>
+Date:   Wed Mar 20 08:24:36 2019 +0200
+
+    Initial commit

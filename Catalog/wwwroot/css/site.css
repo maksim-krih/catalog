@@ -36,18 +36,22 @@ body {
     }
 }
 
+
+
+
 /* Styles for page About*/
 
 .name {
     font-size: 20pt;
     font-weight: 100;
     color: black;
+    text-shadow: 0 0 4px #666;
 }
 
 .position {
     color: #90939a;
     display: inline-block;
-    font-size: 16px;
+    font-size: 23px;
     line-height: 21px;
     font-style: italic;
 }
@@ -62,7 +66,7 @@ body {
 }
 
 .category-header__subtitle {
-    max-width: 900px;
+    max-width: 700px;
     padding: 0 16px;
     margin: 0 auto;
     font-style: italic;
@@ -73,9 +77,94 @@ body {
     color: #484b52;
 }
 
+.round {
+    border-radius: 100px;
+    border: 3px solid grey;
+    box-shadow: 0 0 7px #666;
+    height: 100px;
+    width: 100px;
+}
+
+.logo-github {
+    margin-left: 20px;
+    border-radius: 100px;
+    border: 3px solid #8a2be2;
+    box-shadow: 0 0 7px #666;
+    height: 27px;
+    width: 27px;
+}
+
+.logo-facebook {
+    height: 27px;
+    width: 27px;
+    margin-left: 20px;
+}
+
+.logo-bulldozer {
+    margin: 10px;
+    border-width: 2px;
+    border-color: black;
+    border-style: double;
+    border-radius: 7px;
+    height: 37px;
+    width: 37px;
+    margin-top: 10px;
+    margin-right: 245px;
+}
+
+.authors {
+    text-align: center;
+    width: 350px;
+    height: 40px;
+    border-radius: 30px;
+    border-width: 1px;
+    border-color: cadetblue;
+    box-shadow: 0 0 7px #666;
+    font-size: 80pt;
+    font-weight: 100;
+    color: black;
+    text-shadow: 0 0 4px #666;
+}
+
+.border {
+    margin: 20px;
+    text-align: center;
+    width: 300px;
+    height: 460px;
+    border-radius: 30px;
+    border-width: 0.5px;
+    border-color: cadetblue;
+    border-style: double;
+    box-shadow: 0 0 7px #666;
+}
+
+.responsible-for {
+    font-size: 20pt;
+    font-weight: 100;
+    color: black;
+    text-shadow: 0 0 3px cadetblue;
+}
+
+
+.text-in {
+    text-align: left;
+    font-size: 20px;
+    margin-top: 40px;
+    margin-left: 10px;
+    font-family: monospace;
+    font-weight: 100;
+    color: cadetblue;
+}
+
+.row-about {
+    margin-left: 60px;
+}
+
 .title {
     /* чтобы линии не выходили за ширину блока заголовка */
     overflow: hidden;
+    margin-top: 50px;
+    margin-bottom: 30px;
 }
 
     .title:before,
@@ -91,14 +180,14 @@ body {
   ** благодаря этому линия заполнит все свободное пространство
   ** слева и справа от текста
   */
-        width: 100%;
-        height: 3px;
-        background: #808080;
+        width: 80%;
+        height: 1px;
+        background: #90939a;
         /* добавляем к линии левый и правый бордюр цветом основного фона заголовка
   ** благодаря этому создается нужный отступ между линиями и текстом
   */
         border: solid #FFF;
-        border-width: 0 4px;
+        border-width: 0 10px;
     }
 
     .title:before {

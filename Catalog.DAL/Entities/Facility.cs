@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using Catalog.DAL.Enums;
 
-namespace Catalog.Models.Facility
+namespace Catalog.DAL.Entities
 {
-    public class FacilityModel
+    public class Facility
     {
         [Key]
         public int Id { get; set; }

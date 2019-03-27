@@ -1,4 +1,4 @@
-﻿using Catalog.Models.Facility;
+﻿//using Catalog.Models.Facility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,6 @@ namespace Catalog.ViewModels
 {
     public class FacilityViewModel
     {
-        public FacilityModel facility;
+        //public FacilityModel facility;
     }
 }

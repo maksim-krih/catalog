@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Catalog.Models.Facility;
 using Catalog.ViewModels;
+using Catalog.Data;
 
 namespace Catalog.Controllers
 {
     public class FacilityController : Controller
     {
         //List<FacilityModel> facilities;
-        // DataContext dc;
+        DataContext dc;
         FacilityModel facility;
 
         //TODO: get models from db;

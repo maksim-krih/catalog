@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Catalog.Models
+namespace Catalog.DAL.Entities
 {
-    public class FeedbackModel
+    public class Feedback
     {
         [Key]
         public int FeedbackId { get; set; }

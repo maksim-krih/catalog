@@ -21,6 +21,46 @@ namespace Catalog.Controllers
             UserContext = context;
         }
 
+        [HttpGet]
+        public IActionResult Registrate()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Registrate(RegistrationModel registrationModel)
+        {
+            if (ModelState.IsValid)
+            {
+                await UserContext.Database.BeginTransactionAsync();   
+                User user = UserContext.Users.FirstOrDefault(u => u.Email == registrationModel.Email);
+                if (user == null)
+                {
+                    user = new User
+                    {
+                        Name = registrationModel.Name,
+                        Email = registrationModel.Email,
+                        Password = registrationModel.Password
+                    };
+                    UserContext.Users.Add(user);
+                    await UserContext.SaveChangesAsync();
+                    await Authenticate(user);
+
+                    UserContext.Database.CommitTransaction();
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("RegistrationError", "There is already user with this email!");
+                    UserContext.Database.RollbackTransaction();
+                }
+            }
+
+            return View(registrationModel);
+        }
 
         [HttpGet]
         public IActionResult Login()

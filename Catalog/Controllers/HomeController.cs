@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Catalog.Models;
+using Microsoft.AspNetCore.Authorization;
 using Catalog.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +25,7 @@ namespace Catalog.Controllers
             _context = context;
         }
 
-        // GET: FacilityModels
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Facilities.ToListAsync());

@@ -16,6 +16,6 @@ namespace Catalog.Data
 
         public DbSet<FacilityModel> Facilities { get; set; }
         public DbSet<FeedbackModel> Feedbacks { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }
-

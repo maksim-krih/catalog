@@ -14,9 +14,6 @@ namespace Catalog.Models
         public string City { get; set; }
         public string Street { get; set; }
         public int HouseNumber { get; set; }
-        public int AppartmentNumber { get; set; }
         public int ZipCode { get; set; }
-
-
     }
 }

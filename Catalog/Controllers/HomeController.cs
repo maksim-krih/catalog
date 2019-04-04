@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Catalog.Models;
-using Catalog.Data;
 
 namespace Catalog.Controllers
 {
@@ -19,8 +18,6 @@ namespace Catalog.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-            //DataContext context = new DataContext();
-            //context.Facilities.to
 
             return View();
         }

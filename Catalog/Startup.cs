@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.Data;
+using Catalog.DAL.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +34,7 @@ namespace Catalog
             });
 
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DataContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<CatalogContext>(options => options.UseSqlServer(connection));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

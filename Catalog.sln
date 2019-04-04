@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog", "Catalog\Catalog.csproj", "{6ACC1634-3059-41BF-B51D-13E7B274F130}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.DAL", "Catalog.DAL\Catalog.DAL.csproj", "{49AC256F-DF99-4041-804E-A42782063D75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.DAL", "Catalog.DAL\Catalog.DAL.csproj", "{49AC256F-DF99-4041-804E-A42782063D75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.BLL", "Catalog.BLL\Catalog.BLL.csproj", "{F986C452-3BA3-417B-84CE-BCC8518A2578}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{49AC256F-DF99-4041-804E-A42782063D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49AC256F-DF99-4041-804E-A42782063D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49AC256F-DF99-4041-804E-A42782063D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F986C452-3BA3-417B-84CE-BCC8518A2578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F986C452-3BA3-417B-84CE-BCC8518A2578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F986C452-3BA3-417B-84CE-BCC8518A2578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F986C452-3BA3-417B-84CE-BCC8518A2578}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

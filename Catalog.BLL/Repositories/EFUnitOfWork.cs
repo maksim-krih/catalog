@@ -14,13 +14,9 @@ namespace Catalog.DAL.Repositories
         private FacilityRepository facilityRepository;
         private FeedbackRepository feedbackRepository;
 
-        public EFUnitOfWork(string connectionString)
+        public EFUnitOfWork(CatalogContext catalogContext)
         {
-            // db = new CatalogContext(connectionString);
-            //TODO: this may cause errors
-            var optionsBuilder = new DbContextOptionsBuilder<CatalogContext>();
-            optionsBuilder.UseSqlite("Data Source=catalog.db");
-            db = new CatalogContext(optionsBuilder.Options);
+            db = catalogContext;
         }
 
         public IRepository<Facility> Facilities

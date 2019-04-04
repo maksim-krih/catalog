@@ -13,22 +13,44 @@ namespace Catalog.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly DataContext _context;
+
+        private bool FacilityModelExists(int id)
+        {
+            return _context.Facilities.Any(e => e.Id == id);
+        }
+
         public IActionResult About()
         {
             return View();
         }
-
-        private readonly DataContext _context;
 
         public HomeController(DataContext context)
         {
             _context = context;
         }
 
-        [Authorize]
+        /*[Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Facilities.ToListAsync());
+        }*/
+        [Authorize]
+        public async Task<IActionResult> Index(int page = 1)
+        {
+            int pageSize = 3;
+
+            var source = _context.Facilities.Include(x => x.Address);
+            var count = await source.CountAsync();
+            var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                PageViewModel = pageViewModel,
+                FacilityModels = items
+            };
+            return View(viewModel);
         }
 
         // GET: FacilityModels/Details/5
@@ -149,11 +171,6 @@ namespace Catalog.Controllers
             _context.Facilities.Remove(facilityModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool FacilityModelExists(int id)
-        {
-            return _context.Facilities.Any(e => e.Id == id);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

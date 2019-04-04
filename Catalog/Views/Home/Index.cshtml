@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Catalog.Models.FacilityModel>
+﻿@model IndexViewModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -8,24 +8,24 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
+                Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                Price
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Rating)
+                Rating
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Phone)
+                Phone
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FacilityType)
+                Facility Type
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.FacilityModels)
         {
             <tr>
                 <td>
@@ -47,3 +47,22 @@
         }
     </tbody>
 </table>
+
+@if (true)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.CurrentPage)"
+       class="btn btn-default btn">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Назад
+    </a>
+}
+@if (true)
+{
+    <a asp-action="Index"
+       asp-route-page="@(Model.PageViewModel.CurrentPage + 1)"
+       class="btn btn-default btn">
+        Вперед
+        <i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+}

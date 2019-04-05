@@ -10,9 +10,24 @@ namespace Catalog.DAL.Configurations
     public class FacilityConfiguraiton : IEntityTypeConfiguration<Facility>
     {
         public void Configure(EntityTypeBuilder<Facility> builder)
-        {            
-           // builder.HasKey(f => f.Id);
-           // builder.Property(f => f.Name).HasColumnName("Name");
+        {
+            builder.OwnsOne(a => a.Address);
+            builder.OwnsOne(s => s.Schedule);
+            //Exception: must not be interface type
+            //builder.OwnsOne(f => f.Feedbacks);
+            //builder.OwnsOne(p => p.Photos);
+
+            builder
+                .HasData(
+                    new Facility
+                    {
+                        Id = 1,
+                        Name = "Name 1",
+                        Price = 3,
+                        Rating = 3.2,
+                        Phone = "012345678",
+                        FacilityType = "Bar"
+                    });
         }
     }
 }

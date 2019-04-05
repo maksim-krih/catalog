@@ -1,12 +1,13 @@
-﻿using Catalog.DAL.EF;
-using Catalog.DAL.Entities;
-using Catalog.DAL.Interfaces;
+﻿using Catalog.DAL.Data;
+using Catalog.DAL.Models;
+using Catalog.BLL.Interfaces;
+using Catalog.BLL.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Catalog.DAL.Repositories
+namespace Catalog.BLL.Repositories
 {
     public class EFUnitOfWork : IUnitOfWork
     {

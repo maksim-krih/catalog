@@ -11,7 +11,7 @@ namespace Catalog.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<FacilityAddress> builder)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

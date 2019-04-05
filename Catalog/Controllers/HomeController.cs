@@ -5,34 +5,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Catalog.Models;
+using Catalog.BLL.Interfaces;
+using Catalog.BLL.Repositories;
 
 namespace Catalog.Controllers
 {
     public class HomeController : Controller
     {
+        private IUnitOfWork db;
+        public HomeController(IUnitOfWork db)
+        {
+            this.db = db;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            return View(db.Facilities.GetAll());
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

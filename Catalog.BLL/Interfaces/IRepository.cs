@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Catalog.DAL.Models;
 using System.Text;
 
-namespace Catalog.DAL.Interfaces
+namespace Catalog.BLL.Interfaces
 {
     public interface IRepository<T> where T : class
     {

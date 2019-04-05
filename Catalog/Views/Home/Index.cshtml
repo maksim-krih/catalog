@@ -1,20 +1,48 @@
-﻿@model Catalog.DAL.Entities.Facility
+﻿@model IEnumerable<Catalog.DAL.Models.Facility>
 
 @{
     ViewData["Title"] = "Home Page";
-    var list = ViewBag.List;
 }
 
 <div class="container">
     <div class="row">
         <div class="col">
-            Каталог закладів Львова
+            <h2> Каталог закладів Львова </h2>
         </div>
     </div>
     
-    <div class="row">
-        <div class="col-md-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Name)                    
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Address)
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.Rating)
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>                       
+                        @Html.DisplayFor(modelItem => item.Address.Street)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                </tr>
+            }
 
-        </div>
-    </div>
+        </tbody>
+    </table>
+
+
 </div>

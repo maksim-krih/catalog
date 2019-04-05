@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Catalog.DAL.Entities;
+using Catalog.DAL.Models;
 
-namespace Catalog.DAL.Interfaces
+namespace Catalog.BLL.Interfaces
 {
     public interface IUnitOfWork :IDisposable  
     {

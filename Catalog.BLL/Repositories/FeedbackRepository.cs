@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Catalog.DAL.Entities;
-using Catalog.DAL.EF;
-using Catalog.DAL.Interfaces;
+using Catalog.DAL.Models;
+using Catalog.DAL.Data;
+using Catalog.BLL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Catalog.DAL.Repositories
+namespace Catalog.BLL.Repositories
 {
     public class FeedbackRepository : IRepository<Feedback>
     {

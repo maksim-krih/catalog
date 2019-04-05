@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.DAL.EF;
+using Catalog.BLL.Interfaces;
+using Catalog.BLL.Repositories;
+using Catalog.DAL.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +37,8 @@ namespace Catalog
 
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<CatalogContext>(options => options.UseSqlServer(connection));
+
+            services.AddScoped<IUnitOfWork, EFUnitOfWork>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

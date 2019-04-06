@@ -15,7 +15,7 @@ namespace Catalog.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -24,8 +24,6 @@ namespace Catalog.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AppartmentNumber");
 
                     b.Property<string>("City");
 
@@ -70,27 +68,6 @@ namespace Catalog.Migrations
                     b.HasIndex("ScheduleOpen");
 
                     b.ToTable("Facilities");
-                });
-
-            modelBuilder.Entity("Catalog.Models.FeedbackModel", b =>
-                {
-                    b.Property<int>("FeedbackId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Author")
-                        .IsRequired();
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("Message")
-                        .IsRequired();
-
-                    b.Property<int>("Rating");
-
-                    b.HasKey("FeedbackId");
-
-                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("Catalog.Models.Schedule", b =>

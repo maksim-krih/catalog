@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Catalog.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190325050413_Test1")]
-    partial class Test1
+    [Migration("20190406131410_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,27 +72,6 @@ namespace Catalog.Migrations
                     b.ToTable("Facilities");
                 });
 
-            modelBuilder.Entity("Catalog.Models.FeedbackModel", b =>
-                {
-                    b.Property<int>("FeedbackId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Author")
-                        .IsRequired();
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<string>("Message")
-                        .IsRequired();
-
-                    b.Property<int>("Rating");
-
-                    b.HasKey("FeedbackId");
-
-                    b.ToTable("Feedbacks");
-                });
-
             modelBuilder.Entity("Catalog.Models.Schedule", b =>
                 {
                     b.Property<DateTime>("Open");
@@ -104,6 +83,23 @@ namespace Catalog.Migrations
                     b.HasKey("Open");
 
                     b.ToTable("Schedule");
+                });
+
+            modelBuilder.Entity("Catalog.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Password");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Catalog.Models.FacilityModel", b =>

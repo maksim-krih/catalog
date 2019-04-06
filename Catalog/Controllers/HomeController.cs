@@ -25,7 +25,7 @@ namespace Catalog.Controllers
             _context = context;
         }
 
-        [Authorize]
+        [Authorize(Roles = "User")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Facilities.ToListAsync());

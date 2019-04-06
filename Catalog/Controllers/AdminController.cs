@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Catalog.Data;
 using Catalog.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Views
 {
@@ -20,12 +21,14 @@ namespace Catalog.Views
         }
 
         // GET: Admin
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Facilities.ToListAsync());
         }
 
         // GET: Admin/Details/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,6 +47,7 @@ namespace Catalog.Views
         }
 
         // GET: Admin/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +58,7 @@ namespace Catalog.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,Rating,Phone,FacilityType,Address")] FacilityModel facilityModel)
         {
             if (ModelState.IsValid)
@@ -66,6 +71,7 @@ namespace Catalog.Views
         }
 
         // GET: Admin/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +92,7 @@ namespace Catalog.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Rating,Phone,FacilityType")] FacilityModel facilityModel)
         {
             if (id != facilityModel.Id)
@@ -117,6 +124,7 @@ namespace Catalog.Views
         }
 
         // GET: Admin/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +145,7 @@ namespace Catalog.Views
         // POST: Admin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var facilityModel = await _context.Facilities.FindAsync(id);

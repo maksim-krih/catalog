@@ -14,11 +14,11 @@ namespace Catalog.Controllers
 {
     public class AccountController : Controller
     {
-        private DataContext UserContext { get; set; }
+        private DataContext Context { get; set; }
 
         public AccountController(DataContext context)
         {
-            UserContext = context;
+            Context = context;
         }
 
         [HttpGet]
@@ -34,28 +34,29 @@ namespace Catalog.Controllers
         {
             if (ModelState.IsValid)
             {
-                await UserContext.Database.BeginTransactionAsync();   
-                User user = UserContext.Users.FirstOrDefault(u => u.Email == registrationModel.Email);
+                await Context.Database.BeginTransactionAsync();   
+                User user = Context.Users.FirstOrDefault(u => u.Email == registrationModel.Email);
                 if (user == null)
                 {
                     user = new User
                     {
                         Name = registrationModel.Name,
                         Email = registrationModel.Email,
-                        Password = registrationModel.Password
+                        Password = registrationModel.Password,
+                        Roleid = 2,
                     };
-                    UserContext.Users.Add(user);
-                    await UserContext.SaveChangesAsync();
-                    await Authenticate(user);
+                    Context.Users.Add(user);
+                    await Context.SaveChangesAsync();
+                    await Authenticate(user, "User");
 
-                    UserContext.Database.CommitTransaction();
+                    Context.Database.CommitTransaction();
 
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
                     ModelState.AddModelError("RegistrationError", "There is already user with this email!");
-                    UserContext.Database.RollbackTransaction();
+                    Context.Database.RollbackTransaction();
                 }
             }
 
@@ -75,10 +76,11 @@ namespace Catalog.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = UserContext.Users.FirstOrDefault(u => u.Email == loginModel.Email && u.Password == loginModel.Password);
+                User user = Context.Users.FirstOrDefault(u => u.Email == loginModel.Email && u.Password == loginModel.Password);
                 if (user != null)
                 {
-                    await Authenticate(user);
+                    string role = Context.Roles.Find(user.Roleid).Name;
+                    await Authenticate(user, role);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -88,14 +90,15 @@ namespace Catalog.Controllers
             return View(loginModel);
         }
 
-        private async Task Authenticate(User user)
+        private async Task Authenticate(User user, string role)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Password)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Password),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
             };
 
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

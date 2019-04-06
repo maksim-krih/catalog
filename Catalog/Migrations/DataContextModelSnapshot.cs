@@ -15,7 +15,7 @@ namespace Catalog.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -70,6 +70,46 @@ namespace Catalog.Migrations
                     b.ToTable("Facilities");
                 });
 
+            modelBuilder.Entity("Catalog.Models.FeedbackModel", b =>
+                {
+                    b.Property<int>("FeedbackId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Author")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Message")
+                        .IsRequired();
+
+                    b.Property<int>("Rating");
+
+                    b.HasKey("FeedbackId");
+
+                    b.ToTable("Feedbacks");
+                });
+
+            modelBuilder.Entity("Catalog.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new { Id = 1, Name = "Admin" },
+                        new { Id = 2, Name = "User" }
+                    );
+                });
+
             modelBuilder.Entity("Catalog.Models.Schedule", b =>
                 {
                     b.Property<DateTime>("Open");
@@ -95,9 +135,17 @@ namespace Catalog.Migrations
 
                     b.Property<string>("Password");
 
+                    b.Property<int?>("Roleid");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("Roleid");
+
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new { Id = 1, Email = "admin@gmail.com", Name = "Admin", Password = "1111", Roleid = 1 }
+                    );
                 });
 
             modelBuilder.Entity("Catalog.Models.FacilityModel", b =>
@@ -110,6 +158,13 @@ namespace Catalog.Migrations
                     b.HasOne("Catalog.Models.Schedule", "Schedule")
                         .WithMany()
                         .HasForeignKey("ScheduleOpen");
+                });
+
+            modelBuilder.Entity("Catalog.Models.User", b =>
+                {
+                    b.HasOne("Catalog.Models.Role", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("Roleid");
                 });
 #pragma warning restore 612, 618
         }

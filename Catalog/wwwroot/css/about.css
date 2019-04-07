@@ -1,0 +1,164 @@
+/* Styles for page About*/
+
+.name {
+    font-size: 20pt;
+    font-weight: 100;
+    color: black;
+    text-shadow: 0 0 4px #666;
+}
+
+.position {
+    color: #90939a;
+    display: inline-block;
+    font-size: 23px;
+    line-height: 21px;
+    font-style: italic;
+}
+
+.theme {
+    color: darkslategrey;
+    display: inline-block;
+    font-size: 50px;
+    line-height: 21px;
+    font-style: italic;
+    font-weight: 100;
+}
+
+.category-header__subtitle {
+    max-width: 700px;
+    padding: 0 16px;
+    margin: 0 auto;
+    font-style: italic;
+    font-size: 30px;
+    font-weight: 200;
+    font-family: PT Serif,serif;
+    display: inline-block;
+    color: #484b52;
+}
+
+.round {
+    border-radius: 100px;
+    border: 3px solid grey;
+    box-shadow: 0 0 7px #666;
+    height: 100px;
+    width: 100px;
+}
+
+.logo-github {
+    margin-left: 20px;
+    border-radius: 100px;
+    border: 3px solid #8a2be2;
+    box-shadow: 0 0 7px #666;
+    height: 27px;
+    width: 27px;
+}
+
+.logo-facebook {
+    height: 27px;
+    width: 27px;
+    margin-left: 20px;
+}
+
+.logo-bulldozer {
+    margin: 10px;
+    border-width: 2px;
+    border-color: black;
+    border-style: double;
+    border-radius: 7px;
+    height: 37px;
+    width: 37px;
+    margin-top: 10px;
+    margin-right: 245px;
+}
+
+.authors {
+    text-align: center;
+    width: 350px;
+    height: 40px;
+    border-radius: 30px;
+    border-width: 1px;
+    border-color: cadetblue;
+    box-shadow: 0 0 7px #666;
+    font-size: 80pt;
+    font-weight: 100;
+    color: black;
+    text-shadow: 0 0 4px #666;
+}
+
+.border {
+    margin: 20px;
+    text-align: center;
+    width: 300px;
+    height: 460px;
+    border-radius: 30px;
+    border-width: 0.5px;
+    border-color: cadetblue;
+    border-style: double;
+    box-shadow: 0 0 7px #666;
+}
+
+.responsible-for {
+    font-size: 20pt;
+    font-weight: 100;
+    color: black;
+    text-shadow: 0 0 3px cadetblue;
+}
+
+
+.text-in {
+    text-align: left;
+    font-size: 20px;
+    margin-top: 40px;
+    margin-left: 10px;
+    font-family: monospace;
+    font-weight: 100;
+    color: cadetblue;
+}
+
+.row-about {
+    margin-left: 60px;
+}
+
+.title {
+    /* чтобы линии не выходили за ширину блока заголовка */
+    overflow: hidden;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+    .title:before,
+    .title:after {
+        content: '';
+        /* делаем линию строчно-блочной */
+        display: inline-block;
+        /* выравниваем вертикально по середине */
+        vertical-align: middle;
+        /* не позволяем ширине превысить 100% (будет добавлен бордюр) */
+        box-sizing: border-box;
+        /* установка ширины в 100% делает линию равной ширине тега заголовка
+  ** благодаря этому линия заполнит все свободное пространство
+  ** слева и справа от текста
+  */
+        width: 80%;
+        height: 1px;
+        background: #90939a;
+        /* добавляем к линии левый и правый бордюр цветом основного фона заголовка
+  ** благодаря этому создается нужный отступ между линиями и текстом
+  */
+        border: solid #FFF;
+        border-width: 0 10px;
+    }
+
+    .title:before {
+        /* смещаем левую линию влево отрицательным отступом, равным 100% ширины
+  ** благодаря этому линия встает слева от текста
+  */
+        margin-left: -100%;
+    }
+
+    .title:after {
+        /* смещаем правую линию вправо отрицательным отступом, равным 100% ширины
+  ** благодаря этому линия встает справа от текста
+  */
+        margin-right: -100%;
+    }

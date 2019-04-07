@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Catalog.BLL.Interfaces;
 using Catalog.BLL.Repositories;
 using Catalog.DAL.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,12 +36,16 @@ namespace Catalog
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<CatalogContext>(options => options.UseSqlServer(connection));
-
-            services.AddScoped<IUnitOfWork, EFUnitOfWork>();
+            services.AddDbContext<DataContext>((options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +64,7 @@ namespace Catalog
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

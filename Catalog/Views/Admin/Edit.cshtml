@@ -1,4 +1,4 @@
-﻿@model Catalog.Models.FacilityModel
+﻿@model Catalog.DAL.Models.Facility
 
 @{
     ViewData["Title"] = "Edit";
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
-                <select asp-for="Price" class="form-control"></select>
+                <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="FacilityType" class="control-label"></label>
-                <select asp-for="FacilityType" class="form-control"></select>
+                <input asp-for="FacilityType" class="form-control" />
                 <span asp-validation-for="FacilityType" class="text-danger"></span>
             </div>
             <div class="form-group">

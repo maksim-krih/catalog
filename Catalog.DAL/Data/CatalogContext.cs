@@ -21,8 +21,9 @@ namespace Catalog.DAL.Data
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

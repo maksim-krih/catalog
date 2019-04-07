@@ -4,7 +4,7 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
-namespace Catalog.Models
+namespace Catalog.DAL.Models
 {
     public class User
     {

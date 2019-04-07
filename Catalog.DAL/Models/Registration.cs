@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Catalog.Models
+namespace Catalog.DAL.Models
 {
-    public class RegistrationModel
+    public class Registration
     {
         [Required(ErrorMessage = "Please, enter name")]
         public string Name { get; set; }

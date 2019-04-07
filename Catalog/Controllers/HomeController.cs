@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Catalog.Models;
 using Microsoft.AspNetCore.Authorization;
-using Catalog.Data;
 using Microsoft.EntityFrameworkCore;
 using Catalog.BLL.Interfaces;
 using Catalog.BLL.Repositories;
@@ -27,10 +26,9 @@ namespace Catalog.Controllers
             return View();
         }
 
-        [Authorize]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await db.Facilities.ToListAsync());
+            return View(db.Facilities.GetAll());
         }
         
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

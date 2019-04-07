@@ -36,8 +36,10 @@ namespace Catalog
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<DataContext>((options =>
+            services.AddDbContext<CatalogContext>((options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))));
+
+            services.AddScoped<IUnitOfWork, EFUnitOfWork>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

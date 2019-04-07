@@ -69,7 +69,7 @@ namespace Catalog.DAL.Migrations
                     b.ToTable("Feedback");
 
                     b.HasData(
-                        new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 5, 19, 23, 52, 453, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Rating = 4 }
+                        new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 8, 2, 30, 45, 495, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Rating = 4 }
                     );
                 });
 
@@ -88,6 +88,23 @@ namespace Catalog.DAL.Migrations
                     b.HasIndex("FacilityId");
 
                     b.ToTable("Photo");
+                });
+
+            modelBuilder.Entity("Catalog.DAL.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Password");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Catalog.DAL.Models.Facility", b =>

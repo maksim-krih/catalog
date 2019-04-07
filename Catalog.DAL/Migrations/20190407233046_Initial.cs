@@ -26,6 +26,21 @@ namespace Catalog.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "FacilityAddress",
                 columns: table => new
                 {
@@ -136,7 +151,7 @@ namespace Catalog.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Feedback",
                 columns: new[] { "Id", "Author", "Date", "FacilityId", "Message", "Rating" },
-                values: new object[] { 1, "Anonynous", new DateTime(2019, 4, 5, 19, 23, 52, 453, DateTimeKind.Local), 1, "Feedback message", 4 });
+                values: new object[] { 1, "Anonynous", new DateTime(2019, 4, 8, 2, 30, 45, 495, DateTimeKind.Local), 1, "Feedback message", 4 });
 
             migrationBuilder.InsertData(
                 table: "Schedule",
@@ -179,6 +194,9 @@ namespace Catalog.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Schedule");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Facility");

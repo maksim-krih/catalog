@@ -48,16 +48,16 @@
     </tbody>
 </table>
 
-@if (true)
+@if (Model.PageViewModel.HasPreviousPage)
 {
     <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.CurrentPage)"
+       asp-route-page="@(Model.PageViewModel.CurrentPage - 1)"
        class="btn btn-default btn">
         <i class="glyphicon glyphicon-chevron-left"></i>
         Назад
     </a>
 }
-@if (true)
+@if (Model.PageViewModel.HasNextPage)
 {
     <a asp-action="Index"
        asp-route-page="@(Model.PageViewModel.CurrentPage + 1)"

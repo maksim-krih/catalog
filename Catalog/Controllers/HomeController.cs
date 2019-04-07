@@ -30,17 +30,12 @@ namespace Catalog.Controllers
             _context = context;
         }
 
-        /*[Authorize]
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Facilities.ToListAsync());
-        }*/
         [Authorize]
         public async Task<IActionResult> Index(int page = 1)
         {
             int pageSize = 3;
 
-            var source = _context.Facilities.Include(x => x.Address);
+            IQueryable<FacilityModel> source = _context.Facilities.Include(x => x.Address);
             var count = await source.CountAsync();
             var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 

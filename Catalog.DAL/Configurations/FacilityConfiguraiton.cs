@@ -19,6 +19,8 @@ namespace Catalog.DAL.Configurations
 
             builder
                 .HasData(
+                new Facility[]
+                {
                     new Facility
                     {
                         Id = 1,
@@ -27,7 +29,27 @@ namespace Catalog.DAL.Configurations
                         Rating = 3.2,
                         Phone = "012345678",
                         FacilityType = "Bar"
-                    });
+                    },
+                    new Facility
+                    {
+                        Id = 2,
+                        Name = "Name 1",
+                        Price = 3,
+                        Rating = 3.2,
+                        Phone = "012345678",
+                        FacilityType = "Bar"
+                    },
+                    new Facility
+                    {
+                        Id = 3,
+                        Name = "Name 1",
+                        Price = 3,
+                        Rating = 3.2,
+                        Phone = "012345678",
+                        FacilityType = "Bar"
+                    }
+                }
+                );
         }
     }
 }

@@ -119,6 +119,16 @@ namespace Catalog.DAL.Migrations
                 values: new object[] { 1, "Bar", "Name 1", "012345678", 3.0, 3.2 });
 
             migrationBuilder.InsertData(
+                table: "Facility",
+                columns: new[] { "Id", "FacilityType", "Name", "Phone", "Price", "Rating" },
+                values: new object[] { 2, "Bar", "Name 1", "012345678", 3.0, 3.2 });
+
+            migrationBuilder.InsertData(
+                table: "Facility",
+                columns: new[] { "Id", "FacilityType", "Name", "Phone", "Price", "Rating" },
+                values: new object[] { 3, "Bar", "Name 1", "012345678", 3.0, 3.2 });
+
+            migrationBuilder.InsertData(
                 table: "FacilityAddress",
                 columns: new[] { "Id", "City", "Country", "FacilityId", "HouseNumber", "Street", "ZipCode" },
                 values: new object[] { 1, "City 1", "Country 1", 1, "1", "Street 1", 1 });
@@ -126,7 +136,7 @@ namespace Catalog.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Feedback",
                 columns: new[] { "Id", "Author", "Date", "FacilityId", "Message", "Rating" },
-                values: new object[] { 1, "Anonynous", new DateTime(2019, 4, 5, 18, 18, 44, 765, DateTimeKind.Local), 1, "Feedback message", 4 });
+                values: new object[] { 1, "Anonynous", new DateTime(2019, 4, 5, 19, 23, 52, 453, DateTimeKind.Local), 1, "Feedback message", 4 });
 
             migrationBuilder.InsertData(
                 table: "Schedule",

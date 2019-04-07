@@ -27,8 +27,7 @@ namespace Catalog.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Seeding db
-            //TODO: move this to configurations
-            
+            //TODO: move this to configurations?            
 
             modelBuilder.Entity<FacilityAddress>().HasData(
                 new FacilityAddress
@@ -66,10 +65,12 @@ namespace Catalog.DAL.Data
                                                     DayOfWeek.Saturday}
                 });
 
+            modelBuilder.ApplyConfiguration(new FacilityConfiguraiton());
+
             base.OnModelCreating(modelBuilder);
 
-            //TODO: Apply configurations or make migrations
-            modelBuilder.ApplyConfiguration(new FacilityConfiguraiton());
+            //TODO: Apply configurations or make migrations?
+            
             //modelBuilder.ApplyConfiguration(new FacilityAddressConfiguration());
             //modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
             //modelBuilder.ApplyConfiguration(new PhotoConfiguration());

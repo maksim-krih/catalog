@@ -13,8 +13,4 @@
     <ProjectReference Include="..\Catalog.DAL\Catalog.DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
-
 </Project>

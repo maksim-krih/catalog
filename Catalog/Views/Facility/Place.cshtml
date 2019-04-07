@@ -1,5 +1,5 @@
-﻿@using Catalog.ViewModels;
-@model FacilityViewModel
+﻿
+@model Catalog.DAL.Models.Facility
 
 @{
     ViewData["Title"] = "Place";
@@ -22,25 +22,25 @@
     <tbody>
         <tr>
             <td>
-                @Model.facility.Name
+                @Model.Name
             </td>
             <td>
-                @Model.facility.FacilityType
+                @Model.FacilityType
             </td>
             <td>
-                @Model.facility.Price
+                @Model.Price
             </td>
             <td>
-                @Model.facility.Rating
+                @Model.Rating
             </td>
             <td>
-                @Model.facility.Phone
+                @Model.Phone
             </td>
             <td>
-                @Model.facility.Address.Street
+                @Model.Address.Street
             </td>
             <td>
-                @Model.facility.Schedule.WorkingDays
+                @Model.Schedule.Open - @Model.Schedule.Closed
             </td>
         </tr>
     </tbody>

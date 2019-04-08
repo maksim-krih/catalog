@@ -4,46 +4,77 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2> Каталог закладів Львова </h2>
-        </div>
+<br><br>
+
+<div class="page-wrapper">
+
+    <!-- ******Header****** -->
+    <header class="header text-center">
+        <div class="container">
+            <div class="branding">
+                <h1 class="logo">
+                    <span aria-hidden="true" class="icon_documents_alt icon"></span>
+                    <span class="text-highlight">Catalog</span>
+                </h1>
+            </div><!--//branding-->
+
+        </div><!--//container-->
+    </header><!--//header-->
+
+    <section class="cards-section text-center">
+        <div class="container">
+            <h2 class="title">Restaurants</h2>
+
+            <div id="cards-wrapper" class="cards-wrapper row">
+                <div class="item item-green col-md-4 col-sm-6 col-xs-6">
+                    <div class="item-inner" id="card1">
+                        <h3 class="title">Doner and burger</h3>
+                        <a class="link" href="doner.cshtml"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item item-pink item-2 col-md-4 col-sm-6 col-xs-6">
+                    <div class="item-inner" id="card2">
+                        <h3 class="title">Green Garden</h3>
+                        <a class="link" href="res2info.html"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item item-blue col-md-4 col-sm-6 col-xs-6">
+                    <div class="item-inner" id="card3">
+                        <h3 class="title">Shopen</h3>
+                        <a class="link" href="res3info.html"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item item-purple col-md-4 col-sm-6 col-xs-6">
+                    <div class="item-inner" id="card4">
+                        <h3 class="title">Tisto Pizza</h3>
+                        <a class="link" href="res4info.html"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item item-primary col-md-4 col-sm-6 col-xs-6">
+                    <div class="item-inner" id="card5">
+                        <h3 class="title">Rissoteria</h3>
+                        <a class="link" href="res5info.html"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item item-orange col-md-4 col-sm-6 col-xs-6">
+                    <div class="item-inner" id="card6">
+                        <h3 class="title">Flyashka</h3>
+                        <a class="link" href="res5info.html"><span></span></a>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+            </div><!--//cards-->
+
+        </div><!--//container-->
+    </section><!--//cards-section-->
+    <div id="pagination">
     </div>
-    
-    <table class="table">
-        <thead>
-            <tr>
-                <td>
-                    @Html.DisplayNameFor(model => model.Name)                    
-                </td>
-                <td>
-                    @Html.DisplayNameFor(model => model.Address)
-                </td>
-                <td>
-                    @Html.DisplayNameFor(model => model.Rating)
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>                       
-                        @Html.DisplayFor(modelItem => item.Address.Street)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Rating)
-                    </td>
-                </tr>
-            }
+</div><!--//page-wrapper-->
+<!-- Main Javascript -->
+<script type="text/javascript" src="/assets/plugins/jquery-1.12.3.min.js"></script>
 
-        </tbody>
-    </table>
+<script type="text/javascript" src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/plugins/jquery-match-height/jquery.matchHeight-min.js"></script>
+<script type="text/javascript" src="/assets/js/main.js"></script>
 
 
-</div>
 

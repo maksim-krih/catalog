@@ -25,7 +25,7 @@ namespace Catalog.Controllers
         {
             return View();
         }
-
+       
         public IActionResult Index()
         {
             return View(db.Facilities.GetAll());

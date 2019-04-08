@@ -41,11 +41,13 @@ namespace Catalog.Controllers
                     {
                         Name = registrationModel.Name,
                         Email = registrationModel.Email,
-                        Password = registrationModel.Password
+                        Password = registrationModel.Password,
+                        Roleid = 2,
                     };
+
                     db.Users.Create(user);
                     db.Save();
-                    await Authenticate(user);
+                    await Authenticate(user, "User");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -67,14 +69,15 @@ namespace Catalog.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(Login loginModel)
+        public async Task<IActionResult> Login([Bind("Id,Email,Password")] Login loginModel)
         {
             if (ModelState.IsValid)
             {
                 User user = db.Users.Find(u => u.Email == loginModel.Email && u.Password == loginModel.Password).First();
                 if (user != null)
                 {
-                    await Authenticate(user);
+                    string role = db.Roles.Get(user.Roleid.Value).Name;
+                    await Authenticate(user, role);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -84,22 +87,23 @@ namespace Catalog.Controllers
             return View(loginModel);
         }
 
-        private async Task Authenticate(User user)
+        private async Task Authenticate(User user, string role)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Password)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Password),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
             };
 
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
-
+        /*
         [ValidateAntiForgeryToken]
-        [HttpPost]
+        [HttpPost]*/
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();

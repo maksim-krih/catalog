@@ -22,12 +22,14 @@ namespace Catalog.Views
         }
 
         // GET: Admin
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View(db.Facilities.GetAll());
         }
 
         // GET: Admin/Details/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -46,6 +48,7 @@ namespace Catalog.Views
         }
 
         // GET: Admin/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +59,7 @@ namespace Catalog.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create([Bind("Id,Name,Price,Rating,Phone,FacilityType,Address")] Facility facilityModel)
         {
             if (ModelState.IsValid)
@@ -68,6 +72,7 @@ namespace Catalog.Views
         }
         
         // GET: Admin/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -88,6 +93,7 @@ namespace Catalog.Views
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id, [Bind("Id,Name,Price,Rating,Phone,FacilityType")] Facility facilityModel)
         {
             if (id != facilityModel.Id)
@@ -119,6 +125,7 @@ namespace Catalog.Views
         }
         
         // GET: Admin/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -139,6 +146,7 @@ namespace Catalog.Views
         // POST: Admin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             db.Facilities.Delete(id);

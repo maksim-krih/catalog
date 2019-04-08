@@ -15,6 +15,7 @@ namespace Catalog.BLL.Repositories
         private FacilityRepository facilityRepository;
         private FeedbackRepository feedbackRepository;
         private UserRepository userRepository;
+        private RoleRepository roleRepository;
 
         public EFUnitOfWork(CatalogContext catalogContext)
         {
@@ -48,6 +49,16 @@ namespace Catalog.BLL.Repositories
                 if (userRepository == null)
                     userRepository = new UserRepository(db);
                 return userRepository;
+            }
+        }
+
+        public IRepository<Role> Roles
+        {
+            get
+            {
+                if (roleRepository == null)
+                    roleRepository = new RoleRepository(db);
+                return roleRepository;
             }
         }
 

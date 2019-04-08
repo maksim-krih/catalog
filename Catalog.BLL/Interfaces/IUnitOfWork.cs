@@ -9,6 +9,7 @@ namespace Catalog.BLL.Interfaces
         IRepository<Facility> Facilities { get; }
         IRepository<Feedback> Feedbacks { get; }
         IRepository<User> Users { get; }
+        IRepository<Role> Roles { get; }
         void Save();
     }
 }

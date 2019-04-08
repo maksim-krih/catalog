@@ -26,18 +26,16 @@ namespace Catalog.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Password = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,20 +126,46 @@ namespace Catalog.DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "Facility",
-                columns: new[] { "Id", "FacilityType", "Name", "Phone", "Price", "Rating" },
-                values: new object[] { 1, "Bar", "Name 1", "012345678", 3.0, 3.2 });
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Roleid = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Roles_Roleid",
+                        column: x => x.Roleid,
+                        principalTable: "Roles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.InsertData(
                 table: "Facility",
                 columns: new[] { "Id", "FacilityType", "Name", "Phone", "Price", "Rating" },
-                values: new object[] { 2, "Bar", "Name 1", "012345678", 3.0, 3.2 });
+                values: new object[,]
+                {
+                    { 1, "Bar", "Name 1", "012345678", 3.0, 3.2 },
+                    { 2, "Bar", "Name 1", "012345678", 3.0, 3.2 },
+                    { 3, "Bar", "Name 1", "012345678", 3.0, 3.2 }
+                });
 
             migrationBuilder.InsertData(
-                table: "Facility",
-                columns: new[] { "Id", "FacilityType", "Name", "Phone", "Price", "Rating" },
-                values: new object[] { 3, "Bar", "Name 1", "012345678", 3.0, 3.2 });
+                table: "Roles",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "User" }
+                });
 
             migrationBuilder.InsertData(
                 table: "FacilityAddress",
@@ -151,12 +175,17 @@ namespace Catalog.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Feedback",
                 columns: new[] { "Id", "Author", "Date", "FacilityId", "Message", "Rating" },
-                values: new object[] { 1, "Anonynous", new DateTime(2019, 4, 8, 2, 30, 45, 495, DateTimeKind.Local), 1, "Feedback message", 4 });
+                values: new object[] { 1, "Anonynous", new DateTime(2019, 4, 8, 3, 17, 43, 741, DateTimeKind.Local), 1, "Feedback message", 4 });
 
             migrationBuilder.InsertData(
                 table: "Schedule",
                 columns: new[] { "Id", "Closed", "FacilityId", "Open" },
                 values: new object[] { 1, new TimeSpan(0, 20, 0, 0, 0), 1, new TimeSpan(0, 8, 0, 0, 0) });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Email", "Name", "Password", "Roleid" },
+                values: new object[] { 1, "admin@gmail.com", "Admin", "1111", 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_FacilityAddress_FacilityId",
@@ -179,6 +208,11 @@ namespace Catalog.DAL.Migrations
                 table: "Schedule",
                 column: "FacilityId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Roleid",
+                table: "Users",
+                column: "Roleid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -200,6 +234,9 @@ namespace Catalog.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Facility");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
         }
     }
 }

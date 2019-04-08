@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Catalog.DAL.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    [Migration("20190407233046_Initial")]
+    [Migration("20190408001745_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,7 +71,7 @@ namespace Catalog.DAL.Migrations
                     b.ToTable("Feedback");
 
                     b.HasData(
-                        new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 8, 2, 30, 45, 495, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Rating = 4 }
+                        new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 8, 3, 17, 43, 741, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Rating = 4 }
                     );
                 });
 
@@ -92,6 +92,25 @@ namespace Catalog.DAL.Migrations
                     b.ToTable("Photo");
                 });
 
+            modelBuilder.Entity("Catalog.DAL.Models.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+
+                    b.HasData(
+                        new { Id = 1, Name = "Admin" },
+                        new { Id = 2, Name = "User" }
+                    );
+                });
+
             modelBuilder.Entity("Catalog.DAL.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -104,9 +123,17 @@ namespace Catalog.DAL.Migrations
 
                     b.Property<string>("Password");
 
+                    b.Property<int?>("Roleid");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("Roleid");
+
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new { Id = 1, Email = "admin@gmail.com", Name = "Admin", Password = "1111", Roleid = 1 }
+                    );
                 });
 
             modelBuilder.Entity("Catalog.DAL.Models.Facility", b =>
@@ -186,6 +213,13 @@ namespace Catalog.DAL.Migrations
                         .WithMany("Photos")
                         .HasForeignKey("FacilityId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Catalog.DAL.Models.User", b =>
+                {
+                    b.HasOne("Catalog.DAL.Models.Role", "UserRole")
+                        .WithMany()
+                        .HasForeignKey("Roleid");
                 });
 #pragma warning restore 612, 618
         }

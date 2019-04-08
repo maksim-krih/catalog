@@ -101,13 +101,13 @@ namespace Catalog.Controllers
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
-        /*
+
         [ValidateAntiForgeryToken]
-        [HttpPost]*/
-        public async Task<IActionResult> Logout()
+        [HttpPost]
+        public async Task<IActionResult> Logout(int i)
         {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
     }

@@ -18,6 +18,7 @@ namespace Catalog.Controllers
         }
 
         [HttpGet]
+        [Route("[controller]/{id}")]
         public IActionResult Place (int id) //(string name)
         {
             //if (string.IsNullOrEmpty(name))

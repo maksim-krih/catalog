@@ -5,39 +5,40 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Catalog.Data;
-using Catalog.Models;
+using Catalog.BLL.Interfaces;
+using Catalog.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Views
 {
+    [Authorize]
     public class AdminController : Controller
     {
-        private readonly DataContext _context;
+        IUnitOfWork db;
 
-        public AdminController(DataContext context)
+        public AdminController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            db = unitOfWork;
         }
 
         // GET: Admin
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Facilities.ToListAsync());
+            return View(db.Facilities.GetAll());
         }
 
         // GET: Admin/Details/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var facilityModel = await _context.Facilities
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var facilityModel = db.Facilities
+                .Get(id.Value);
             if (facilityModel == null)
             {
                 return NotFound();
@@ -59,27 +60,27 @@ namespace Catalog.Views
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,Rating,Phone,FacilityType,Address")] FacilityModel facilityModel)
+        public IActionResult Create([Bind("Id,Name,Price,Rating,Phone,FacilityType,Address")] Facility facilityModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(facilityModel);
-                await _context.SaveChangesAsync();
+                db.Facilities.Create(facilityModel);
+                db.Save();
                 return RedirectToAction(nameof(Index));
             }
             return View(facilityModel);
         }
-
+        
         // GET: Admin/Edit/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int? id)
+        public IActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var facilityModel = await _context.Facilities.FindAsync(id);
+            var facilityModel = db.Facilities.Get(id.Value);
             if (facilityModel == null)
             {
                 return NotFound();
@@ -93,7 +94,7 @@ namespace Catalog.Views
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,Rating,Phone,FacilityType")] FacilityModel facilityModel)
+        public IActionResult Edit(int id, [Bind("Id,Name,Price,Rating,Phone,FacilityType")] Facility facilityModel)
         {
             if (id != facilityModel.Id)
             {
@@ -104,8 +105,8 @@ namespace Catalog.Views
             {
                 try
                 {
-                    _context.Update(facilityModel);
-                    await _context.SaveChangesAsync();
+                    db.Facilities.Update(facilityModel);
+                    db.Save();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,18 +123,18 @@ namespace Catalog.Views
             }
             return View(facilityModel);
         }
-
+        
         // GET: Admin/Delete/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var facilityModel = await _context.Facilities
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var facilityModel = db.Facilities
+                .Get(id.Value);
             if (facilityModel == null)
             {
                 return NotFound();
@@ -146,17 +147,16 @@ namespace Catalog.Views
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var facilityModel = await _context.Facilities.FindAsync(id);
-            _context.Facilities.Remove(facilityModel);
-            await _context.SaveChangesAsync();
+            db.Facilities.Delete(id);
+            db.Save();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FacilityModelExists(int id)
         {
-            return _context.Facilities.Any(e => e.Id == id);
+            return db.Facilities.Get(id) != null;
         }
     }
 }

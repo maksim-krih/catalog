@@ -104,7 +104,7 @@ namespace Catalog.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Logout(int i)
+        public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");

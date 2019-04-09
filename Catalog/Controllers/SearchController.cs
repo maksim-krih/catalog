@@ -20,13 +20,14 @@ namespace Catalog.Controllers
         [HttpGet]
         public IActionResult SearchResult(string searchString)
         {
-            //if (searchString == null)
-            //    return View(new ErrorViewModel());
+            ViewData["SearchString"] = searchString;
+            if (searchString == null)
+                return PartialView("SearchFailPartial");
 
-            var result = db.Facilities.Find(f => f.Name == searchString);
+            var result = db.Facilities.Find(f => f.Name.Contains(searchString));
 
-            //if(result == null)
-            //    return View(new ErrorViewModel());
+            if(result.ToList().Count == 0)
+                return PartialView("SearchFailPartial");
 
 
             return View(result);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Catalog.BLL.Interfaces;
-using Catalog.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Controllers

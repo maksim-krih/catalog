@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Catalog.DAL.Models.Facility>
+﻿@model Catalog.DAL.Models.IndexView
 
 @{
     ViewData["Title"] = "Home Page";
@@ -7,15 +7,15 @@
 <div class="page-wrapper">
     <section class="cards-section text-center">
         <div class="container">
-            <h2 class="title">Restaurants</h2>
 
             <div id="cards-wrapper" class="cards-wrapper row">
 
 
-                @foreach (var item in Model)
+                @foreach (var item in Model.FacilityModels)
                 {
                     <div class="item item-green col-md-4 col-sm-6 col-xs-12">
-                        <div class="item-inner" id="card1"> @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@                           
+                        <div class="item-inner" id="card1">
+                            @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
                             <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
                                 <h3 class="title">@item.Name</h3>
                             </a>
@@ -28,9 +28,24 @@
 
         </div><!--//container-->
     </section><!--//cards-section-->
-    <div id="pagination">
+    <div>
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <a asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.CurrentPage - 1)"
+               class="btn btn-default btn">
+                <i class="glyphicon glyphicon-chevron-left"></i>
+                Назад
+            </a>
+        }
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <a asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.CurrentPage + 1)"
+               class="btn btn-default btn">
+                Вперед
+                <i class="glyphicon glyphicon-chevron-right"></i>
+            </a>
+        }
     </div>
 </div><!--//page-wrapper-->
-
-
-

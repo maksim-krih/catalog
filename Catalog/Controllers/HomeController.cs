@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Catalog.DAL.Models;
 using Catalog.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -26,11 +27,23 @@ namespace Catalog.Controllers
             return View();
         }
        
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            return View(db.Facilities.GetAll());
+            int pageSize = 3;
+
+            IQueryable<Facility> source = db.Facilities.GetAll().AsQueryable();
+            var count = await source.CountAsync();
+            var items = await source.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            PageView pageViewModel = new PageView(count, page, pageSize);
+            IndexView viewModel = new IndexView
+            {
+                PageViewModel = pageViewModel,
+                FacilityModels = items
+            };
+            return View(viewModel);
         }
-        
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

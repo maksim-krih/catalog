@@ -10,18 +10,26 @@
             <h2 class="title">Restaurants</h2>
 
             <div id="cards-wrapper" class="cards-wrapper row">
-                <div class="item item-green col-md-4 col-sm-6 col-xs-6">
-                    <div class="item-inner" id="card1">
-                        <h3 class="title">Doner and burger</h3>
-                        <a class="link" href="doner.cshtml"><span></span></a>
-                    </div><!--//item-inner-->
-                </div><!--//item-->
-                <div class="item item-pink item-2 col-md-4 col-sm-6 col-xs-6">
-                    <div class="item-inner" id="card2">
-                        <h3 class="title">Green Garden</h3>
-                        <a class="link" href="res2info.html"><span></span></a>
-                    </div><!--//item-inner-->
-                </div><!--//item-->
+
+
+                @foreach (var item in Model)
+                {
+                    <div class="item item-green col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner" id="card1"> @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@                           
+                            <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
+                                <h3 class="title">@item.Name</h3>
+                            </a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                }
+
+             @*<div class="item item-green col-md-4 col-sm-6 col-xs-6">
+                <div class="item-inner" id="card1">
+                    <h3 class="title">@Model.</h3>
+                    <a class="link" href="doner.cshtml"><span></span></a>
+                </div><!--//item-inner-->
+            </div><!--//item-->
+                
                 <div class="item item-blue col-md-4 col-sm-6 col-xs-6">
                     <div class="item-inner" id="card3">
                         <h3 class="title">Shopen</h3>
@@ -45,7 +53,9 @@
                         <h3 class="title">Flyashka</h3>
                         <a class="link" href="res5info.html"><span></span></a>
                     </div><!--//item-inner-->
-                </div><!--//item-->
+                </div><!--//item-->*@
+
+
             </div><!--//cards-->
 
         </div><!--//container-->

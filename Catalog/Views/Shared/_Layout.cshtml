@@ -31,14 +31,28 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    
+                                        
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><a asp-area="" asp-controller="Admin" asp-action="Index">Database</a></li>
                     }
+
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    
+
+                    <li style="height:50px">
+                        <form class="navbar-form navbar-left" role="search" asp-controller="Search"asp-action="SearchResult" method="get">
+                            <div class="row" style="margin-top:5px; margin-left:10px; margin-right:10px" >
+                                    <div class="input-group input-group-sm">
+                                        <input type="text" class="form-control" name="searchString" placeholder="Search" />
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary" type="submit">
+                                                <span class="glyphicon glyphicon-search"></span>
+                                            </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
                 </ul>
                 <partial name="_LoginPartial" />
             </div>

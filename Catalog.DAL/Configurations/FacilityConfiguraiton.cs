@@ -33,7 +33,7 @@ namespace Catalog.DAL.Configurations
                     new Facility
                     {
                         Id = 2,
-                        Name = "Name 1",
+                        Name = "Name 2",
                         Price = 3,
                         Rating = 3.2,
                         Phone = "012345678",

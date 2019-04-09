@@ -175,7 +175,7 @@ namespace Catalog.DAL.Migrations
             migrationBuilder.InsertData(
                 table: "Feedback",
                 columns: new[] { "Id", "Author", "Date", "FacilityId", "Message", "Rating" },
-                values: new object[] { 1, "Anonynous", new DateTime(2019, 4, 8, 3, 17, 43, 741, DateTimeKind.Local), 1, "Feedback message", 4 });
+                values: new object[] { 1, "Anonynous", new DateTime(2019, 4, 9, 10, 7, 22, 853, DateTimeKind.Local), 1, "Feedback message", 4 });
 
             migrationBuilder.InsertData(
                 table: "Schedule",

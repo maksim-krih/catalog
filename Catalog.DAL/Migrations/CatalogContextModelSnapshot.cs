@@ -69,7 +69,7 @@ namespace Catalog.DAL.Migrations
                     b.ToTable("Feedback");
 
                     b.HasData(
-                        new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 8, 3, 17, 43, 741, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Rating = 4 }
+                        new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 9, 10, 7, 22, 853, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Rating = 4 }
                     );
                 });
 

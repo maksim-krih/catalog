@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Catalog.DAL.Models.Facility>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Price</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Schedule</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.FacilityType
+                </td>
+                <td>
+                    @item.Price
+                </td>
+                <td>
+                    @item.Rating
+                </td>
+                <td>
+                    @item.Phone
+                </td>
+                <td>
+                    @item.Schedule.Open - @item.Schedule.Closed
+                </td>
+            </tr>
+
+
+        }
+    </tbody>
+
+</table>

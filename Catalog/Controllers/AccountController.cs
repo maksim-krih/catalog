@@ -3,59 +3,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Catalog.Data;
-using Catalog.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Catalog.DAL.Models;
+using Catalog.BLL.Interfaces;
 
 namespace Catalog.Controllers
 {
     public class AccountController : Controller
     {
-        private DataContext UserContext { get; set; }
+        IUnitOfWork db;
 
-        public AccountController(DataContext context)
+        public AccountController(IUnitOfWork unitOfWork)
         {
-            UserContext = context;
+            db = unitOfWork;
         }
-
+        
         [HttpGet]
         public IActionResult Registrate()
         {
             return View();
         }
-
+        
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Registrate(RegistrationModel registrationModel)
+        public async Task<IActionResult> Registrate(Registration registrationModel)
         {
             if (ModelState.IsValid)
             {
-                await UserContext.Database.BeginTransactionAsync();   
-                User user = UserContext.Users.FirstOrDefault(u => u.Email == registrationModel.Email);
-                if (user == null)
+                if (db.Users.Find(u => u.Email == registrationModel.Email) == null)
                 {
-                    user = new User
+                    var user = new User
                     {
                         Name = registrationModel.Name,
                         Email = registrationModel.Email,
-                        Password = registrationModel.Password
+                        Password = registrationModel.Password,
+                        Roleid = 2,
                     };
-                    UserContext.Users.Add(user);
-                    await UserContext.SaveChangesAsync();
-                    await Authenticate(user);
 
-                    UserContext.Database.CommitTransaction();
+                    db.Users.Create(user);
+                    db.Save();
+                    await Authenticate(user, "User");
 
                     return RedirectToAction("Index", "Home");
                 }
                 else
                 {
                     ModelState.AddModelError("RegistrationError", "There is already user with this email!");
-                    UserContext.Database.RollbackTransaction();
                 }
             }
 
@@ -71,14 +68,15 @@ namespace Catalog.Controllers
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel loginModel)
+        public async Task<IActionResult> Login([Bind("Id,Email,Password")] Login loginModel)
         {
             if (ModelState.IsValid)
             {
-                User user = UserContext.Users.FirstOrDefault(u => u.Email == loginModel.Email && u.Password == loginModel.Password);
+                User user = db.Users.Find(u => u.Email == loginModel.Email && u.Password == loginModel.Password).First();
                 if (user != null)
                 {
-                    await Authenticate(user);
+                    string role = db.Roles.Get(user.Roleid.Value).Name;
+                    await Authenticate(user, role);
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -88,14 +86,15 @@ namespace Catalog.Controllers
             return View(loginModel);
         }
 
-        private async Task Authenticate(User user)
+        private async Task Authenticate(User user, string role)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Id.ToString()),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Password)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Password),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
             };
 
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
@@ -107,7 +106,7 @@ namespace Catalog.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Login", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
     }

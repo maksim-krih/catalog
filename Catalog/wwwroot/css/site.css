@@ -1,5 +1,10 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification\ 
 for details on configuring this project to bundle and minify static web assets. */
+@import "/assets//plugins/bootstrap/css/bootstrap.min.css";
+@import "/assets/plugins/font-awesome/css/font-awesome.css";
+@import "/assets/plugins/elegant_font/css/style.css";
+@import "/assets/css/styles.css";
+
 body {
     padding-top: 50px;
     padding-bottom: 20px;
@@ -161,7 +166,6 @@ body {
 }
 
 .title {
-    /* чтобы линии не выходили за ширину блока заголовка */
     overflow: hidden;
     margin-top: 50px;
     margin-bottom: 30px;
@@ -170,36 +174,20 @@ body {
     .title:before,
     .title:after {
         content: '';
-        /* делаем линию строчно-блочной */
         display: inline-block;
-        /* выравниваем вертикально по середине */
         vertical-align: middle;
-        /* не позволяем ширине превысить 100% (будет добавлен бордюр) */
         box-sizing: border-box;
-        /* установка ширины в 100% делает линию равной ширине тега заголовка
-  ** благодаря этому линия заполнит все свободное пространство
-  ** слева и справа от текста
-  */
         width: 80%;
         height: 1px;
         background: #90939a;
-        /* добавляем к линии левый и правый бордюр цветом основного фона заголовка
-  ** благодаря этому создается нужный отступ между линиями и текстом
-  */
         border: solid #FFF;
         border-width: 0 10px;
     }
 
     .title:before {
-        /* смещаем левую линию влево отрицательным отступом, равным 100% ширины
-  ** благодаря этому линия встает слева от текста
-  */
         margin-left: -100%;
     }
 
     .title:after {
-        /* смещаем правую линию вправо отрицательным отступом, равным 100% ширины
-  ** благодаря этому линия встает справа от текста
-  */
         margin-right: -100%;
     }

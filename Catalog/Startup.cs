@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Catalog.Data;
+using Catalog.BLL.Interfaces;
+using Catalog.BLL.Repositories;
+using Catalog.DAL.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,8 +36,10 @@ namespace Catalog
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddDbContext<DataContext>((options =>
+            services.AddDbContext<CatalogContext>((options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))));
+
+            services.AddScoped<IUnitOfWork, EFUnitOfWork>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -43,6 +47,7 @@ namespace Catalog
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
                     options.LoginPath = new PathString("/Account/Login");
+                    options.AccessDeniedPath = new PathString("/Account/Login");
                 });
         }
 

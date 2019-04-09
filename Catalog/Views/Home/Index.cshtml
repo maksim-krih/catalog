@@ -1,68 +1,51 @@
-﻿@model IndexViewModel
+﻿@model Catalog.DAL.Models.IndexView
 
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Price
-            </th>
-            <th>
-                Rating
-            </th>
-            <th>
-                Phone
-            </th>
-            <th>
-                Facility Type
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.FacilityModels)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Rating)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FacilityType)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="page-wrapper">
+    <section class="cards-section text-center">
+        <div class="container">
 
-@if (Model.PageViewModel.HasPreviousPage)
-{
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.CurrentPage - 1)"
-       class="btn btn-default btn">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        Назад
-    </a>
-}
-@if (Model.PageViewModel.HasNextPage)
-{
-    <a asp-action="Index"
-       asp-route-page="@(Model.PageViewModel.CurrentPage + 1)"
-       class="btn btn-default btn">
-        Вперед
-        <i class="glyphicon glyphicon-chevron-right"></i>
-    </a>
-}
+            <div id="cards-wrapper" class="cards-wrapper row">
+
+
+                @foreach (var item in Model.FacilityModels)
+                {
+                    <div class="item item-green col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner" id="card1">
+                            @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
+                            <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
+                                <h3 class="title">@item.Name</h3>
+                            </a>
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                }
+
+
+            </div><!--//cards-->
+
+        </div><!--//container-->
+    </section><!--//cards-section-->
+    <div>
+        @if (Model.PageViewModel.HasPreviousPage)
+        {
+            <a asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.CurrentPage - 1)"
+               class="btn btn-default btn">
+                <i class="glyphicon glyphicon-chevron-left"></i>
+                Назад
+            </a>
+        }
+        @if (Model.PageViewModel.HasNextPage)
+        {
+            <a asp-action="Index"
+               asp-route-page="@(Model.PageViewModel.CurrentPage + 1)"
+               class="btn btn-default btn">
+                Вперед
+                <i class="glyphicon glyphicon-chevron-right"></i>
+            </a>
+        }
+    </div>
+</div><!--//page-wrapper-->

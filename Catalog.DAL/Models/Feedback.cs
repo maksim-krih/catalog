@@ -11,15 +11,11 @@ namespace Catalog.DAL.Models
         public int Id { get; set; }
 
         public int FacilityId { get; set; }
-        [ForeignKey("FacilityId")]
         public Facility Facility { get; set; }
 
         public string Author { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
         public int Rating { get; set; }
-        
-        
-
     }
 }

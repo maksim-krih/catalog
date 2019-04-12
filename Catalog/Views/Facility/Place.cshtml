@@ -42,6 +42,15 @@
                 @Model.Schedule.Open - @Model.Schedule.Closed
             </td>
         </tr>
+       @foreach (var item in Model.Feedbacks)
+       {
+           <tr>
+               <td colspan="7">
+                   @item.Message                  
+               </td>
+           </tr>
+       }
+
     </tbody>
 
 </table>

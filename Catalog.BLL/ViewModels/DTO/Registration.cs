@@ -4,10 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Catalog.DAL.Models
+namespace Catalog.BLL.ViewModels.DTO
 {
-    public class Login
+    public class Registration
     {
+        [Required(ErrorMessage = "Please, enter name")]
+        public string Name { get; set; }
+
         [Required(ErrorMessage = "Please, enter email")]
         public string Email { get; set; }
 

@@ -27,10 +27,11 @@ namespace Catalog.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Role>().HasData(new Role { Id = 1, Name = "Admin" }, new Role { Id = 2, Name = "User" });
-            modelBuilder.Entity<User>().HasData(new User { Id = 1, Name = "Admin", Roleid = 1, Email = "admin@gmail.com", Password = "1111" });
-
+            
             //Seeding db
             //TODO: move this to configurations?            
+
+            
 
             modelBuilder.Entity<FacilityAddress>().HasData(
                 new FacilityAddress
@@ -44,16 +45,8 @@ namespace Catalog.DAL.Data
                     ZipCode = 1
                 });
 
-            modelBuilder.Entity<Feedback>().HasData(
-                new Feedback
-                {
-                    Id = 1,
-                    FacilityId = 1,
-                    Author = "Anonynous",
-                    Date = DateTime.Now,
-                    Rating = 4,
-                    Message = "Feedback message"                    
-                });
+            
+           
 
             modelBuilder.Entity<Schedule>().HasData(
                 new Schedule
@@ -69,13 +62,15 @@ namespace Catalog.DAL.Data
                 });
 
             modelBuilder.ApplyConfiguration(new FacilityConfiguraiton());
+            modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
 
             base.OnModelCreating(modelBuilder);
 
             //TODO: Apply configurations or make migrations?
             
             //modelBuilder.ApplyConfiguration(new FacilityAddressConfiguration());
-            //modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
+           
             //modelBuilder.ApplyConfiguration(new PhotoConfiguration());
             //modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
 

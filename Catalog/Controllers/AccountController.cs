@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Catalog.DAL.Models;
 using Catalog.BLL.Interfaces;
+using Catalog.BLL.ViewModels.DTO;
 
 namespace Catalog.Controllers
 {

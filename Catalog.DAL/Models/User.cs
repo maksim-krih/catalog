@@ -10,15 +10,19 @@ namespace Catalog.DAL.Models
     {
         [Key]
         public int Id { get; set; }
-        
+
         public string Name { get; set; }
-        
         public string Password { get; set; }
-        
         public string Email { get; set; }
 
         public int? Roleid { get; set; }
-
         public Role UserRole { get; set; }
+
+        public ICollection<Facility> Facilities { get; set; }
+
+        public User()
+        {
+            Facilities = new List<Facility>();
+        }
     }
 }

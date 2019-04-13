@@ -6773,3 +6773,13 @@ button.close {
     font-family: sfuidisplay-thin;
     color: #0086db !important;
 }
+
+footer
+{
+    background-color: #0086db;
+    height: 50px;
+    position: absolute;
+    bottom: 0px !important;
+    right:0;
+    z-index:999999999999999;
+}

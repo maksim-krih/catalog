@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Catalog.DAL.Models;
 using Catalog.BLL.Interfaces;
 using Catalog.BLL.ViewModels.DTO;
+using Catalog.BLL.ViewModels;
 
 namespace Catalog.Controllers
 {

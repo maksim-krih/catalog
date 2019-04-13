@@ -4,14 +4,16 @@ using Catalog.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Catalog.DAL.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    partial class CatalogContextModelSnapshot : ModelSnapshot
+    [Migration("20190413173030_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,8 +160,8 @@ namespace Catalog.DAL.Migrations
                                         .OnDelete(DeleteBehavior.Cascade);
 
                                     b2.HasData(
-                                        new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 13, 23, 4, 52, 527, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Rating = 4 },
-                                        new { Id = 2, Author = "Anonynous 2", Date = new DateTime(2019, 4, 13, 23, 4, 52, 529, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message 2", Rating = 3 }
+                                        new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 13, 20, 30, 30, 218, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Rating = 4 },
+                                        new { Id = 2, Author = "Anonynous 2", Date = new DateTime(2019, 4, 13, 20, 30, 30, 220, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message 2", Rating = 3 }
                                     );
                                 });
 

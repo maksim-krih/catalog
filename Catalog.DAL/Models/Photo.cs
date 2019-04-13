@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Catalog.DAL.Models
-{
+{   
     [Table("Photo")]
     public class Photo
     {

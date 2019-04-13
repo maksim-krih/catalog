@@ -17,10 +17,10 @@ namespace Catalog.DAL.Data
 
 
         public DbSet<Facility> Facilities { get; set; }
-        public DbSet<FacilityAddress> FacilityAddresses { get; set; }
+        //public DbSet<FacilityAddress> FacilityAddresses { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Photo> Photos { get; set; }
-        public DbSet<Schedule> Schedules { get; set; }
+       // public DbSet<Schedule> Schedules { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         
@@ -28,51 +28,18 @@ namespace Catalog.DAL.Data
         {
             modelBuilder.Entity<Role>().HasData(new Role { Id = 1, Name = "Admin" }, new Role { Id = 2, Name = "User" });
             
-            //Seeding db
-            //TODO: move this to configurations?            
-
-            
-
-            modelBuilder.Entity<FacilityAddress>().HasData(
-                new FacilityAddress
-                {
-                    Id = 1,
-                    FacilityId = 1,
-                    Country = "Country 1",
-                    City = "City 1",
-                    Street = "Street 1",
-                    HouseNumber = "1",
-                    ZipCode = 1
-                });
-
-            
-           
-
-            modelBuilder.Entity<Schedule>().HasData(
-                new Schedule
-                {
-                    Id = 1,
-                    FacilityId = 1,
-                    Open = TimeSpan.FromHours(8),
-                    Closed = TimeSpan.FromHours(20),
-                    WorkingDays = new DayOfWeek[] { DayOfWeek.Wednesday,
-                                                    DayOfWeek.Thursday,
-                                                    DayOfWeek.Friday,
-                                                    DayOfWeek.Saturday}
-                });
+            //DB seeds in configuration
 
             modelBuilder.ApplyConfiguration(new FacilityConfiguraiton());
             modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new FacilityAddressConfiguration());
+            modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
+            //modelBuilder.ApplyConfiguration(new PhotoConfiguration());
+
+
 
             base.OnModelCreating(modelBuilder);
-
-            //TODO: Apply configurations or make migrations?
-            
-            //modelBuilder.ApplyConfiguration(new FacilityAddressConfiguration());
-           
-            //modelBuilder.ApplyConfiguration(new PhotoConfiguration());
-            //modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
 
         }
 

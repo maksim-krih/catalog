@@ -5,42 +5,60 @@
 }
 
 <div class="page-wrapper">
+
     <section class="cards-section text-center">
-        <div class="container">
-
-            <div id="cards-wrapper" class="cards-wrapper row">
-
-
-                @foreach (var item in Model.FacilityModels)
-                {
-                    <div class="item item-green col-md-4 col-sm-6 col-xs-12">
-                        <div class="item-inner" id="card1">
-                            @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
-                            <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
-                                <h3 class="title">@item.Name</h3>
-                            </a>
-                        </div><!--//item-inner-->
-                    </div><!--//item-->
-                }
+        <div class="box">
+            <div class=" left dropdown ">
+                <button class="dropbtn">Sort by</button>
+                <div class="dropdown-content">
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]">Price</a><br />
+                    <a asp-action="Index" asp-route-sortOrder="@ViewData["RatingSortParm"]">Rating</a>
+                </div>
+            </div>
+            <div class="container  right">
 
 
-            </div><!--//cards-->
+                <div id="cards-wrapper" class="cards-wrapper row">
 
-        </div><!--//container-->
+
+                    @foreach (var item in Model.FacilityModels)
+                    {
+                        <div class="item item-green col-md-4 col-sm-6 col-xs-12">
+                            <div class="item-inner" id="card1">
+                                @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
+                                <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
+                                    <h3 class="title">@item.Name</h3>
+                                </a>
+                            </div><!--//item-inner-->
+                        </div><!--//item-->
+                    }
+
+
+                </div><!--//cards-->
+
+            </div><!--//container-->
+        </div>
+
     </section><!--//cards-section-->
+
+
+
+
     <div>
         @if (Model.PageViewModel.HasPreviousPage)
         {
-            <a asp-action="Index"
+
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["Buffer"]"
                asp-route-page="@(Model.PageViewModel.CurrentPage - 1)"
                class="btn btn-default btn">
                 <i class="glyphicon glyphicon-chevron-left"></i>
                 Назад
             </a>
+
         }
         @if (Model.PageViewModel.HasNextPage)
         {
-            <a asp-action="Index"
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["Buffer"]"
                asp-route-page="@(Model.PageViewModel.CurrentPage + 1)"
                class="btn btn-default btn">
                 Вперед

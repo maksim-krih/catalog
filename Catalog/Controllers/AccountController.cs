@@ -34,7 +34,8 @@ namespace Catalog.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.Users.Find(u => u.Email == registrationModel.Email) == null)
+                var users = db.Users.Find(u => u.Email == registrationModel.Email);
+                if (users.Count()==0)
                 {
                     var user = new User
                     {
@@ -72,9 +73,10 @@ namespace Catalog.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = db.Users.Find(u => u.Email == loginModel.Email && u.Password == loginModel.Password).First();
-                if (user != null)
+                var users = db.Users.Find(u => u.Email == loginModel.Email && u.Password == loginModel.Password);
+                if (users.Count() != 0)
                 {
+                    var user = users.First();
                     string role = db.Roles.Get(user.Roleid.Value).Name;
                     await Authenticate(user, role);
                     return RedirectToAction("Index", "Home");

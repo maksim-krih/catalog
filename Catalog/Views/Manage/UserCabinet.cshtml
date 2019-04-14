@@ -20,22 +20,26 @@
                     @*PHOTO??*@
                     @*Surname??*@
                     <form class="form-horizontal" asp-action="UpdateProfile">
+                        <input type="hidden" asp-for="@Model.Id" />
                         <div class="form-group">
                             <label class="col-md-2 col-sm-3 col-xs-12 control-label">User Name</label>
-                            <div class="col-md-3">
-                                <input type="text" class="form-control" value="@Model.Name">
+                            <div class="col-md-3">                               
+                                <input asp-for="Name" class="form-control" value="@Model.Name" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Email</label>
                             <div class="col-md-3">
-                                <input type="email" class="form-control" value="@Model.Email">
+                                <input asp-for="Email" type="email" class="form-control" value="@Model.Email"/>
+                                <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Password</label>
                             <div class="col-md-3">
-                                <input type="password" class="form-control" value="@Model.Password">
+                                <input asp-for="Password" type="password" class="form-control" value="@Model.Password" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group">

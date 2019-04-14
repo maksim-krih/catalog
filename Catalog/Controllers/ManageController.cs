@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Catalog.BLL.Interfaces;
 using Catalog.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Controllers
 {
@@ -35,22 +36,45 @@ namespace Catalog.Controllers
 
 
         [HttpPost]        
-        public IActionResult UpdateProfile([Bind("Name,Email,Password")] User user)
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateProfile(int id, [Bind("Id,Name,Email,Password")] User user)
         {
-            //TODO: EXCEPTION: Database operation expected to affect 1 row(s) but actually affected 0 row(s). Data may have been modified or deleted since entities were loaded.
-            //if (user != null)
-            //{
-            //    user.Id = Convert.ToInt32(HttpContext.User.Claims.ToList()[0].Value);
-            //    db.Users.Update(user);
-            //    db.Save();
-            //}
-            //else
-            throw new NotImplementedException();
+            if (id != user.Id)
+            {
+                return NotFound();
+            }
 
-            return RedirectToAction("UserCabinet");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    user.Id = id;
+                    user.Roleid = db.Users.Get(id).Roleid;
+                    db.Users.Update(user);
+                    db.Save();
+                }
+                catch (DbUpdateConcurrencyException ex)
+                {
+                    if (!UserExists(user.Id))
+                    {
+                        return NotFound();
+                    }
+
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
+                }
+                return RedirectToAction(nameof(UserCabinet));
+            }
+            return View(user);
+                        
         }
 
-
+        private bool UserExists(int id)
+        {
+            return db.Users.Get(id) != null;
+        }
 
         [HttpGet]
         public IActionResult Add(int id)

@@ -37,7 +37,7 @@ namespace Catalog.Controllers
 
         [HttpPost]        
         [ValidateAntiForgeryToken]
-        public IActionResult UpdateProfile(int id, [Bind("Id,Name,Email,Password")] User user)
+        public IActionResult UpdateProfile(int id, [Bind("Id,Name,Email,Password,Roleid")]  User user)
         {
             if (id != user.Id)
             {
@@ -48,8 +48,6 @@ namespace Catalog.Controllers
             {
                 try
                 {
-                    user.Id = id;
-                    user.Roleid = db.Users.Get(id).Roleid;
                     db.Users.Update(user);
                     db.Save();
                 }
@@ -98,7 +96,7 @@ namespace Catalog.Controllers
                 throw new NotImplementedException();
             }
 
-            return View("UserCabinet", facility);
+            return RedirectToAction("UserCabinet");
         }
 
 
@@ -115,16 +113,23 @@ namespace Catalog.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Facility facility)
+        public IActionResult Edit([Bind("Id,FacilityOwnerId,Name,Phone,FacilityType,Address,Schedule")]Facility facility)
         {
             if (facility != null)
-            {                
-                facility.FacilityOwnerId = Convert.ToInt32(HttpContext.User.Claims.ToList()[0].Value);
-                db.Facilities.Update(facility);
-                //db.FacilityAddresses.Update(facility.Address);
-                //db.Schedules.Update(facility.Schedule);
-                db.Save();
-                ViewBag.message = "Facility Updated!";
+            {
+                try
+                {
+                    //facility.FacilityOwnerId = Convert.ToInt32(HttpContext.User.Claims.ToList()[0].Value);
+                    db.Facilities.Update(facility);
+                    db.FacilityAddresses.Update(facility.Address);
+                    db.Schedules.Update(facility.Schedule);
+                    db.Save();
+                    ViewBag.message = "Facility Updated!";
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
             else
             {

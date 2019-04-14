@@ -20,10 +20,12 @@
                     @*PHOTO??*@
                     @*Surname??*@
                     <form class="form-horizontal" asp-action="UpdateProfile">
-                        <input type="hidden" asp-for="@Model.Id" />
+                        <input type="hidden" asp-for="Id" />
+                        <input type="hidden" asp-for="Roleid" />
+                        <input type="hidden" asp-for="Facilities" />
                         <div class="form-group">
                             <label class="col-md-2 col-sm-3 col-xs-12 control-label">User Name</label>
-                            <div class="col-md-3">                               
+                            <div class="col-md-3">
                                 <input asp-for="Name" class="form-control" value="@Model.Name" />
                                 <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
@@ -31,7 +33,7 @@
                         <div class="form-group">
                             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Email</label>
                             <div class="col-md-3">
-                                <input asp-for="Email" type="email" class="form-control" value="@Model.Email"/>
+                                <input asp-for="Email" type="email" class="form-control" value="@Model.Email" />
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
                         </div>

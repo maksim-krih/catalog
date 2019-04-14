@@ -11,7 +11,8 @@ namespace Catalog.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.OwnsMany(c => c.Facilities);                        
+            builder.OwnsMany(c => c.Facilities);
+            //builder.OwnsOne(c => c.UserRole);
 
             builder.HasData(
                 new User
@@ -23,7 +24,8 @@ namespace Catalog.DAL.Configurations
                     Password = "1111"                    
                 },
                 new User
-                { Id = 2,
+                {
+                    Id = 2,
                     Name = "User",
                     Roleid = 2,
                     Email = "user@gmail.com",

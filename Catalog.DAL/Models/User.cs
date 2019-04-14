@@ -19,7 +19,7 @@ namespace Catalog.DAL.Models
         //public int PhotoId { get; set; }
         //public Photo Photo { get; set; }
 
-        public int? Roleid { get; set; }
+        public int Roleid { get; set; }
         public Role UserRole { get; set; }
 
         public ICollection<Facility> Facilities { get; set; }

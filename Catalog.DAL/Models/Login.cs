@@ -9,6 +9,7 @@ namespace Catalog.DAL.Models
     public class Login
     {
         [Required(ErrorMessage = "Please, enter email")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Please, enter password")]

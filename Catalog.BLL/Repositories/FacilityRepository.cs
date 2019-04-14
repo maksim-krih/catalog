@@ -47,31 +47,7 @@ namespace Catalog.BLL.Repositories
         public IEnumerable<Facility> Find(Func<Facility, bool> predicate)
         {
             return db.Facilities.Where(predicate).ToList();
-        }
-
-        public IQueryable<Facility> Sort(IQueryable<Facility> facilities, string sortOrder)
-        {
-            
-            switch (sortOrder)
-            {
-                case "price_desc":
-                    facilities = facilities.OrderByDescending(f => f.Price);
-                    break;
-                case "price_asc":
-                    facilities = facilities.OrderBy(s => s.Price);
-                    break;
-                case "rate_desc":
-                    facilities = facilities.OrderByDescending(s => s.Rating);
-                    break;
-                case "rate_asc":
-                    facilities = facilities.OrderByDescending(s => s.Rating);
-                    break;
-                default:
-                    break;
-            }
-            return facilities;
-        }
-        
+        }      
         
     }
 }

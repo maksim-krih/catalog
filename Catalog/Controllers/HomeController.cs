@@ -17,7 +17,6 @@ namespace Catalog.Controllers
     public class HomeController : Controller
     {
         private IUnitOfWork db;
-        private CatalogContext catalog;
 
         public HomeController(IUnitOfWork db)
         {
@@ -32,16 +31,34 @@ namespace Catalog.Controllers
         
         public async Task<IActionResult> Index(string sortOrder, int page = 1)
         { 
-            FacilityRepository facilityRepository = new FacilityRepository(catalog);
-
             int pageSize = 3;
+            
 
             ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "price_desc" ? "price_asc" : "price_desc";
             ViewData["RatingSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
             ViewData["Buffer"] = sortOrder;
 
-            var facilities = facilityRepository.Sort(db.Facilities.GetAll().AsQueryable(), sortOrder);
-           
+            var facilities = db.Facilities.GetAll().AsQueryable();
+
+            switch (sortOrder)
+            {
+                case "price_desc":
+                    facilities = facilities.OrderByDescending(f => f.Price);
+                    break;
+                case "price_asc":
+                    facilities = facilities.OrderBy(s => s.Price);
+                    break;
+                case "rate_desc":
+                    facilities = facilities.OrderByDescending(s => s.Rating);
+                    break;
+                case "rate_asc":
+                    facilities = facilities.OrderByDescending(s => s.Rating);
+                    break;
+                default:
+                    break;
+            }
+        
+
             var count = await facilities.CountAsync();
             var items = await facilities.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 

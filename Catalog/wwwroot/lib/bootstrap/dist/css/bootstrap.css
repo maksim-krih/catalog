@@ -38,6 +38,27 @@ audio:not([controls]) {
   display: none;
   height: 0;
 }
+
+footer {
+    background-color: #0086db;
+    height: 100px;
+    width: 100%;
+    position: relative;
+    bottom: 0px !important;
+    right: 0;
+    margin-top: 50px; 
+}
+
+    footer p {
+        position: absolute;
+        top: 70px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 14px;
+        font-family: sfuidisplay-thin;
+    }
+
 [hidden],
 template {
   display: none;
@@ -4600,8 +4621,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   color: #ccc;
 }
 .navbar-inverse {
-  background-color: white !important;                                                          /////////////////////////////////
-  border-color: #080808;
+  background-color: white !important;
 }
 
 .navbar-inverse .navbar-brand {
@@ -4657,10 +4677,10 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 }
 @media (max-width: 767px) {
   .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
-    border-color: #080808;
+    /*border-color: #080808;*/
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
-    background-color: #080808;
+    /*background-color: #080808;*/
   }
   .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
     color: #0086db;
@@ -6774,12 +6794,20 @@ button.close {
     color: #0086db !important;
 }
 
-footer
-{
-    background-color: #0086db;
-    height: 50px;
-    position: absolute;
-    bottom: 0px !important;
-    right:0;
-    z-index:999999999999999;
+.nav-footer-ul {
+    font-size: 14px;
+    font-family: sfuidisplay-thin;
+    color: #0086db !important;
+    margin: 0 auto;
 }
+
+    .nav-footer-ul li {
+        float: left;
+        margin-top: 30px;
+    }
+
+.nav-footer-ul span {
+    color: white;
+    margin: 0px 7px;
+}
+

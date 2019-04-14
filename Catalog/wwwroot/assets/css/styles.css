@@ -28,9 +28,11 @@ body {
 }
 
 .page-wrapper {
-    min-height: 100%;
+    /*min-height: 100%;*/
     /* equal to footer height */
-    margin-bottom: -50px;
+   /* margin-bottom: -50px;*/
+    min-height: calc(100vh - 100px);
+    margin-bottom: -100px;
 }
 
     .page-wrapper:after {
@@ -42,6 +44,8 @@ body {
 .footer {
     height: 50px;
 }
+
+
 
 p {
     line-height: 1.5;
@@ -1395,7 +1399,6 @@ select {
 
 .cards-section {
     padding: 60px 0;
-    background: #f9f9fb;
 }
 
     .cards-section .title {
@@ -1404,7 +1407,6 @@ select {
         font-size: 24px;
         font-weight: 600;
         color: white;
-        text-shadow: black 2px 2px 2px;
     }
 
     .cards-section .intro {
@@ -1433,8 +1435,12 @@ select {
         }
 
         .cards-section .item .title {
-            font-size: 16px;
+            font-family: 'SF UI Display';
+            font-size: 20px;
             font-weight: 600;
+            padding-top:23px;
+            color:white;
+            opacity:1 !important;
         }
 
         .cards-section .item .intro {
@@ -1561,9 +1567,10 @@ select {
 
 .innerRectangle
 {
-    height: 64px;
-    width: 174px;
-    background-color:#0086db ;
+    padding-bottom: 8px;
+    background: rgba(0, 137, 219, 0.7);
+    margin-left:5px;
+    border-radius:4px;
 }
 
 /* Extra small devices (phones, less than 768px) */

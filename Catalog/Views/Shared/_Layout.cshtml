@@ -18,7 +18,7 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-inverse navbar-fixed-top" style="border: none;">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -63,13 +63,32 @@
 
     <div class="container body-content">
         @RenderBody()
-        <hr />
         <footer>
-            
+            <div class="nav-footer">
+                <ul class="nav-footer-ul">
+
+
+                    <li><a asp-area="" asp-controller="Home" asp-action="About" style="color:white;">Home</a><span>|</span></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About" style="color:white;">About</a><span>|</span></li>
+                    <li><a asp-controller="Account" asp-action="Registrate" style="color:white;">Sign up</a><span>|</span></li>
+                    <li><a asp-controller="Account" asp-action="Login" style="color:white;">Sing in</a></li>
+
+                </ul>
+            </div>
+            <div class="socialNav">
+                <ul class="nav-footer-ul">
+                    <li><a href="facebook.com">Home</a></li>
+                    <li><a href="twitter.com">About</a></li>
+                    <li><a href="instagram.com">Sign up</a></li>
+
+                </ul>
+            </div>
+            <p>&copy;BuldozerTeam 2019</p>
         </footer>
     </div>
+    
 
-    <environment include="Development">
+<environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>

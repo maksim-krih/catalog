@@ -13,10 +13,10 @@ namespace Catalog.DAL.Configurations
         {
             builder.OwnsOne(a => a.Address);
             builder.OwnsOne(s => s.Schedule);
-            //Exception: must not be interface type
-            //builder.OwnsOne(f => f.Feedbacks);
-            //builder.OwnsOne(p => p.Photos);
 
+            builder.OwnsMany(a => a.Feedbacks);
+            builder.OwnsMany(p => p.Photos);
+            
             builder
                 .HasData(
                 new Facility[]
@@ -28,7 +28,8 @@ namespace Catalog.DAL.Configurations
                         Price = 3,
                         Rating = 3.2,
                         Phone = "012345678",
-                        FacilityType = "Bar"
+                        FacilityType = "Bar",
+                        FacilityOwnerId = 2
                     },
                     new Facility
                     {
@@ -37,7 +38,8 @@ namespace Catalog.DAL.Configurations
                         Price = 3,
                         Rating = 3.2,
                         Phone = "012345678",
-                        FacilityType = "Bar"
+                        FacilityType = "Bar",
+                        FacilityOwnerId = 2
                     },
                     new Facility
                     {
@@ -46,7 +48,8 @@ namespace Catalog.DAL.Configurations
                         Price = 3,
                         Rating = 3.2,
                         Phone = "012345678",
-                        FacilityType = "Bar"
+                        FacilityType = "Bar",
+                        FacilityOwnerId = 2
                     }
                 }
                 );

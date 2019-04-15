@@ -11,7 +11,31 @@ namespace Catalog.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<Feedback> builder)
         {
-            throw new NotImplementedException();
+            builder.HasData(
+                new List<Feedback>
+                        {
+                            new Feedback
+                            {
+                                Id = 1,
+                                FacilityId = 1,
+                                Author = "Anonynous",
+                                Date = DateTime.Now,
+                                Rating = 4,
+                                Message = "Feedback message"
+                            },
+                             new Feedback
+                            {
+                                Id = 2,
+                                FacilityId = 1,
+                                Author = "Anonynous 2",
+                                Date = DateTime.Now,
+                                Rating = 3,
+                                Message = "Feedback message 2"
+                            },
+
+                        });
+
+            
         }
     }
 }

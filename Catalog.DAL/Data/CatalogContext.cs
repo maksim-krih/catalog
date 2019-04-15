@@ -27,57 +27,22 @@ namespace Catalog.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Role>().HasData(new Role { Id = 1, Name = "Admin" }, new Role { Id = 2, Name = "User" });
-            modelBuilder.Entity<User>().HasData(new User { Id = 1, Name = "Admin", Roleid = 1, Email = "admin@gmail.com", Password = "1111" });
 
-            //Seeding db
-            //TODO: move this to configurations?            
+            modelBuilder.Entity<Role>().OwnsMany(c => c.Users);
 
-            modelBuilder.Entity<FacilityAddress>().HasData(
-                new FacilityAddress
-                {
-                    Id = 1,
-                    FacilityId = 1,
-                    Country = "Country 1",
-                    City = "City 1",
-                    Street = "Street 1",
-                    HouseNumber = "1",
-                    ZipCode = 1
-                });
-
-            modelBuilder.Entity<Feedback>().HasData(
-                new Feedback
-                {
-                    Id = 1,
-                    FacilityId = 1,
-                    Author = "Anonynous",
-                    Date = DateTime.Now,
-                    Rating = 4,
-                    Message = "Feedback message"                    
-                });
-
-            modelBuilder.Entity<Schedule>().HasData(
-                new Schedule
-                {
-                    Id = 1,
-                    FacilityId = 1,
-                    Open = TimeSpan.FromHours(8),
-                    Closed = TimeSpan.FromHours(20),
-                    WorkingDays = new DayOfWeek[] { DayOfWeek.Wednesday,
-                                                    DayOfWeek.Thursday,
-                                                    DayOfWeek.Friday,
-                                                    DayOfWeek.Saturday}
-                });
+            //DB seeds in configuration
 
             modelBuilder.ApplyConfiguration(new FacilityConfiguraiton());
+            modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new FacilityAddressConfiguration());
+            modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
+            //modelBuilder.ApplyConfiguration(new PhotoConfiguration());
+
+
+
 
             base.OnModelCreating(modelBuilder);
-
-            //TODO: Apply configurations or make migrations?
-            
-            //modelBuilder.ApplyConfiguration(new FacilityAddressConfiguration());
-            //modelBuilder.ApplyConfiguration(new FeedbackConfiguration());
-            //modelBuilder.ApplyConfiguration(new PhotoConfiguration());
-            //modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
 
         }
 

@@ -4,44 +4,75 @@
     ViewData["Title"] = "Place";
 }
 
-<h2>Place Page</h2>
+<!-- Контейнер с адаптиными блоками -->
+<div class="masonry" style="margin-top: 50px;">
+    <!-- Адаптивные блоки с содержанием -->
+    <div class="itemT">
+    
+        <div id="itemRate">
+            <h3>Model.Name rate: </h3>
+            <p>Model.Rating</p>
+        </div>
+        </div>
+
+    <div class="itemT">
+    <div id="itemInfo">
+    <p class="itemDesc">Phone</p>
+    <p>Model.Phone</p>
+    <p class="itemDesc">Schedule:</p>
+    <p>odel.Schedule.Open - Model.Schedule.Closed</p>
+    <p class="itemDesc">Address</p>
+    <p>Model.Address.Street</p>
+    <p class="itemDesc">Type</p>
+    <p>Model.FacilityType</p>
+</div>
+        </div>
+    <!-- Конец адаптивных блоков с содержанием -->
+
+</div>
+<!-- Конец контейнера с адаптивными блоками -->
+
+
+
+
+
 
 <table class="table">
     <thead>
-    <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Type</th>
-        <th scope="col">Price</th>
-        <th scope="col">Rating</th>
-        <th scope="col">Phone</th>
-        <th scope="col">Address</th>
-        <th scope="col">Schedule</th>
-    </tr>        
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Price</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Address</th>
+            <th scope="col">Schedule</th>
+        </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>
-            @Model.Name
-        </td>
-        <td>
-            @Model.FacilityType
-        </td>
-        <td>
-            @Model.Price
-        </td>
-        <td>
-            @Model.Rating
-        </td>
-        <td>
-            @Model.Phone
-        </td>
-        <td>
-            @Model.Address.Street
-        </td>
-        <td>
-            @Model.Schedule.Open - @Model.Schedule.Closed
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @Model.Name
+            </td>
+            <td>
+                @Model.FacilityType
+            </td>
+            <td>
+                @Model.Price
+            </td>
+            <td>
+                @Model.Rating
+            </td>
+            <td>
+                @Model.Phone
+            </td>
+            <td>
+                @Model.Address.Street
+            </td>
+            <td>
+                @Model.Schedule.Open - @Model.Schedule.Closed
+            </td>
+        </tr>
     </tbody>
 
 </table>
@@ -60,7 +91,7 @@
         var marker = addMArker(49.8412929, 24.0322702);
 
         var InfoWidow = new google.maps.InfoWindow({
-            content: '<h1>@Model.Name</h1><p>@Model.FacilityType</p>'
+            content: '<h4>@Model.Name</h4><p>@Model.FacilityType</p>'
         });
 
         InfoWidow.open(myMap, marker);
@@ -71,15 +102,15 @@
             var marker = new google.maps.Marker({
                 position: { lat: lat, lng: lng},
                 map: myMap,
-                
+
             });
             marker.setIcon('https://cdn3.iconfinder.com/data/icons/wpzoom-developer-icon-set/500/108-24.png');
             return marker;
         }
 
-        
+
     }
-    
+
 </script>
 
 <script async defer

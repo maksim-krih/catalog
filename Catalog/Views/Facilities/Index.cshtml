@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Catalog.DAL.Models.Facility>
+
+@{
     ViewData["Title"] = "Index";
 }
 
@@ -10,9 +12,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FacilityOwnerId)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -34,9 +33,6 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td> 
-                <a href="#">@item.FacilityOwnerId</a>
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>

@@ -37,19 +37,21 @@
             <div class="container  right">
                 <div id="cards-wrapper" class="cards-wrapper row">
 
-
-                    @foreach (var item in Model.FacilityModels)
-                    {
-                        <div class="item item-green col-md-4 col-sm-6 col-xs-12">
-                            <div class="item-inner" id="card1">
+                @foreach (var item in Model.FacilityModels)
+                {
+                    <div class="item item-green col-md-4 col-sm-6 col-xs-12">
+                        <div class="item-inner" id="card1">
+                            <div class="innerRectangle">
                                 @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
                                 <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
-                                    <h3 class="title">@item.Name</h3>
+                                    <h3 class="title" style="opacity: 1;">@item.Name</h3>
                                 </a>
-                            </div><!--//item-inner-->
-                        </div><!--//item-->
-                    }
 
+                            </div>
+                           
+                        </div><!--//item-inner-->
+                    </div><!--//item-->
+                }
 
                 </div><!--//cards-->
 
@@ -58,10 +60,8 @@
 
     </section><!--//cards-section-->
 
+    <div style="margin-bottom: 50px">
 
-
-
-    <div>
         @if (Model.PageViewModel.HasPreviousPage)
         {
 

@@ -4,19 +4,50 @@
     ViewData["Title"] = "Place";
 }
 
-<h2>Place Page</h2>
+<!-- Container with adaptive blocks -->
+<div class="masonry" style="margin-top: 50px;">
+    <!-- Adaptive blocks -->
+    <div class="itemT">
+    
+        <div id="itemRate">
+            <h3>@Model.Name rate: </h3>
+            <p>@Model.Rating</p>
+        </div>
+        </div>
 
+    <div class="itemT">
+    <div id="itemInfo">
+    <p class="itemDesc">Phone</p>
+    <p>@Model.Phone</p>
+    <p class="itemDesc">Schedule:</p>
+    <p>@Model.Schedule.Open - Model.Schedule.Closed</p>
+    <p class="itemDesc">Address</p>
+    <p>@Model.Address.Street</p>
+    <p class="itemDesc">Type</p>
+    <p>@Model.FacilityType</p>
+</div>
+        </div>
+    <!-- End of block with adaptive -->
+
+</div>
+<!-- End of container -->
+
+
+
+
+
+<!-- table
 <table class="table">
     <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Type</th>
-            <th scope="col">Price</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Address</th>
-            <th scope="col">Schedule</th>
-        </tr>        
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Price</th>
+        <th scope="col">Rating</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Address</th>
+        <th scope="col">Schedule</th>
+    </tr>
     </thead>
     <tbody>
         <tr>
@@ -50,7 +81,48 @@
                </td>
            </tr>
        }
-
     </tbody>
 
 </table>
+-->
+
+
+<div id="map" style=" width: 100%; height: 400px;"></div>
+<script>
+    function initMap() {
+        var element = document.getElementById('map');
+        var options = {
+            zoom: 15,
+            center: { lat: 49.8412929, lng: 24.0322702 }
+        };
+
+        var myMap = new google.maps.Map(element, options);
+
+        var marker = addMArker(49.8412929, 24.0322702);
+
+        var InfoWidow = new google.maps.InfoWindow({
+            content: '<h4>@Model.Name</h4><p>@Model.FacilityType</p>'
+        });
+
+        InfoWidow.open(myMap, marker);
+
+        marker.addListener('click', function () { InfoWidow.open(myMap, marker);})
+
+        function addMArker(lat, lng) {
+            var marker = new google.maps.Marker({
+                position: { lat: lat, lng: lng},
+                map: myMap,
+
+            });
+            marker.setIcon('https://cdn3.iconfinder.com/data/icons/wpzoom-developer-icon-set/500/108-24.png');
+            return marker;
+        }
+
+
+    }
+
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBW9c1zAjzY6_4YXrZNowJyQrJLOz8RAS8&callback=initMap">
+</script>

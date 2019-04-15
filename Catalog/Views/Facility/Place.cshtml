@@ -4,78 +4,80 @@
     ViewData["Title"] = "Place";
 }
 
-<!-- Контейнер с адаптиными блоками -->
+<!-- Container with adaptive blocks -->
 <div class="masonry" style="margin-top: 50px;">
-    <!-- Адаптивные блоки с содержанием -->
+    <!-- Adaptive blocks -->
     <div class="itemT">
     
         <div id="itemRate">
-            <h3>Model.Name rate: </h3>
-            <p>Model.Rating</p>
+            <h3>@Model.Name rate: </h3>
+            <p>@Model.Rating</p>
         </div>
         </div>
 
     <div class="itemT">
     <div id="itemInfo">
     <p class="itemDesc">Phone</p>
-    <p>Model.Phone</p>
+    <p>@Model.Phone</p>
     <p class="itemDesc">Schedule:</p>
-    <p>odel.Schedule.Open - Model.Schedule.Closed</p>
+    <p>@Model.Schedule.Open - Model.Schedule.Closed</p>
     <p class="itemDesc">Address</p>
-    <p>Model.Address.Street</p>
+    <p>@Model.Address.Street</p>
     <p class="itemDesc">Type</p>
-    <p>Model.FacilityType</p>
+    <p>@Model.FacilityType</p>
 </div>
         </div>
-    <!-- Конец адаптивных блоков с содержанием -->
+    <!-- End of block with adaptive -->
 
 </div>
-<!-- Конец контейнера с адаптивными блоками -->
+<!-- End of container -->
 
 
 
 
 
-
+<!-- table
 <table class="table">
     <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Type</th>
-            <th scope="col">Price</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Address</th>
-            <th scope="col">Schedule</th>
-        </tr>
+    <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Price</th>
+        <th scope="col">Rating</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Address</th>
+        <th scope="col">Schedule</th>
+    </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>
-                @Model.Name
-            </td>
-            <td>
-                @Model.FacilityType
-            </td>
-            <td>
-                @Model.Price
-            </td>
-            <td>
-                @Model.Rating
-            </td>
-            <td>
-                @Model.Phone
-            </td>
-            <td>
-                @Model.Address.Street
-            </td>
-            <td>
-                @Model.Schedule.Open - @Model.Schedule.Closed
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Model.Name
+        </td>
+        <td>
+            @Model.FacilityType
+        </td>
+        <td>
+            @Model.Price
+        </td>
+        <td>
+            @Model.Rating
+        </td>
+        <td>
+            @Model.Phone
+        </td>
+        <td>
+            @Model.Address.Street
+        </td>
+        <td>
+            @Model.Schedule.Open - @Model.Schedule.Closed
+        </td>
+    </tr>
     </tbody>
 
 </table>
+-->
+
 
 <div id="map" style=" width: 100%; height: 400px;"></div>
 <script>

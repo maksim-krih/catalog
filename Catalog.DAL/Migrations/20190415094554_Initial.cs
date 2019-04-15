@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Catalog.DAL.Migrations
 {
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,7 @@ namespace Catalog.DAL.Migrations
                     Name = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Roleid = table.Column<int>(nullable: true)
+                    Roleid = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,7 +40,7 @@ namespace Catalog.DAL.Migrations
                         column: x => x.Roleid,
                         principalTable: "Roles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,8 +205,8 @@ namespace Catalog.DAL.Migrations
                 columns: new[] { "Id", "Author", "Date", "FacilityId", "Message", "Rating" },
                 values: new object[,]
                 {
-                    { 1, "Anonynous", new DateTime(2019, 4, 13, 23, 4, 52, 527, DateTimeKind.Local), 1, "Feedback message", 4 },
-                    { 2, "Anonynous 2", new DateTime(2019, 4, 13, 23, 4, 52, 529, DateTimeKind.Local), 1, "Feedback message 2", 3 }
+                    { 1, "Anonynous", new DateTime(2019, 4, 15, 12, 45, 52, 946, DateTimeKind.Local), 1, "Feedback message", 4 },
+                    { 2, "Anonynous 2", new DateTime(2019, 4, 15, 12, 45, 52, 951, DateTimeKind.Local), 1, "Feedback message 2", 3 }
                 });
 
             migrationBuilder.InsertData(

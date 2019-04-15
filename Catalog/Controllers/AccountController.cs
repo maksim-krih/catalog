@@ -36,7 +36,8 @@ namespace Catalog.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.Users.Find(u => u.Email == registrationModel.Email).Count() == 0)
+                var users = db.Users.Find(u => u.Email == registrationModel.Email);
+                if (users.Count()==0)
                 {
                     var user = new User
                     {

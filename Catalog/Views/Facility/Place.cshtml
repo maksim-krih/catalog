@@ -36,12 +36,21 @@
                 @Model.Phone
             </td>
             <td>
-                @Model.Address.Street
+                @Model.Address.Street @Model.Address.HouseNumber, @Model.Address.City
             </td>
             <td>
                 @Model.Schedule.Open - @Model.Schedule.Closed
             </td>
         </tr>
+       @foreach (var item in Model.Feedbacks)
+       {
+           <tr>
+               <td colspan="7">
+                   @item.Message                  
+               </td>
+           </tr>
+       }
+
     </tbody>
 
 </table>

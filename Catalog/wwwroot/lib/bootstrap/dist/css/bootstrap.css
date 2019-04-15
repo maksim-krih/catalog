@@ -6792,6 +6792,7 @@ button.close {
     font-size: 18px;
     font-family: sfuidisplay-thin;
     color: #0086db !important;
+    list-style: none;
 }
 
 .nav-footer-ul {
@@ -6804,6 +6805,7 @@ button.close {
     .nav-footer-ul li {
         float: left;
         margin-top: 30px;
+        list-style: none;
     }
 
 .nav-footer-ul span {
@@ -6811,3 +6813,56 @@ button.close {
     margin: 0px 7px;
 }
 
+.nav-footer-social {
+    height: 25px;
+    position: absolute;
+    right: 36px;
+    top: 20px;
+}
+
+.nav-footer-social li {
+        float: left;
+        margin-left: 5px;
+        height: 25px;
+    width: 25px;
+        background-repeat: no-repeat;
+        list-style: none;
+    }
+
+    .nav-footer-social li a {
+        height: 25px;
+        outline: 0px solid red;
+        display: block;
+        cursor: pointer;
+    }
+
+#s1 {
+    background-image: url('../../../../images/s1.png');
+    background-repeat: no-repeat;
+}
+
+#s2 {
+    background-image: url('../../../../images/s2.png');
+    background-repeat: no-repeat;
+}
+
+#s3 {
+    background-image: url('../../../../images/s3.png');
+    background-repeat: no-repeat;
+}
+
+.map-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    position: relative;
+    height: 0;
+}
+
+    .map-responsive iframe {
+        margin: 0 auto;
+        left: 0;
+        top: 0;
+        height: 70%;
+        width: 100%;
+        position: absolute;
+    }

@@ -47,8 +47,7 @@ namespace Catalog.BLL.Repositories
         public IEnumerable<Facility> Find(Func<Facility, bool> predicate)
         {
             return db.Facilities.Where(predicate).ToList();
-        }
-        
+        }      
         
     }
 }

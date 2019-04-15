@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Catalog.DAL.Models
 {
@@ -9,5 +11,13 @@ namespace Catalog.DAL.Models
 
         [Required(AllowEmptyStrings = false)]
         public string Name { get; set; }
+
+        public ICollection<User> Users { get; set; }
+
+        public Role()
+        {
+            Users = new List<User>();
+        }
+
     }
 }

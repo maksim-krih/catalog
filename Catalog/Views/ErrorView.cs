@@ -1,6 +1,6 @@
 using System;
 
-namespace Catalog.DAL.Models
+namespace Catalog.Models
 {
     public class ErrorView
     {

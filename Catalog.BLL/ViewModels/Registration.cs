@@ -4,11 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Catalog.DAL.Models
+namespace Catalog.BLL.ViewModels
 {
-    public class Login
+    public class Registration
     {
+        [Required(ErrorMessage = "Please, enter name")]
+        [RegularExpression("^[a-zA-Z- ]+ $", ErrorMessage = "Name must consists of letters")]
+        public string Name { get; set; }
+
         [Required(ErrorMessage = "Please, enter email")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Please, enter password")]

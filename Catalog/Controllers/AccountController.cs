@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Catalog.DAL.Models;
 using Catalog.BLL.Interfaces;
+using Catalog.BLL.ViewModels.DTO;
+using Catalog.BLL.ViewModels;
 
 namespace Catalog.Controllers
 {
@@ -34,7 +36,8 @@ namespace Catalog.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.Users.Find(u => u.Email == registrationModel.Email) == null)
+                var users = db.Users.Find(u => u.Email == registrationModel.Email);
+                if (users.Count()==0)
                 {
                     var user = new User
                     {
@@ -75,7 +78,7 @@ namespace Catalog.Controllers
                 User user = db.Users.Find(u => u.Email == loginModel.Email && u.Password == loginModel.Password).First();
                 if (user != null)
                 {
-                    string role = db.Roles.Get(user.Roleid.Value).Name;
+                    string role = db.Roles.Get(user.Roleid).Name;
                     await Authenticate(user, role);
                     return RedirectToAction("Index", "Home");
                 }

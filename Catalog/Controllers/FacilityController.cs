@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Catalog.BLL.Interfaces;
 using Catalog.DAL.Models;
+using Catalog.BLL.ViewModels.DTO;
 
 namespace Catalog.Controllers
 {
@@ -32,27 +33,28 @@ namespace Catalog.Controllers
 
 
         [HttpPost]
-        public IActionResult AddFeedback(int id)
+        public IActionResult AddFeedback(int id, [Bind("Rating,Price,AuthorId,Message")]FeedbackDTO feedbackDTO)
         {
             try
             {
                 var facility = db.Facilities.Get(id);
-
-               
-
                 var feedback = new Feedback
                 {
+                    //Id = db.Feedbacks.GetAll().Count() + 1,
                     FacilityId = id,
-                    Message = Request.Form["Message"],
-                    Rating = Convert.ToInt32(Request.Form["Rating"]),
-                    Price = Convert.ToInt32(Request.Form["Price"]),
-                    Date = DateTime.Now,
-                    Author = db.Users.Get(Convert.ToInt32(Request.Form["AuthorId"])).Name
+                    Message = feedbackDTO.Message != null ? feedbackDTO.Message : "",
+                    Rating = feedbackDTO.Rating,
+                    Price = feedbackDTO.Price,
+                    Author = User.Claims.ToList()[2].Value,
+                    Date = DateTime.Now
                 };
-                                
+                            
 
-                UpdateRating(ref facility, Convert.ToInt32(Request.Form["Rating"]));
-                UpdatePrice(ref facility, Convert.ToInt32(Request.Form["Price"]));
+                UpdateRating(ref facility,feedbackDTO.Rating);
+                UpdatePrice(ref facility, feedbackDTO.Price);
+
+                db.Feedbacks.Create(feedback);
+
                 db.Save();
             }
             catch (Exception)
@@ -74,14 +76,24 @@ namespace Catalog.Controllers
             // Collection of facilities where feedbacks that were left are with rating field.
             var query = facility.Feedbacks.Where(feedback => feedback.Rating != 0);
 
-            double sumRating = 0;
-
-            foreach (var item in query)
+            if(query.ToList().Count == 0)
             {
-                sumRating += item.Rating;
+                facility.Rating = rating;
             }
+            else
+            {
+                double sumRating = 0;
 
-            facility.Rating = sumRating / query.Count();
+                foreach (var item in query)
+                {
+                    sumRating += item.Rating;
+                }
+
+                sumRating += rating;
+
+                facility.Rating = Math.Round(sumRating / (query.Count() + 1), 1, MidpointRounding.AwayFromZero);
+            }
+           
             db.Save();
         }
 
@@ -95,16 +107,24 @@ namespace Catalog.Controllers
             // Collection of facilities where feedbacks that were left are with rating field.
             var query = facility.Feedbacks.Where(feedback => feedback.Price != 0);
 
-            double sumPrice = 0;
-
-            foreach (var item in query)
+            if(query.ToList().Count == 0)
             {
-                sumPrice += item.Rating;
+                facility.Price = price;
             }
+            else
+            {
+                double sumPrice = 0;
 
-            sumPrice += price;
+                foreach (var item in query)
+                {
+                    sumPrice += item.Rating;
+                }
 
-            facility.Rating = sumPrice / query.Count();
+                sumPrice += price;
+
+                facility.Rating = Math.Round(sumPrice / (query.Count() + 1), 1, MidpointRounding.AwayFromZero);
+            }
+            db.Save();
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Catalog.DAL.Models
         public string Author { get; set; }
         public string Message { get; set; }
         public DateTime Date { get; set; }
-        public int Rating { get; set; }
+        public double Rating { get; set; }
+        public double Price { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Catalog.DAL.Migrations
 {
     [DbContext(typeof(CatalogContext))]
-    [Migration("20190415094554_Initial")]
+    [Migration("20190415210718_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,7 +32,7 @@ namespace Catalog.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
 
                     b.HasData(
                         new { Id = 1, Name = "Admin" },
@@ -58,7 +58,7 @@ namespace Catalog.DAL.Migrations
 
                             b1.HasIndex("Roleid");
 
-                            b1.ToTable("Users");
+                            b1.ToTable("User");
 
                             b1.HasOne("Catalog.DAL.Models.Role", "UserRole")
                                 .WithMany("Users")
@@ -141,7 +141,9 @@ namespace Catalog.DAL.Migrations
 
                                             b3.Property<string>("Message");
 
-                                            b3.Property<int>("Rating");
+                                            b3.Property<double>("Price");
+
+                                            b3.Property<double>("Rating");
 
                                             b3.HasIndex("FacilityId");
 
@@ -153,8 +155,8 @@ namespace Catalog.DAL.Migrations
                                                 .OnDelete(DeleteBehavior.Cascade);
 
                                             b3.HasData(
-                                                new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 15, 12, 45, 52, 946, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Rating = 4 },
-                                                new { Id = 2, Author = "Anonynous 2", Date = new DateTime(2019, 4, 15, 12, 45, 52, 951, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message 2", Rating = 3 }
+                                                new { Id = 1, Author = "Anonynous", Date = new DateTime(2019, 4, 16, 0, 7, 17, 58, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message", Price = 0.0, Rating = 4.0 },
+                                                new { Id = 2, Author = "Anonynous 2", Date = new DateTime(2019, 4, 16, 0, 7, 17, 61, DateTimeKind.Local), FacilityId = 1, Message = "Feedback message 2", Price = 0.0, Rating = 3.0 }
                                             );
                                         });
 

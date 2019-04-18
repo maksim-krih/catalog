@@ -29,16 +29,22 @@ namespace Catalog.Controllers
         }
        
         
-        public async Task<IActionResult> Index(string sortOrder, int page = 1)
+        public async Task<IActionResult> Index(string sortOrder,string filterOption, int page = 1)
         { 
             int pageSize = 3;
-            
 
+            FilterModel filter = new FilterModel();
+            filter.FacilityType = filterOption;
             ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "price_desc" ? "price_asc" : "price_desc";
             ViewData["RatingSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
             ViewData["Buffer"] = sortOrder;
 
             var facilities = db.Facilities.GetAll().AsQueryable();
+
+            if (!String.IsNullOrEmpty(filterOption))
+            {
+                facilities = facilities.Where(s => s.FacilityType.Contains(filterOption));
+            }
 
             switch (sortOrder)
             {
@@ -61,12 +67,13 @@ namespace Catalog.Controllers
 
             var count = await facilities.CountAsync();
             var items = await facilities.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-
+            
             PageView pageViewModel = new PageView(count, page, pageSize);
             IndexView viewModel = new IndexView
             {
                 PageViewModel = pageViewModel,
-                FacilityModels = items
+                FacilityModels = items,
+                FilterModel = filter
             };
             return View(viewModel);
         }

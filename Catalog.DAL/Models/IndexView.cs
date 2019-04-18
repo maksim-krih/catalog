@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Catalog.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,5 +10,6 @@ namespace Catalog.DAL.Models
     {
         public PageView PageViewModel { get; set; }
         public IEnumerable<Facility> FacilityModels { get; set; }
+        public FilterModel FilterModel { get; set; }
     }
 }

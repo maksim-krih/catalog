@@ -32,7 +32,7 @@ namespace Catalog.BLL.Repositories
         }
 
         public void Update(User item)
-        {
+        {           
             db.Entry(item).State = EntityState.Modified;
         }
 

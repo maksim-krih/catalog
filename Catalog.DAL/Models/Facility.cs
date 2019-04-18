@@ -19,7 +19,11 @@ namespace Catalog.DAL.Models
         public string Phone { get; set; }
         
         public FacilityAddress Address { get; set; }        
-        public Schedule Schedule { get; set; }        
+        public Schedule Schedule { get; set; }  
+
+        public int FacilityOwnerId { get; set; }
+        public User FacilityOwner { get; set; }
+        
         public ICollection<Feedback> Feedbacks { get; set; }        
         public ICollection<Photo> Photos { get; set; }
 

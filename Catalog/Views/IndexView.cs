@@ -1,10 +1,11 @@
 ﻿using Catalog.Models;
+﻿using Catalog.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Catalog.DAL.Models
+namespace Catalog.Models
 {
     public class IndexView
     {

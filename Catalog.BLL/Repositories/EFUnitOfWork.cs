@@ -13,6 +13,8 @@ namespace Catalog.BLL.Repositories
     {
         private CatalogContext db;
         private FacilityRepository facilityRepository;
+        private FacilityAddressRepository facilityAddressRepository;
+        private ScheduleRepository scheduleRepository;
         private FeedbackRepository feedbackRepository;
         private UserRepository userRepository;
         private RoleRepository roleRepository;
@@ -29,6 +31,26 @@ namespace Catalog.BLL.Repositories
                 if (facilityRepository == null)
                     facilityRepository = new FacilityRepository(db);
                 return facilityRepository;
+            }
+        }
+
+        public IRepository<FacilityAddress> FacilityAddresses
+        {
+            get
+            {
+                if (facilityAddressRepository == null)
+                    facilityAddressRepository = new FacilityAddressRepository(db);
+                return facilityAddressRepository;
+            }
+        }
+
+        public IRepository<Schedule> Schedules
+        {
+            get
+            {
+                if (scheduleRepository == null)
+                    scheduleRepository = new ScheduleRepository(db);
+                return scheduleRepository;
             }
         }
 

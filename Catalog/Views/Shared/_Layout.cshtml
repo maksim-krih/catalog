@@ -33,7 +33,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                                         
-                    @if (User.Identity.IsAuthenticated)
+                    @if (User.Identity.IsAuthenticated && User.Claims.ToList()[4].Value == "Admin")
                     {
                         <li><a asp-area="" asp-controller="Admin" asp-action="Index">Database</a></li>
                     }

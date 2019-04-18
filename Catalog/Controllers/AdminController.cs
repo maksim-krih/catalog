@@ -66,8 +66,9 @@ namespace Catalog.Views
             {
                 db.Facilities.Create(facilityModel);
                 db.Save();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
+            //Undone:WHY??
             return View(facilityModel);
         }
         

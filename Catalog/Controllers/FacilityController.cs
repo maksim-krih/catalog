@@ -33,14 +33,13 @@ namespace Catalog.Controllers
 
 
         [HttpPost]
-        public IActionResult AddFeedback(int id, [Bind("Rating,Price,AuthorId,Message")]FeedbackDTO feedbackDTO)
+        public IActionResult AddFeedback(int id, [Bind("Rating,Price,Message")]FeedbackDTO feedbackDTO)
         {
             try
             {
                 var facility = db.Facilities.Get(id);
                 var feedback = new Feedback
-                {
-                    //Id = db.Feedbacks.GetAll().Count() + 1,
+                {   
                     FacilityId = id,
                     Message = feedbackDTO.Message != null ? feedbackDTO.Message : "",
                     Rating = feedbackDTO.Rating,
@@ -50,8 +49,8 @@ namespace Catalog.Controllers
                 };
                             
 
-                UpdateRating(ref facility,feedbackDTO.Rating);
-                UpdatePrice(ref facility, feedbackDTO.Price);
+                UpdateRating(facility,feedbackDTO.Rating);
+                UpdatePrice(facility, feedbackDTO.Price);
 
                 db.Feedbacks.Create(feedback);
 
@@ -71,7 +70,7 @@ namespace Catalog.Controllers
         /// </summary>
         /// <param name="facility">Facility that we change properties</param>
         /// <param name="rating">field to update</param>
-        private void UpdateRating(ref Facility facility, int rating)
+        private void UpdateRating( Facility facility, int rating)
         {
             // Collection of facilities where feedbacks that were left are with rating field.
             var query = facility.Feedbacks.Where(feedback => feedback.Rating != 0);
@@ -102,7 +101,7 @@ namespace Catalog.Controllers
         /// </summary>
         /// <param name="facility">Facility that we change properties</param>
         /// <param name="price">field to update</param>
-        private void UpdatePrice(ref Facility facility, int price)
+        private void UpdatePrice(Facility facility, int price)
         {
             // Collection of facilities where feedbacks that were left are with rating field.
             var query = facility.Feedbacks.Where(feedback => feedback.Price != 0);

@@ -24,8 +24,8 @@ namespace Catalog.Controllers
         {
             var facility = db.Facilities.Get(id);
 
-            if(facility == null)
-                throw new ArgumentNullException();
+            if (facility == null)
+                return NotFound();
 
 
             return View(facility);
@@ -33,23 +33,30 @@ namespace Catalog.Controllers
 
 
         [HttpPost]
-        public IActionResult AddFeedback(int id, [Bind("Rating,Price,Message")]FeedbackDTO feedbackDTO)
+        public IActionResult AddFeedback(int id, [Bind("Rating,Price,Message,Author")]FeedbackDTO feedbackDTO)
         {
             try
             {
                 var facility = db.Facilities.Get(id);
+                if (facility == null)
+                    return NotFound();
+
                 var feedback = new Feedback
-                {   
+                {
+                    Id = 0,
                     FacilityId = id,
-                    Message = feedbackDTO.Message != null ? feedbackDTO.Message : "",
+                    Message = feedbackDTO.Message != null
+                                ? feedbackDTO.Message
+                                : "",
                     Rating = feedbackDTO.Rating,
                     Price = feedbackDTO.Price,
-                    Author = User.Claims.ToList()[2].Value,
+                    Author = feedbackDTO.Author != null
+                                ? feedbackDTO.Author
+                                : "Guest",
                     Date = DateTime.Now
                 };
-                            
 
-                UpdateRating(facility,feedbackDTO.Rating);
+                UpdateRating(facility, feedbackDTO.Rating);
                 UpdatePrice(facility, feedbackDTO.Price);
 
                 db.Feedbacks.Create(feedback);
@@ -58,7 +65,7 @@ namespace Catalog.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return NotFound();
             }
 
             return RedirectToAction("Place", id);

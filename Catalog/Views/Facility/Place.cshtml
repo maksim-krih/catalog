@@ -57,7 +57,8 @@
                     <h4>Leave Feedback</h4>
                 </div>
                 <input name="Rating" type="hidden" id="mark" />
-                <input name="Price" type="hidden" id="price" />               
+                <input name="Price" type="hidden" id="price" />
+                <input name="Author" type="hidden" value="@User.Claims.ToList()[2].Value" />
                 <div class="panel-body">
                     <div class="row">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12 ">

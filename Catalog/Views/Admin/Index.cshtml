@@ -1,63 +1,132 @@
-﻿@{
+﻿@model Catalog.BLL.ViewModels.FacilitiesUsersRoles
+@{
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<div class="container-fluid" style="margin-top:20px">
+    <div class="row">
+        <h4>Database</h4>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FacilityOwnerId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FacilityType)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td> 
-                <a href="#">@item.FacilityOwnerId</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FacilityType)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked" role="tablist" style="margin-bottom:15px;">
+                <li role="presentation"><a href="#facilities" aria-controls="facilities" role="tab" data-toggle="pill">Facilities</a></li>
+                <li role="presentation"><a href="#users" aria-controls="users" role="tab" data-toggle="pill">Users</a></li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane" id="facilities">
+                    <div class="well">
+                        <a asp-action="Add" style="margin:5px;">Create new Facility</a>
+                    </div>
+                    @foreach (var item in Model.Facilities)
+                    {
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h5>@item.Name</h5>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Type</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Rating</th>
+                                                <th scope="col">Phone</th>
+                                                <th scope="col">Address</th>
+                                                <th scope="col">Schedule</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    @item.FacilityType
+                                                </td>
+                                                <td>
+                                                    @item.Price
+                                                </td>
+                                                <td>
+                                                    @item.Rating
+                                                </td>
+                                                <td>
+                                                    @item.Phone
+                                                </td>
+                                                <td>
+                                                    @item.Address.Street @item.Address.HouseNumber, @item.Address.City
+                                                </td>
+                                                <td>
+                                                    @item.Schedule.Open - @item.Schedule.Closed
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-footer" style="height:41px;">
+                                <div class="col-md-6 col-sm-9 col-xs-12">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" style="margin:5px;">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" style="margin:5px;">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+                <div role="tabpanel" class="tab-pane" id="users">
+                    <div class="well">
+                        <a asp-action="Add" style="margin:5px;">Create new User</a>
+                    </div>
+                    @foreach (var item in Model.Users)
+                    {
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h5>@item.Name</h5>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Password</th>
+                                                <th scope="col">Role</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    @item.Email
+                                                </td>
+                                                <td>
+                                                    @item.Password
+                                                </td>
+                                                <td>
+                                                    @Model.Roles.ElementAt(item.Roleid - 1).Name
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-footer" style="height:41px;">
+                                <div class="col-md-6 col-sm-9 col-xs-12">
+                                    @if (item.Email != "admin@gmail.com")
+                                    {
+                                        <a asp-action="Edit" asp-route-id="@item.Id" style="margin:5px;">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" style="margin:5px;">Delete</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>

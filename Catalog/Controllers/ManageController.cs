@@ -51,7 +51,7 @@ namespace Catalog.Controllers
                     db.Users.Update(user);
                     db.Save();
                 }
-                catch (DbUpdateConcurrencyException ex)
+                catch (DbUpdateConcurrencyException)
                 {
                     if (!UserExists(user.Id))
                     {

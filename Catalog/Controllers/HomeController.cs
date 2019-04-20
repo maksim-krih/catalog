@@ -33,8 +33,10 @@ namespace Catalog.Controllers
         { 
             int pageSize = 3;
 
-            FilterModel filter = new FilterModel();
-            filter.FacilityType = filterOption;
+            FilterModel filter = new FilterModel
+            {
+                FacilityType = filterOption
+            };
             ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "price_desc" ? "price_asc" : "price_desc";
             ViewData["RatingSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
             ViewData["Buffer"] = sortOrder;

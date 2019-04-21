@@ -40,7 +40,7 @@ namespace Catalog.BLL.Repositories
         {
             var item = db.Feedbacks.Find(id);
             if (item != null)
-                db.Remove(item);
+                db.Feedbacks.Remove(item);
         }
 
         public IEnumerable<Feedback> Find(Func<Feedback, bool> predicate)

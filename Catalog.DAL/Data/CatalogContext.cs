@@ -11,18 +11,20 @@ namespace Catalog.DAL.Data
 {
     public class CatalogContext : DbContext
     {
+        public CatalogContext() { }
+
         public CatalogContext(DbContextOptions<CatalogContext> options)
             : base(options)
         { }
 
 
-        public DbSet<Facility> Facilities { get; set; }
+        public virtual DbSet<Facility> Facilities { get; set; }
         public DbSet<FacilityAddress> FacilityAddresses { get; set; }
-        public DbSet<Feedback> Feedbacks { get; set; }
+        public virtual DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Role> Roles { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

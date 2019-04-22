@@ -42,7 +42,7 @@ namespace Catalog.Controllers
                 {
                     //Id = db.Feedbacks.GetAll().Count() + 1,
                     FacilityId = id,
-                    Message = feedbackDTO.Message != null ? feedbackDTO.Message : "",
+                    Message = feedbackDTO.Message ?? "",
                     Rating = feedbackDTO.Rating,
                     Price = feedbackDTO.Price,
                     Author = User.Claims.ToList()[2].Value,

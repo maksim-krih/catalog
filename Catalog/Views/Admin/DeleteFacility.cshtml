@@ -1,11 +1,10 @@
 ﻿@model Catalog.DAL.Models.Facility
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
 
-<h2>Details</h2>
-
+<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>FacilityModel</h4>
     <hr />
@@ -41,8 +40,10 @@
             @Html.DisplayFor(model => model.FacilityType)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+    <form asp-action="DeleteFacility">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="UserCabinet">Return</a>
+    </form>
 </div>

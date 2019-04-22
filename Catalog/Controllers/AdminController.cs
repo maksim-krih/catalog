@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Catalog.BLL.Interfaces;
+using Catalog.BLL.ViewModels;
 using Catalog.DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Views
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         IUnitOfWork db;
@@ -22,58 +23,43 @@ namespace Catalog.Views
         }
 
         // GET: Admin
-        [Authorize(Roles = "Admin")]
+        
         public IActionResult Index()
         {
-            return View(db.Facilities.GetAll());
-        }
-
-        // GET: Admin/Details/5
-        [Authorize(Roles = "Admin")]
-        public IActionResult Details(int? id)
-        {
-            if (id == null)
+            var facilitiesAndUsers = new FacilitiesUsersRoles
             {
-                return NotFound();
-            }
+                Facilities = db.Facilities.GetAll(),
+                Users = db.Users.GetAll(),
+                Roles = db.Roles.GetAll()
+            };
 
-            var facilityModel = db.Facilities
-                .Get(id.Value);
-            if (facilityModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(facilityModel);
+            return View(facilitiesAndUsers);
         }
-
-        // GET: Admin/Create
-        [Authorize(Roles = "Admin")]
-        public IActionResult Create()
+        
+        public IActionResult CreateFacility()
         {
             return View();
         }
 
-        // POST: Admin/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Create([Bind("Id,Name,Price,Rating,Phone,FacilityType,Address")] Facility facilityModel)
+        public IActionResult CreateFacility(Facility facility)
         {
-            if (ModelState.IsValid)
+            if (facility != null)
             {
-                db.Facilities.Create(facilityModel);
+                db.Facilities.Create(facility);
                 db.Save();
-                return RedirectToAction(nameof(Index));
+                ViewBag.message = "Facility created!";
             }
-            return View(facilityModel);
+            else
+            {
+                ViewBag.message = "Error happened";
+                throw new NotImplementedException();
+            }
+            return RedirectToAction("Index");
         }
         
-        // GET: Admin/Edit/5
-        [Authorize(Roles = "Admin")]
-        public IActionResult Edit(int? id)
+        public IActionResult EditFacility(int? id)
         {
             if (id == null)
             {
@@ -87,16 +73,108 @@ namespace Catalog.Views
             }
             return View(facilityModel);
         }
-
-        // POST: Admin/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        public IActionResult Edit(int id, [Bind("Id,Name,Price,Rating,Phone,FacilityType")] Facility facilityModel)
+        public IActionResult EditFacility([Bind("Id,FacilityOwnerId,Name,Phone,FacilityType,Address,Schedule")]Facility facility)
         {
-            if (id != facilityModel.Id)
+            if (facility != null)
+            {
+                try
+                {
+                    //facility.FacilityOwnerId = Convert.ToInt32(HttpContext.User.Claims.ToList()[0].Value);
+                    db.Facilities.Update(facility);
+                    db.FacilityAddresses.Update(facility.Address);
+                    db.Schedules.Update(facility.Schedule);
+                    db.Save();
+                    ViewBag.message = "Facility Updated!";
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                ViewBag.message = "Error happened";
+                throw new NotImplementedException();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteFacility(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var facilityModel = db.Facilities.Get(id.Value);
+            if (facilityModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(facilityModel);
+        }
+        
+        [HttpPost, ActionName("DeleteFacility")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmedFacility(int id)
+        {
+            db.Facilities.Delete(id);
+            db.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool FacilityModelExists(int id)
+        {
+            return db.Facilities.Get(id) != null;
+        }
+
+
+        public IActionResult CreateUser()
+        {
+            ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateUser([Bind("Id,Name,Password,Email,Roleid")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Users.Create(user);
+                db.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", user.Roleid);
+            return View(user);
+        }
+        
+        public IActionResult EditUser(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userModel = db.Users.Get(id.Value);
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+            ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", userModel.Roleid);
+            return View(userModel);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditUser(int id, [Bind("Id,Name,Password,Email,Roleid")] User user)
+        {
+            if (id != user.Id)
             {
                 return NotFound();
             }
@@ -105,12 +183,12 @@ namespace Catalog.Views
             {
                 try
                 {
-                    db.Facilities.Update(facilityModel);
+                    db.Users.Update(user);
                     db.Save();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!FacilityModelExists(facilityModel.Id))
+                    if (!UserExists(user.Id))
                     {
                         return NotFound();
                     }
@@ -121,42 +199,38 @@ namespace Catalog.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(facilityModel);
+            ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", user.Roleid);
+            return View(user);
         }
         
-        // GET: Admin/Delete/5
-        [Authorize(Roles = "Admin")]
-        public IActionResult Delete(int? id)
+        public IActionResult DeleteUser(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var facilityModel = db.Facilities
-                .Get(id.Value);
-            if (facilityModel == null)
+            var user = db.Users.Get(id.Value);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return View(facilityModel);
+            return View(user);
         }
-
-        // POST: Admin/Delete/5
-        [HttpPost, ActionName("Delete")]
+        
+        [HttpPost, ActionName("DeleteUser")]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmedUser(int id)
         {
-            db.Facilities.Delete(id);
+            db.Users.Delete(id);
             db.Save();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool FacilityModelExists(int id)
+        private bool UserExists(int id)
         {
-            return db.Facilities.Get(id) != null;
+            return db.Users.Get(id) != null;
         }
     }
 }

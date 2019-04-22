@@ -9,6 +9,7 @@ namespace Catalog.BLL.ViewModels
     public class Login
     {
         [Required(ErrorMessage = "Please, enter email")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Please, enter password")]

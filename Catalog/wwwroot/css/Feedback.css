@@ -1,0 +1,28 @@
+﻿/* Facility/Place styles */
+.rating .star {
+    margin: 0;
+    padding: .2em;
+    display: inline-block;
+    font-size: 30px;
+    cursor: pointer;
+    color: #fff;
+    text-shadow: 0 1px #000, 0 -1px #000, 1px 0 #000, -1px 0 #000;
+}
+
+    .rating .star:before {
+        content: '\2605'       
+    }
+
+    .price .dollar {
+        margin: 0;
+        padding: .2em;
+        display: inline-block;
+        font-size: 30px;
+        cursor: pointer;
+        color: #fff;
+        text-shadow: 0 1px #000, 0 -1px #000, 1px 0 #000, -1px 0 #000;
+    }
+
+    .price .dollar:before {
+        content: '\0024'
+    }

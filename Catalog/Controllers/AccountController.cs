@@ -36,7 +36,8 @@ namespace Catalog.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.Users.Find(u => u.Email == registrationModel.Email).Count() == 0)
+                var users = db.Users.Find(u => u.Email == registrationModel.Email);
+                if (users.Count()==0)
                 {
                     var user = new User
                     {
@@ -74,7 +75,7 @@ namespace Catalog.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = db.Users.Find(u => u.Email == loginModel.Email && u.Password == loginModel.Password).First();
+                User user = db.Users.Find(u => u.Email == loginModel.Email && u.Password == loginModel.Password).FirstOrDefault();
                 if (user != null)
                 {
                     string role = db.Roles.Get(user.Roleid).Name;

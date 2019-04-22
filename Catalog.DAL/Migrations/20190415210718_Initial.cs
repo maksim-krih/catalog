@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Catalog.DAL.Migrations
 {
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Role",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -18,11 +18,11 @@ namespace Catalog.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_Role", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -30,17 +30,17 @@ namespace Catalog.DAL.Migrations
                     Name = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Roleid = table.Column<int>(nullable: true)
+                    Roleid = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Users_Roles_Roleid",
+                        name: "FK_User_Role_Roleid",
                         column: x => x.Roleid,
-                        principalTable: "Roles",
+                        principalTable: "Role",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,9 +60,9 @@ namespace Catalog.DAL.Migrations
                 {
                     table.PrimaryKey("PK_Facility", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Facility_Users_FacilityOwnerId",
+                        name: "FK_Facility_User_FacilityOwnerId",
                         column: x => x.FacilityOwnerId,
-                        principalTable: "Users",
+                        principalTable: "User",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -101,7 +101,8 @@ namespace Catalog.DAL.Migrations
                     Author = table.Column<string>(nullable: true),
                     Message = table.Column<string>(nullable: true),
                     Date = table.Column<DateTime>(nullable: false),
-                    Rating = table.Column<int>(nullable: false)
+                    Rating = table.Column<double>(nullable: false),
+                    Price = table.Column<double>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -156,22 +157,22 @@ namespace Catalog.DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Roles",
+                table: "Role",
                 columns: new[] { "Id", "Name" },
                 values: new object[] { 1, "Admin" });
 
             migrationBuilder.InsertData(
-                table: "Roles",
+                table: "Role",
                 columns: new[] { "Id", "Name" },
                 values: new object[] { 2, "User" });
 
             migrationBuilder.InsertData(
-                table: "Users",
+                table: "User",
                 columns: new[] { "Id", "Email", "Name", "Password", "Roleid" },
                 values: new object[] { 1, "admin@gmail.com", "Admin", "1111", 1 });
 
             migrationBuilder.InsertData(
-                table: "Users",
+                table: "User",
                 columns: new[] { "Id", "Email", "Name", "Password", "Roleid" },
                 values: new object[] { 2, "user@gmail.com", "User", "1111", 2 });
 
@@ -202,11 +203,11 @@ namespace Catalog.DAL.Migrations
 
             migrationBuilder.InsertData(
                 table: "Feedback",
-                columns: new[] { "Id", "Author", "Date", "FacilityId", "Message", "Rating" },
+                columns: new[] { "Id", "Author", "Date", "FacilityId", "Message", "Price", "Rating" },
                 values: new object[,]
                 {
-                    { 1, "Anonynous", new DateTime(2019, 4, 13, 23, 4, 52, 527, DateTimeKind.Local), 1, "Feedback message", 4 },
-                    { 2, "Anonynous 2", new DateTime(2019, 4, 13, 23, 4, 52, 529, DateTimeKind.Local), 1, "Feedback message 2", 3 }
+                    { 1, "Anonynous", new DateTime(2019, 4, 16, 0, 7, 17, 58, DateTimeKind.Local), 1, "Feedback message", 0.0, 4.0 },
+                    { 2, "Anonynous 2", new DateTime(2019, 4, 16, 0, 7, 17, 61, DateTimeKind.Local), 1, "Feedback message 2", 0.0, 3.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -247,8 +248,8 @@ namespace Catalog.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Roleid",
-                table: "Users",
+                name: "IX_User_Roleid",
+                table: "User",
                 column: "Roleid");
         }
 
@@ -270,10 +271,10 @@ namespace Catalog.DAL.Migrations
                 name: "Facility");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "User");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Role");
         }
     }
 }

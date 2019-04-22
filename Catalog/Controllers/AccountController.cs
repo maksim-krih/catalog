@@ -75,7 +75,7 @@ namespace Catalog.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = db.Users.Find(u => u.Email == loginModel.Email && u.Password == loginModel.Password).First();
+                User user = db.Users.Find(u => u.Email == loginModel.Email && u.Password == loginModel.Password).FirstOrDefault();
                 if (user != null)
                 {
                     string role = db.Roles.Get(user.Roleid).Name;

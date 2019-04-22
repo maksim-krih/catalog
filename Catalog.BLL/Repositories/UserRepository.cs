@@ -40,7 +40,7 @@ namespace Catalog.BLL.Repositories
         {
             var item = db.Users.Find(id);
             if (item != null)
-                db.Remove(item);
+                db.Users.Remove(item);
         }
 
         public IEnumerable<User> Find(Func<User, bool> predicate)

@@ -40,7 +40,7 @@ namespace Catalog.BLL.Repositories
         {
             var item = db.Roles.Find(id);
             if (item != null)
-                db.Remove(item);
+                db.Roles.Remove(item);
         }
 
         public IEnumerable<Role> Find(Func<Role, bool> predicate)

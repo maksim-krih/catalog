@@ -19,8 +19,8 @@
                 <div role="tabpanel" class="tab-pane" id="profile">
                     @*PHOTO??*@
                     @*Surname??*@
-                    <form class="form-horizontal" asp-action="UpdateProfile">
-                        <input type="hidden" asp-for="Id" />
+                    <form class="form-horizontal" asp-action="UpdateProfile" asp-route-id="@Model.Id">
+                        @*<input type="hidden" asp-for="Id" />*@
                         <input type="hidden" asp-for="Roleid" />
                         <input type="hidden" asp-for="Facilities" />
                         <div class="form-group">

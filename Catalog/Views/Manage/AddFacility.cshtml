@@ -5,7 +5,8 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Add">
+        <form asp-action="Add" asp-route-userId="@User.Claims.ToList()[0].Value">
+            <input asp-for="FacilityOwnerId" type="hidden" value="@User.Claims.ToList()[0].Value" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>

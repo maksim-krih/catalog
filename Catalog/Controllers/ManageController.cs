@@ -21,16 +21,16 @@ namespace Catalog.Controllers
         
 
         [HttpGet]
-        public IActionResult UserCabinet()
+        public IActionResult UserCabinet(int? id)
         {
-            var _id = HttpContext.User.Claims.ToList()[0].Value;
-            var user = db.Users.Get(Convert.ToInt32(_id));
-
+            //var id = HttpContext.User.Claims.ToList()[0].Value;
+            if (!id.HasValue)
+                return NotFound();
+            
+            var user = db.Users.Get(id.Value);
             if (user == null)
-                throw new NotImplementedException();
-
-            ViewBag.ActiveTab = "Profile";
-
+                return NotFound();
+            
             return View(user);
         }
 
@@ -39,10 +39,12 @@ namespace Catalog.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult UpdateProfile(int id, [Bind("Id,Name,Email,Password,Roleid")]  User user)
         {
-            if (id != user.Id)
-            {
+            if (user == null)
                 return NotFound();
-            }
+
+            else if (id != user.Id)
+                return NotFound();
+
 
             if (ModelState.IsValid)
             {
@@ -57,16 +59,20 @@ namespace Catalog.Controllers
                     {
                         return NotFound();
                     }
-
                     else
                     {
-                        throw new NotSupportedException();
+                        throw new NotSupportedException();                        
                     }
                 }
-                return RedirectToAction(nameof(UserCabinet));
+                catch(Exception e)
+                {
+                    throw new NotSupportedException(e.Message);
+                }
+
+                return RedirectToAction(nameof(UserCabinet), new {id});
             }
-            return View(user);
-                        
+
+            return View(user);                        
         }
 
         private bool UserExists(int id)
@@ -81,22 +87,31 @@ namespace Catalog.Controllers
         }
         
         [HttpPost]
-        public IActionResult Add(Facility facility)
+        public IActionResult Add(int? userId, Facility facility)
         {
+            if (!userId.HasValue)
+                return NotFound();
+
             if (facility != null)
             {
-                facility.FacilityOwnerId = Convert.ToInt32(HttpContext.User.Claims.ToList()[0].Value);
-                db.Facilities.Create(facility);
-                db.Save();
-                ViewBag.message = "Facility created!";
+                try
+                {
+                    db.Facilities.Create(facility);
+                    db.Save();
+                }
+                catch (Exception e)
+                {
+                    throw new NotImplementedException(e.Message, e.InnerException);
+                }
+                
             }
             else
             {
-                ViewBag.message = "Error happened";
-                throw new NotImplementedException();
+                return NotFound();
             }
-
-            return RedirectToAction("UserCabinet");
+            //Undone: notfoundResult!!!!
+            //Todo: Fix Issue when there can be many facilities with same address
+            return RedirectToAction("UserCabinet", new { userId.Value });
         }
 
 
@@ -113,13 +128,12 @@ namespace Catalog.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([Bind("Id,FacilityOwnerId,Name,Phone,FacilityType,Address,Schedule")]Facility facility)
+        public IActionResult Edit([Bind("Id,Name,Phone,FacilityType,Address,Schedule")]Facility facility)
         {
             if (facility != null)
             {
                 try
                 {
-                    //facility.FacilityOwnerId = Convert.ToInt32(HttpContext.User.Claims.ToList()[0].Value);
                     db.Facilities.Update(facility);
                     db.FacilityAddresses.Update(facility.Address);
                     db.Schedules.Update(facility.Schedule);
@@ -128,13 +142,12 @@ namespace Catalog.Controllers
                 }
                 catch (Exception)
                 {
-                    throw;
+                    throw new NotImplementedException();
                 }
             }
             else
             {
-                ViewBag.message = "Error happened";
-                throw new NotImplementedException();
+                return NotFound();
             }
 
             return RedirectToAction("UserCabinet", facility);
@@ -158,9 +171,10 @@ namespace Catalog.Controllers
             return View(facilityModel);
         }
 
-        [HttpPost]
-        public IActionResult Delete(int id)
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
         {
+            //TODO: try-catchs
             db.Facilities.Delete(id);
             db.Save();
             return RedirectToAction("UserCabinet");

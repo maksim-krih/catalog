@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Views
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         IUnitOfWork db;
@@ -22,7 +23,7 @@ namespace Catalog.Views
         }
 
         // GET: Admin
-        [Authorize(Roles = "Admin")]
+        
         public IActionResult Index()
         {
             var facilitiesAndUsers = new FacilitiesUsersRoles
@@ -33,6 +34,203 @@ namespace Catalog.Views
             };
 
             return View(facilitiesAndUsers);
+        }
+        
+        public IActionResult CreateFacility()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateFacility(Facility facility)
+        {
+            if (facility != null)
+            {
+                db.Facilities.Create(facility);
+                db.Save();
+                ViewBag.message = "Facility created!";
+            }
+            else
+            {
+                ViewBag.message = "Error happened";
+                throw new NotImplementedException();
+            }
+            return RedirectToAction("Index");
+        }
+        
+        public IActionResult EditFacility(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var facilityModel = db.Facilities.Get(id.Value);
+            if (facilityModel == null)
+            {
+                return NotFound();
+            }
+            return View(facilityModel);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditFacility([Bind("Id,FacilityOwnerId,Name,Phone,FacilityType,Address,Schedule")]Facility facility)
+        {
+            if (facility != null)
+            {
+                try
+                {
+                    //facility.FacilityOwnerId = Convert.ToInt32(HttpContext.User.Claims.ToList()[0].Value);
+                    db.Facilities.Update(facility);
+                    db.FacilityAddresses.Update(facility.Address);
+                    db.Schedules.Update(facility.Schedule);
+                    db.Save();
+                    ViewBag.message = "Facility Updated!";
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            else
+            {
+                ViewBag.message = "Error happened";
+                throw new NotImplementedException();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult DeleteFacility(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var facilityModel = db.Facilities.Get(id.Value);
+            if (facilityModel == null)
+            {
+                return NotFound();
+            }
+
+            return View(facilityModel);
+        }
+        
+        [HttpPost, ActionName("DeleteFacility")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmedFacility(int id)
+        {
+            db.Facilities.Delete(id);
+            db.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool FacilityModelExists(int id)
+        {
+            return db.Facilities.Get(id) != null;
+        }
+
+
+        public IActionResult CreateUser()
+        {
+            ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateUser([Bind("Id,Name,Password,Email,Roleid")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Users.Create(user);
+                db.Save();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", user.Roleid);
+            return View(user);
+        }
+        
+        public IActionResult EditUser(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var userModel = db.Users.Get(id.Value);
+            if (userModel == null)
+            {
+                return NotFound();
+            }
+            ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", userModel.Roleid);
+            return View(userModel);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditUser(int id, [Bind("Id,Name,Password,Email,Roleid")] User user)
+        {
+            if (id != user.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    db.Users.Update(user);
+                    db.Save();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(user.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", user.Roleid);
+            return View(user);
+        }
+        
+        public IActionResult DeleteUser(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var user = db.Users.Get(id.Value);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+        
+        [HttpPost, ActionName("DeleteUser")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmedUser(int id)
+        {
+            db.Users.Delete(id);
+            db.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool UserExists(int id)
+        {
+            return db.Users.Get(id) != null;
         }
     }
 }

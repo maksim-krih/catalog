@@ -19,7 +19,7 @@
             <div class="tab-content">
                 <div role="tabpanel" class="tab-pane" id="facilities">
                     <div class="well">
-                        <a asp-action="Add" style="margin:5px;">Create new Facility</a>
+                        <a asp-action="CreateFacility" style="margin:5px;">Create new Facility</a>
                     </div>
                     @foreach (var item in Model.Facilities)
                     {
@@ -67,8 +67,8 @@
                             </div>
                             <div class="panel-footer" style="height:41px;">
                                 <div class="col-md-6 col-sm-9 col-xs-12">
-                                    <a asp-action="Edit" asp-route-id="@item.Id" style="margin:5px;">Edit</a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" style="margin:5px;">Delete</a>
+                                    <a asp-action="EditFacility" asp-route-id="@item.Id" style="margin:5px;">Edit</a>
+                                    <a asp-action="DeleteFacility" asp-route-id="@item.Id" style="margin:5px;">Delete</a>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane" id="users">
                     <div class="well">
-                        <a asp-action="Add" style="margin:5px;">Create new User</a>
+                        <a asp-action="CreateUser" style="margin:5px;">Create new User</a>
                     </div>
                     @foreach (var item in Model.Users)
                     {
@@ -115,8 +115,8 @@
                                 <div class="col-md-6 col-sm-9 col-xs-12">
                                     @if (item.Email != "admin@gmail.com")
                                     {
-                                        <a asp-action="Edit" asp-route-id="@item.Id" style="margin:5px;">Edit</a>
-                                        <a asp-action="Delete" asp-route-id="@item.Id" style="margin:5px;">Delete</a>
+                                        <a asp-action="EditUser" asp-route-id="@item.Id" style="margin:5px;">Edit</a>
+                                        <a asp-action="DeleteUser" asp-route-id="@item.Id" style="margin:5px;">Delete</a>
                                     }
                                 </div>
                             </div>

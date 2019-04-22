@@ -276,11 +276,35 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
             mock.Setup(db => db.Save()).Verifiable();
 
             //Act
-            var result = controller.DeleteConfirmed(0) as RedirectToActionResult;
+            var result = controller.DeleteConfirmed(0, 0) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
             mock.VerifyAll();
+        }
+
+        [Test]
+        public void Delete_HttpPost_NullArgument_ReturnsNotFound()
+        {
+            //Arrange
+
+            //Act
+            var result = controller.DeleteConfirmed(0, null) as NotFoundResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void Delete_HttpPost_CatchNotExpectedException_ThrowsNotImplementedException()
+        {
+            //Arrange
+            mock.Setup(db => db.Facilities.Delete(It.IsAny<int>()));
+            mock.Setup(db => db.Save()).Throws(new Exception());
+            //Act
+            
+            //Assert
+            Assert.Catch<NotImplementedException>(() => { controller.DeleteConfirmed(0, 0); });
         }
 
 

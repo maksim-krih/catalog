@@ -14,15 +14,23 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
 {
     [TestFixture]
     public class AdminControllerTest
-    { 
+    {
+        private Mock<IUnitOfWork> mock;
+        private AdminController controller;
+
+        [SetUp]
+        public void Setup()
+        {
+            mock = new Mock<IUnitOfWork>();
+            controller = new AdminController(mock.Object);
+        }
+
 
         [Test]
         public void Index_HappyPath()
         {
             //Arrange   
-            var mock = new Mock<IUnitOfWork>();
             mock.Setup(db => db.Facilities.GetAll()).Returns(GetFacilities());
-            var controller = new AdminController(mock.Object);
 
             //Act
             var result = controller.Index();
@@ -38,13 +46,10 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Details_HappyPath()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 5;
-            mock.Setup(db => db.Facilities.Get(id)).Returns(GetFacility());
-            var controller = new AdminController(mock.Object);
-
+            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(GetFacility());
+            
             //Act
-            var result = controller.Details(id);
+            var result = controller.Details(0);
 
             //Assert
             var viewResult = result as ViewResult;
@@ -58,10 +63,7 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Details_NullArgument_ReturnsNotFound()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 5;
-            mock.Setup(db => db.Facilities.Get(id)).Returns(GetFacility());
-            var controller = new AdminController(mock.Object);
+            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(GetFacility());
 
             //Act
             var result = controller.Details(null);
@@ -73,13 +75,10 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         [Test]
         public void Details_RecordNotFoundInDB_ReturnsNotFound()
         {
-            var mock = new Mock<IUnitOfWork>();
-            var id = 5;
-            mock.Setup(db => db.Facilities.Get(id)).Returns(ReturnNullFacility());
-            var controller = new AdminController(mock.Object);
+            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(ReturnNullFacility());
 
             //Act
-            var result = controller.Details(id);
+            var result = controller.Details(0);
 
             //Assert            
             Assert.IsInstanceOf<NotFoundResult>(result);
@@ -89,8 +88,7 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Create_HttpGet_HappyPath()
         {
             //Arrange      
-            var controller = new AdminController(new Mock<IUnitOfWork>().Object);
-
+            
             //Act
             var result = controller.Create();
 
@@ -102,9 +100,7 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Create_HttpPost_HappyPath()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
             mock.Setup(db => db.Facilities.Create(GetFacility()));
-            var controller = new AdminController(mock.Object);
 
             //Act
             var result = controller.Create(GetFacility());
@@ -117,9 +113,7 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Create_NullArgument_ReturnsView()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
             mock.Setup(db => db.Facilities.Create(GetFacility()));
-            var controller = new AdminController(mock.Object);
             controller.ModelState.AddModelError("Model", "Model is invalid");
 
             //Act
@@ -135,10 +129,8 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Create_SaveModel()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
             mock.Setup(db => db.Facilities.Create(GetFacility())).Verifiable();
-            var controller = new AdminController(mock.Object);
-           
+
             //Act
             var result = controller.Create(GetFacility());
 
@@ -150,13 +142,10 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Edit_HttpGet_HappyPath()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 5;
-            mock.Setup(db => db.Facilities.Get(id)).Returns(GetFacility());
-            var controller = new AdminController(mock.Object);
+            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(GetFacility());
 
             //Act
-            var result = controller.Edit(id) as ViewResult;
+            var result = controller.Edit(0) as ViewResult;
 
             //Assert
             var model = result.Model as Facility;
@@ -168,8 +157,6 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Edit_HttpGet_NullArgument_ReturnsNotFound()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var controller = new AdminController(mock.Object);
 
             //Act
             var result = controller.Edit(null);
@@ -182,13 +169,10 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Edit_HttpGet_RecordNotFoundInDB_ReturnsNotFound()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 5;
-            mock.Setup(db => db.Facilities.Get(id)).Returns(ReturnNullFacility());
-            var controller = new AdminController(mock.Object);            
+            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(ReturnNullFacility());         
 
             //Act
-            var result = controller.Edit(id);
+            var result = controller.Edit(0);
 
             //Assert            
             Assert.IsInstanceOf<NotFoundResult>(result);
@@ -197,21 +181,16 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         [Test]
         public void Edit_HttpPost_HappyPath()
         {
-            //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 0;
-            mock.Setup(db => db.Facilities.Update(GetFacility()));
+            //Arrange            
+            mock.Setup(db => db.Facilities.Update(It.IsAny<Facility>())).Verifiable();
             mock.Setup(db => db.Save()).Verifiable();
-            var controller = new AdminController(mock.Object);
 
             //Act
-            var result = controller.Edit(id, GetFacility()) as ViewResult;
+            var result = controller.Edit(0, GetFacility()) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
-            var model = result.Model as Facility;
-            Assert.AreEqual(GetFacility().Id, model.Id);
-            mock.Verify(a => a.Save());
+            mock.VerifyAll();
 
         }
 
@@ -235,32 +214,25 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Edit_HttpPost_NullArgument_ReturnsView()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 5;
-            var controller = new AdminController(mock.Object);
 
             //Act
-            var result = controller.Edit(id, ReturnNullFacility()) as ViewResult;
+            var result = controller.Edit(0, ReturnNullFacility()) as NotFoundResult;
 
             //Assert
             Assert.IsNotNull(result);
         }
 
-        [Test]
-        public void Edit_HttpPost_DbUpdateConcurrencyException_NotFoundInDB()
-        {
-            //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 0;
-            mock.Setup(db => db.Facilities.Update(GetFacility()));
-            var controller = new AdminController(mock.Object);
+        //[Test]
+        //public void Edit_HttpPost_DbUpdateConcurrencyException_NotFoundInDB()
+        //{
+        //    //Arrange
+        //    mock.Setup(db => db.Facilities.Update(GetFacility())).Throws(new DbUpdateConcurrencyException())
 
-            //Act
-            var result = controller.Edit(id, GetFacility());
+        //    //Act
 
-            //Assert
-            Assert.Throws<DbUpdateConcurrencyException>(() => { controller.Edit(id, GetFacility()); });
-        }
+        //    //Assert
+        //    Assert.Catch<NotImplementedException>( () => { controller.Edit(0, GetFacility()); });
+        //}
 
         [Test]
         public void Delete_HttpGet_HappyPath()

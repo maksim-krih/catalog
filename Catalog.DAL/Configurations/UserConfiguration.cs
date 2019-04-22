@@ -12,7 +12,6 @@ namespace Catalog.DAL.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.OwnsMany(c => c.Facilities);
-            //builder.OwnsOne(c => c.UserRole);
 
             builder.HasData(
                 new User

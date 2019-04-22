@@ -28,18 +28,19 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
 
 
         [Test]
-        public void Index_HappyPath()
+        public async Task Index_HappyPath()
         {
             //Arrange
             mock.Setup(db => db.Facilities.GetAll()).Returns(GetFacilities());
 
             //Act
-            var result = controller.Index("price_desc");
+            var result = await controller.Index("price_desc") as ViewResult;
 
             //Assert
             Assert.IsNotNull(result);
         }
 
+        
 
 
 

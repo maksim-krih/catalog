@@ -71,7 +71,7 @@ namespace Catalog.Views
             //Undone:WHY??
             return View(facilityModel);
         }
-        
+
         // GET: Admin/Edit/5
         [Authorize(Roles = "Admin")]
         public IActionResult Edit(int? id)
@@ -95,34 +95,37 @@ namespace Catalog.Views
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public IActionResult Edit(int id, [Bind("Id,Name,Price,Rating,Phone,FacilityType")] Facility facilityModel)
+        public IActionResult Edit(int id, [Bind("Id,Name,Price,Rating,Phone,FacilityType,FacilityOwnerId")] Facility facilityModel)
         {
-            if (id != facilityModel.Id)
+            if (facilityModel == null || 
+                id != facilityModel.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                try
-                {
-                    db.Facilities.Update(facilityModel);
-                    db.Save();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FacilityModelExists(facilityModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            return View(facilityModel);
+            
+            try
+            {
+                db.Facilities.Update(facilityModel);
+                db.Save();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!FacilityModelExists(facilityModel.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+            return RedirectToAction(nameof(Index));
+            
         }
         
         // GET: Admin/Delete/5

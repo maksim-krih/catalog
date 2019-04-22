@@ -111,7 +111,7 @@ namespace Catalog.Controllers
             }
             //Undone: notfoundResult!!!!
             //Todo: Fix Issue when there can be many facilities with same address
-            return RedirectToAction("UserCabinet", new { userId.Value });
+            return RedirectToAction("UserCabinet", new  { id = userId.Value });
         }
 
 
@@ -128,7 +128,7 @@ namespace Catalog.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([Bind("Id,Name,Phone,FacilityType,Address,Schedule")]Facility facility)
+        public IActionResult Edit([Bind("Id,Name,Phone,FacilityType,Address,Schedule,FacilityOwnerId")]Facility facility)
         {
             if (facility != null)
             {
@@ -138,11 +138,10 @@ namespace Catalog.Controllers
                     db.FacilityAddresses.Update(facility.Address);
                     db.Schedules.Update(facility.Schedule);
                     db.Save();
-                    ViewBag.message = "Facility Updated!";
                 }
-                catch (Exception)
-                {
-                    throw new NotImplementedException();
+                catch (Exception ex)
+                {                    
+                    throw new NotImplementedException(ex.Message);
                 }
             }
             else
@@ -150,7 +149,7 @@ namespace Catalog.Controllers
                 return NotFound();
             }
 
-            return RedirectToAction("UserCabinet", facility);
+            return RedirectToAction("UserCabinet", new { id = facility.FacilityOwnerId });
 
         }
 
@@ -172,12 +171,21 @@ namespace Catalog.Controllers
         }
 
         [HttpPost, ActionName("Delete")]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id, int? userId)
         {
-            //TODO: try-catchs
-            db.Facilities.Delete(id);
-            db.Save();
-            return RedirectToAction("UserCabinet");
+            if (!userId.HasValue)
+                return NotFound();
+            try
+            {
+                db.Facilities.Delete(id);
+                db.Save();
+            }
+            catch(Exception e)
+            {
+                throw new NotImplementedException(e.Message, e.InnerException);
+            }
+
+            return RedirectToAction("UserCabinet", new { id = userId.Value });
         }
 
     }

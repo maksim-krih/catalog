@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Catalog.Models
 {
-    public class FilterModel
+    public class FilterView
     {
-        public FilterModel(string facilityType, string facilityName, double rating)
+        public FilterView(string facilityType, string facilityName, double rating, double price)
         {
             SelectedType = facilityType;
             SelectedName = facilityName;
-           // SelectedPrice = price;
+            SelectedPrice = price;
             SelectedRating = rating;
             FacilityTypes = new SelectList(
                 new List<string>
@@ -25,7 +25,7 @@ namespace Catalog.Models
         public SelectList FacilityTypes { get; private set; }
         public string SelectedType { get; private set; } 
         public string SelectedName { get; private set; }    
-        //public double SelectedPrice { get; private set; }
+        public double SelectedPrice { get; private set; }
         public double SelectedRating { get; private set; }
     }
 }

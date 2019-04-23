@@ -11,6 +11,6 @@ namespace Catalog.Models
     {
         public PageView PageViewModel { get; set; }
         public IEnumerable<Facility> FacilityModels { get; set; }
-        public FilterModel FilterModel { get; set; }
+        public FilterView FilterModel { get; set; }
     }
 }

@@ -11,32 +11,45 @@
 
 <div class="page-wrapper">
     <form method="get" class="navigation">
-        <div class="form-inline">
+        <div class="form-inline" div="700px">
             <label class="control-label">Facility name: </label>
-            @Html.TextBox("facilityName", Model.FilterModel.SelectedName, htmlAttributes: new { @class = "form-control" })
+                    @Html.TextBox("facilityName", Model.FilterModel.SelectedName, htmlAttributes: new { @class = "form-control" })
 
-            <label class="control-label">Type:</label>
-            @Html.DropDownList("facilityType", Model.FilterModel.FacilityTypes as SelectList,
-            htmlAttributes: new { @class = "form-control" })
+                    <label class="control-label">Type:</label>
+                    @Html.DropDownList("facilityType", Model.FilterModel.FacilityTypes as SelectList,
+                    htmlAttributes: new { @class = "form-control" })
 
-            <label class="control-label">Rating higher than: </label>
-            @Html.TextBox("rating", Model.FilterModel.SelectedRating, htmlAttributes: new { @class = "form-control" })
+                    <label class="control-label">Quality rating higher than: </label>
+                    @Html.TextBox("rating", Model.FilterModel.SelectedRating, htmlAttributes: new { @class = "rating-label" })
 
-            <input type="submit" value="Filter" class="btn btn-default" />
-        </div>
+                    <label class="control-label">Price rating higher than: </label>
+                    @Html.TextBox("price", Model.FilterModel.SelectedRating, htmlAttributes: new { @class = "rating-label" })
+
+                    <input type="submit" value="Filter" class="btn btn-default" style="margin-left:20px" />
+                    <div class="dropdown">
+                        <button class="dropbtn">Sort by</button>
+                        <div class="dropdown-content">
+                            <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]"
+                               asp-route-facilityType="@(Model.FilterModel.SelectedType)"
+                               asp-route-facilityName="@(Model.FilterModel.SelectedName)"
+                               asp-route-rating="@(Model.FilterModel.SelectedRating)"
+                               asp-route-price="@(Model.FilterModel.SelectedPrice)">Name</a>
+                            <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParam"]"
+                               asp-route-facilityType="@(Model.FilterModel.SelectedType)"
+                               asp-route-facilityName="@(Model.FilterModel.SelectedName)"
+                               asp-route-rating="@(Model.FilterModel.SelectedRating)"
+                               asp-route-price="@(Model.FilterModel.SelectedPrice)">Price rating</a>
+                            <a asp-action="Index" asp-route-sortOrder="@ViewData["RatingSortParam"]"
+                               asp-route-facilityType="@(Model.FilterModel.SelectedType)"
+                               asp-route-facilityName="@(Model.FilterModel.SelectedName)"
+                               asp-route-rating="@(Model.FilterModel.SelectedRating)"
+                               asp-route-price="@(Model.FilterModel.SelectedPrice)">Quality rating</a>
+                        </div>
+                    </div>
+         </div>
     </form>
     <section class="cards-section text-center">
         <div class="box">
-            <div class=" left ">
-                <div class="dropdown">
-                    <button class="dropbtn">Sort by</button>
-                    <div class="dropdown-content">
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData[" PriceSortParm"]">Price</a><br />
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData[" RatingSortParm"]">Rating</a>
-                    </div>
-                </div>
-            </div>
-
             <div class="container  right">
                 <div id="cards-wrapper" class="cards-wrapper row">
                     @foreach (var item in Model.FacilityModels)
@@ -57,9 +70,10 @@
         </div>
     </section><!--//cards-section-->
     <page-link page-model="Model.PageViewModel" page-action="Index"
-               page-url-sortOrder="@ViewData[" Buffer"]"
                page-url-facilityType="@(Model.FilterModel.SelectedType)"
                page-url-facilityName="@(Model.FilterModel.SelectedName)"
-               page-url-rating="@(Model.FilterModel.SelectedRating)">
+               page-url-rating="@(Model.FilterModel.SelectedRating)"
+               page-url-price="@(Model.FilterModel.SelectedPrice)"
+               page-url-sortOrder="@ViewData["Buffer"]">
     </page-link>
 </div><!--//page-wrapper-->

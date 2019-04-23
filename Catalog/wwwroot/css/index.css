@@ -18,15 +18,19 @@ div.box {
         align-content:center;
 }
 
-rating-label{
-    width: 70px;
+.rating-label {
+    width: 35px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    border: solid 1px black;
+    padding: 5px;
 }
 
 .dropbtn {
     background-color: black;
     color: white;
     padding: 18px;
-    font-size: 14px;
+    font-size: 10px;
     border: none;
     cursor: pointer;
 }

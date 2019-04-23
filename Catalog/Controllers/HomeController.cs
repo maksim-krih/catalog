@@ -30,14 +30,15 @@ namespace Catalog.Controllers
         }
 
 
-        public async Task<IActionResult> Index(string sortOrder, string facilityType, string facilityName, double rating, int page = 1)
+        public async Task<IActionResult> Index(string sortOrder, string facilityType, string facilityName, double rating, double price, int page = 1)
         { 
             int pageSize = 3;
 
             var facilities = db.Facilities.GetAll().AsQueryable();
 
-            ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "price_desc" ? "price_asc" : "price_desc";
-            ViewData["RatingSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "name_desc" ? "name_asc" : "name_desc";
+            ViewData["PriceSortParam"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "price_desc" ? "price_asc" : "price_desc";
+            ViewData["RatingSortParam"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
             ViewData["Buffer"] = sortOrder;
 
             if (!String.IsNullOrEmpty(facilityType) && facilityType != "All")
@@ -52,25 +53,35 @@ namespace Catalog.Controllers
             {
                 facilities = facilities.Where(p => p.Rating > rating);
             }
+            if (rating != 0)
+            {
+                facilities = facilities.Where(p => p.Price > price);
+            }
 
             switch (sortOrder)
             {
+                case "name_desc":
+                    facilities = facilities.OrderByDescending(p => p.Name);
+                    break;
+                case "name_asc":
+                    facilities = facilities.OrderBy(p => p.Name);
+                    break;
                 case "price_desc":
-                    facilities = facilities.OrderByDescending(f => f.Price);
+                    facilities = facilities.OrderByDescending(p => p.Price);
                     break;
                 case "price_asc":
-                    facilities = facilities.OrderBy(s => s.Price);
+                    facilities = facilities.OrderBy(p => p.Price);
                     break;
                 case "rate_desc":
-                    facilities = facilities.OrderByDescending(s => s.Rating);
+                    facilities = facilities.OrderByDescending(p => p.Rating);
                     break;
                 case "rate_asc":
-                    facilities = facilities.OrderByDescending(s => s.Rating);
+                    facilities = facilities.OrderBy(p => p.Rating);
                     break;
                 default:
                     break;
             }
-        
+
 
             var count = await facilities.CountAsync();
             var items = await facilities.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
@@ -78,14 +89,12 @@ namespace Catalog.Controllers
             IndexView viewModel = new IndexView
             {
                 PageViewModel = new PageView(count, page, pageSize),
-                FilterModel = new FilterModel(facilityType, facilityName, rating),
+                FilterModel = new FilterView(facilityType, facilityName, rating, price),
                 FacilityModels = items
             };
 
             return View(viewModel);
         }
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

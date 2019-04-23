@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Catalog.BLL.Interfaces;
 using Catalog.BLL.Repositories;
 using Catalog.DAL.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Catalog.Controllers
 {
@@ -27,25 +28,29 @@ namespace Catalog.Controllers
         {
             return View();
         }
-       
-        
-        public async Task<IActionResult> Index(string sortOrder,string filterOption, int page = 1)
+
+
+        public async Task<IActionResult> Index(string sortOrder, string facilityType, string facilityName, double rating, int page = 1)
         { 
             int pageSize = 3;
 
-            FilterModel filter = new FilterModel
-            {
-                FacilityType = filterOption
-            };
+            var facilities = db.Facilities.GetAll().AsQueryable();
+
             ViewData["PriceSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "price_desc" ? "price_asc" : "price_desc";
             ViewData["RatingSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
             ViewData["Buffer"] = sortOrder;
 
-            var facilities = db.Facilities.GetAll().AsQueryable();
-
-            if (!String.IsNullOrEmpty(filterOption))
+            if (!String.IsNullOrEmpty(facilityType) && facilityType != "All")
             {
-                facilities = facilities.Where(s => s.FacilityType.Contains(filterOption));
+                facilities = facilities.Where(p => p.FacilityType.Contains(facilityType));
+            }
+            if (!String.IsNullOrEmpty(facilityName))
+            {
+                facilities = facilities.Where(p => p.Name.Contains(facilityName));
+            }
+            if (rating != 0)
+            {
+                facilities = facilities.Where(p => p.Rating > rating);
             }
 
             switch (sortOrder)
@@ -70,13 +75,13 @@ namespace Catalog.Controllers
             var count = await facilities.CountAsync();
             var items = await facilities.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             
-            PageView pageViewModel = new PageView(count, page, pageSize);
             IndexView viewModel = new IndexView
             {
-                PageViewModel = pageViewModel,
-                FacilityModels = items,
-                FilterModel = filter
+                PageViewModel = new PageView(count, page, pageSize),
+                FilterModel = new FilterModel(facilityType, facilityName, rating),
+                FacilityModels = items
             };
+
             return View(viewModel);
         }
 

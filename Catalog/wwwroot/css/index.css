@@ -9,9 +9,17 @@ div.right {
     
 }
 div.box {
-   
     height: auto;
     width: 1000px;
+}
+
+.navigation{
+        margin-top: 70px;
+        align-content:center;
+}
+
+rating-label{
+    width: 70px;
 }
 
 .dropbtn {

@@ -148,7 +148,7 @@ namespace Catalog.Views
             {
                 db.Users.Create(user);
                 db.Save();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", user.Roleid);
             return View(user);
@@ -179,7 +179,7 @@ namespace Catalog.Views
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
@@ -199,6 +199,7 @@ namespace Catalog.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", user.Roleid);
             return View(user);
         }

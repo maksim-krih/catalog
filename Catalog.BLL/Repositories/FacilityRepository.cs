@@ -29,7 +29,7 @@ namespace Catalog.BLL.Repositories
 
         public void Create(Facility item)
         {
-            db.Add(item);
+            db.Facilities.Add(item);
         }
 
         public void Update(Facility item)

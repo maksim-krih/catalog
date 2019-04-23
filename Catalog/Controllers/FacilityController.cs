@@ -45,14 +45,10 @@ namespace Catalog.Controllers
                 {
                     Id = 0,
                     FacilityId = id,
-                    Message = feedbackDTO.Message != null
-                                ? feedbackDTO.Message
-                                : "",
+                    Message = feedbackDTO.Message ?? "",
                     Rating = feedbackDTO.Rating,
                     Price = feedbackDTO.Price,
-                    Author = feedbackDTO.Author != null
-                                ? feedbackDTO.Author
-                                : "Guest",
+                    Author = feedbackDTO.Author ?? "Guest",
                     Date = DateTime.Now
                 };
 

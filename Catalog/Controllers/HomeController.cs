@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Catalog.BLL.Interfaces;
 using Catalog.BLL.Repositories;
 using Catalog.DAL.Data;
+using Catalog.BLL.ViewModels;
 
 namespace Catalog.Controllers
 {
@@ -33,7 +34,7 @@ namespace Catalog.Controllers
         { 
             int pageSize = 3;
 
-            FilterModel filter = new FilterModel
+            var filter = new FilterModel
             {
                 FacilityType = filterOption
             };

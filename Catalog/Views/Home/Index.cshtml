@@ -37,16 +37,40 @@
                     @foreach (var item in Model.FacilityModels)
                     {
                         <div class="item item-green col-md-4 col-sm-6 col-xs-12">
-                            <div class="item-inner" id="card1">
-                                <div class="innerRectangle">
-                                    @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
-                                    <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
-                                        <h3 class="title">@item.Name</h3>
-                                    </a>
-                                </div>
+                            <div class="item-inner">
+                                <div class="cardImage"></div>
+                                <p class="cardStars"><span>@for (int i = 0; i < @item.Rating; i++){<span style="color: orange;">★</span>}</span></p>
+                                <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
+                                    <h3 class="cardTitle">@item.Name</h3>
+                                </a>
+                                <h4 class="cardType">@item.FacilityType</h4>
 
-                            </div><!--//item-inner-->
-                        </div><!--//item-->
+
+                                <!--<div class="innerRectangle">
+        @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
+        <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
+            <h3 class="title">@item.Name</h3>
+        </a>
+    </div>-->
+
+                            </div>
+                        </div>
+
+
+
+                        <!--
+        <div class="item item-green col-md-4 col-sm-6 col-xs-12">
+            <div class="item-inner" id="card1">
+                <div class="innerRectangle">
+                    @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
+                    <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
+                        <h3 class="title">@item.Name</h3>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        -->
                     }
                 </div><!--//cards-->
             </div><!--//container-->
@@ -60,6 +84,12 @@
         <div id="map" style=" width: 100%; height: 400px;"></div>
         <script>
             function initMap() {
+                @foreach (var item in Model.FacilityModels)
+                {
+
+                }
+                geo = new google.maps.Geocoder();
+                var addres = 
                 var element = document.getElementById('map');
                 var options = {
                     zoom: 15,

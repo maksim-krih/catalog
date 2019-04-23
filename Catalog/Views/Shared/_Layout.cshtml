@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="~/css/about.css" />
         <link rel="stylesheet" href="~/css/index.css" />
         <link rel="stylesheet" href="~/css/Feedback.css" />
+        <link rel="stylesheet" href="~/css/layout.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -32,14 +33,14 @@
                     <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"></a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav" id="navbar-nav">
                                         
                     @if (User.Identity.IsAuthenticated && User.Claims.ToList()[4].Value == "Admin")
                     {
                         <li><a asp-area="" asp-controller="Admin" asp-action="Index">Database</a></li>
                     }
 
-                    <li><a asp-area="" asp-controller="Home" asp-action="About" style="color:#0086db;">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About" id="l1">About</a></li>
 
                     <li style="height:50px">
                         <form class="navbar-form navbar-left" role="search" asp-controller="Search"asp-action="SearchResult" method="get">
@@ -70,10 +71,10 @@
                 <ul class="nav-footer-ul">
 
 
-                    <li><a asp-area="" asp-controller="Home" asp-action="About" style="color:white;">Home</a><span>|</span></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About" style="color:white;">About</a><span>|</span></li>
-                    <li><a asp-controller="Account" asp-action="Registrate" style="color:white;">Sign up</a><span>|</span></li>
-                    <li><a asp-controller="Account" asp-action="Login" style="color:white;">Sing in</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">Home</a><span>|</span></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a><span>|</span></li>
+                    <li><a asp-controller="Account" asp-action="Registrate">Sign up</a><span>|</span></li>
+                    <li><a asp-controller="Account" asp-action="Login">Sing in</a></li>
 
                 </ul>
             </div>

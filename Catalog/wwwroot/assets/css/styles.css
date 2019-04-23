@@ -22,6 +22,14 @@ body {
         height: 50px;
     }
 
+#mapWithAllItems {
+    width: 100%;
+    height: 400px;
+    outline: 1px solid red;
+    margin-top: 40px;
+}
+
+
 p {
     line-height: 1.5;
 }

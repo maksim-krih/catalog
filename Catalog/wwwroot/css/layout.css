@@ -1,0 +1,21 @@
+﻿.navbar-inverse .navbar-nav > li > a {
+    color: #0086db;
+}
+
+navbar-collapse collapse #nav-bar-nav > li > a :hover {
+    text-decoration: underline !important;
+    color: #0086db !important;
+}
+
+footer .nav-footer ul li a {
+    color: white;
+}
+
+footer .nav-footer ul li a :hover {
+    text-decoration: underline !important;
+}
+
+#l1 :hover {
+    text-decoration: underline !important;
+    color: #0086db !important;
+} 

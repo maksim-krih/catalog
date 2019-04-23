@@ -1,4 +1,5 @@
 ﻿using Catalog.BLL.Interfaces;
+using Catalog.BLL.ViewModels;
 using Catalog.DAL.Models;
 using Catalog.Views;
 using Microsoft.AspNetCore.Mvc;
@@ -30,252 +31,171 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Index_HappyPath()
         {
             //Arrange   
-            mock.Setup(db => db.Facilities.GetAll()).Returns(GetFacilities());
+            mock.Setup(db => db.Facilities.GetAll()).Returns(GetFacilities()).Verifiable();
+            mock.Setup(db => db.Users.GetAll()).Returns(GetUsers()).Verifiable();
+            mock.Setup(db => db.Roles.GetAll()).Returns(GetRoles()).Verifiable();
 
             //Act
-            var result = controller.Index();
+            var result = controller.Index() as ViewResult;
 
             //Assert
             var viewResult = result as ViewResult;
-            var model = viewResult.Model as IEnumerable<Facility>;            
+            var model = viewResult.Model as FacilitiesUsersRoles;
 
-            Assert.AreEqual(GetFacilities().Count, model.Count());
+            var expected = new FacilitiesUsersRoles
+            {
+                Facilities = GetFacilities(),
+                Users = GetUsers(),
+                Roles = GetRoles()
+            };
+
+            Assert.AreEqual(expected.GetType().GetProperties(), 
+                                      model.GetType().GetProperties());
+            mock.VerifyAll();
         }
 
+        #region Facility CRUD
         [Test]
-        public void Details_HappyPath()
-        {
-            //Arrange
-            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(GetFacility());
-            
-            //Act
-            var result = controller.Details(0);
-
-            //Assert
-            var viewResult = result as ViewResult;
-            var model = viewResult.Model as Facility;
-
-            Assert.AreEqual(GetFacility().GetType().GetProperties(),
-                                    model.GetType().GetProperties());
-        }
-
-        [Test]
-        public void Details_NullArgument_ReturnsNotFound()
-        {
-            //Arrange
-            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(GetFacility());
-
-            //Act
-            var result = controller.Details(null);
-
-            //Assert            
-            Assert.IsInstanceOf<NotFoundResult>(result);
-        }
-
-        [Test]
-        public void Details_RecordNotFoundInDB_ReturnsNotFound()
-        {
-            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(ReturnNullFacility());
-
-            //Act
-            var result = controller.Details(0);
-
-            //Assert            
-            Assert.IsInstanceOf<NotFoundResult>(result);
-        }
-
-        [Test]
-        public void Create_HttpGet_HappyPath()
+        public void CreateFacility_HappyPath()
         {
             //Arrange      
-            
+            mock.Setup(db => db.Facilities.Create(It.IsAny<Facility>())).Verifiable();
+            mock.Setup(db => db.Save()).Verifiable();
             //Act
-            var result = controller.Create();
+            var result = controller.CreateFacility(GetFacility()) as RedirectToActionResult;
 
             //Assert
-            Assert.IsTrue(result is ViewResult);
-        }
-
-        [Test]
-        public void Create_HttpPost_HappyPath()
-        {
-            //Arrange
-            mock.Setup(db => db.Facilities.Create(GetFacility()));
-
-            //Act
-            var result = controller.Create(GetFacility());
-
-            //Assert            
-            Assert.IsInstanceOf<RedirectToActionResult>(result);
-        }
-
-        [Test]
-        public void Create_NullArgument_ReturnsView()
-        {
-            //Arrange
-            mock.Setup(db => db.Facilities.Create(GetFacility()));
-            controller.ModelState.AddModelError("Model", "Model is invalid");
-
-            //Act
-            var result = controller.Create(ReturnNullFacility()) as ViewResult;
-            var model = result.Model;
-
-            //Assert            
             Assert.IsNotNull(result);
-            Assert.AreEqual(model, ReturnNullFacility());
         }
 
         [Test]
-        public void Create_SaveModel()
+        public void CreateFacility_NullArgument_ThrowsNotImplementedException()
         {
-            //Arrange
-            mock.Setup(db => db.Facilities.Create(GetFacility())).Verifiable();
+            //Arrange      
 
             //Act
-            var result = controller.Create(GetFacility());
 
-            //Assert                       
-            mock.Verify(a => a.Save());
+            //Assert
+            Assert.Throws<NotImplementedException>(() => controller.CreateFacility(ReturnNullFacility()));
         }
-
+                
         [Test]
-        public void Edit_HttpGet_HappyPath()
+        public void EditFacility_HttpGet_HappyPath()
         {
             //Arrange
             mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(GetFacility());
 
             //Act
-            var result = controller.Edit(0) as ViewResult;
+            var result = controller.EditFacility(0) as ViewResult;
 
             //Assert
             var model = result.Model as Facility;
             Assert.IsNotNull(result);
-            Assert.AreEqual(model.Id, GetFacility().Id);
+            Assert.AreEqual(GetFacility().GetType().GetProperties(), 
+                                    model.GetType().GetProperties());
         }
 
         [Test]
-        public void Edit_HttpGet_NullArgument_ReturnsNotFound()
+        public void EditFacility_HttpGet_NullArgument_ReturnsNotFound()
         {
             //Arrange
 
             //Act
-            var result = controller.Edit(null);
+            int? i = null;
+            var result = controller.EditFacility(i);
 
             //Assert            
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
         [Test]
-        public void Edit_HttpGet_RecordNotFoundInDB_ReturnsNotFound()
+        public void EditFacility_HttpGet_RecordNotFoundInDB_ReturnsNotFound()
         {
             //Arrange
             mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(ReturnNullFacility());         
 
             //Act
-            var result = controller.Edit(0);
+            var result = controller.EditFacility(0);
 
             //Assert            
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
-
+               
         [Test]
-        public void Edit_HttpPost_HappyPath()
+        public void EditFacility_HttpPost_HappyPath()
         {
             //Arrange            
             mock.Setup(db => db.Facilities.Update(It.IsAny<Facility>())).Verifiable();
+            mock.Setup(db => db.FacilityAddresses.Update(It.IsAny<FacilityAddress>())).Verifiable();
+            mock.Setup(db => db.Schedules.Update(It.IsAny<Schedule>())).Verifiable();
             mock.Setup(db => db.Save()).Verifiable();
 
             //Act
-            var result = controller.Edit(0, GetFacility()) as RedirectToActionResult;
+            var result = controller.EditFacility(GetFacility()) as RedirectToActionResult;
 
             //Assert
             Assert.IsNotNull(result);
             mock.VerifyAll();
-
         }
 
         [Test]
-        public void Edit_HttpPost_NotMatchingArguments_ReturnsNotFound()
+        public void Edit_HttpPost_NullArgument_ThrowsNotImplementedException()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 5;
-            var controller = new AdminController(mock.Object);
 
             //Act
-            var result = controller.Edit(id, GetFacility());
 
             //Assert
-            Assert.AreNotEqual(id, GetFacility().Id);
-            Assert.IsInstanceOf<NotFoundResult>(result);
+            Assert.Throws<NotImplementedException>(() => controller.EditFacility(ReturnNullFacility()));
         }
 
         [Test]
-        public void Edit_HttpPost_NullArgument_ReturnsView()
+        public void Edit_HttpPost_NotExpectedException_ThrowsNotImplementedException()
         {
             //Arrange
-
+            mock.Setup(db => db.Facilities.Update(It.IsAny<Facility>())).Throws(new Exception());
             //Act
-            var result = controller.Edit(0, ReturnNullFacility()) as NotFoundResult;
 
             //Assert
-            Assert.IsNotNull(result);
+            Assert.Throws<NotImplementedException>(() => controller.EditFacility(GetFacility()));
         }
-
-        //[Test]
-        //public void Edit_HttpPost_DbUpdateConcurrencyException_NotFoundInDB()
-        //{
-        //    //Arrange
-        //    mock.Setup(db => db.Facilities.Update(GetFacility())).Throws(new DbUpdateConcurrencyException())
-
-        //    //Act
-
-        //    //Assert
-        //    Assert.Catch<NotImplementedException>( () => { controller.Edit(0, GetFacility()); });
-        //}
-
+               
         [Test]
-        public void Delete_HttpGet_HappyPath()
+        public void DeleteFacility_HttpGet_HappyPath()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 0;
-            mock.Setup(db => db.Facilities.Get(id)).Returns(GetFacility());           
-            var controller = new AdminController(mock.Object);
+            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(GetFacility());
 
             //Act
-            var result = controller.Delete(id) as ViewResult;
+            var result = controller.DeleteFacility(0) as ViewResult;
 
             //Assert
             var model = result.Model as Facility;
-            Assert.IsNotNull(model);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(GetFacility().GetType().GetProperties(),
+                                    model.GetType().GetProperties());
         }
 
         [Test]
-        public void Delete_HttpGet_NullArgument_ReturnsNotFound()
+        public void DeleteFacility_HttpGet_NullArgument_ReturnsNotFound()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var controller = new AdminController(mock.Object);
 
             //Act
-            var result = controller.Delete(null);
+            var result = controller.DeleteFacility(null);
 
             //Assert            
             Assert.IsInstanceOf<NotFoundResult>(result);
         }
 
         [Test]
-        public void Delete_HttpGet_RecordNotFoundInDB_ReturnsNotFound()
+        public void DeleteFacility_HttpGet_RecordNotFoundInDB_ReturnsNotFound()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 0;
-            mock.Setup(db => db.Facilities.Get(id)).Returns(ReturnNullFacility());
-            var controller = new AdminController(mock.Object);
+            mock.Setup(db => db.Facilities.Get(It.IsAny<int>())).Returns(ReturnNullFacility());
 
             //Act
-            var result = controller.Delete(id);
+            var result = controller.DeleteFacility(0);
 
             //Assert            
             Assert.IsInstanceOf<NotFoundResult>(result);
@@ -285,20 +205,213 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         public void Delete_HttpPost_HappyPath()
         {
             //Arrange
-            var mock = new Mock<IUnitOfWork>();
-            var id = 0;
-            mock.Setup(db => db.Facilities.Delete(id)).Verifiable();
+            mock.Setup(db => db.Facilities.Delete(It.IsAny<int>())).Verifiable();
             mock.Setup(db => db.Save()).Verifiable();
-            var controller = new AdminController(mock.Object);
 
             //Act
-            var result = controller.DeleteConfirmed(id);
+            var result = controller.DeleteConfirmedFacility(0);
 
             //Assert
             mock.VerifyAll();
             Assert.IsInstanceOf<RedirectToActionResult>(result);
         }
+        #endregion
 
+        #region User CRUD
+
+        [Test]
+        public void CreateUser_HappyPath()
+        {
+            //Arrange
+            mock.Setup(db => db.Users.Create(It.IsAny<User>())).Verifiable();
+            mock.Setup(db => db.Save()).Verifiable();
+
+            //Act
+            var result = controller.CreateUser(GetUser()) as RedirectToActionResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+            mock.VerifyAll();
+
+        }
+
+        [Test]
+        public void CreateUser_NullArgument_ReturnsNotFound()
+        {
+            //Arrange
+
+            //Act
+            var result = controller.CreateUser(GetNullUser()) as NotFoundResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void CreateUser_InvalidModelState_ReturnsView()
+        {
+            //Arrange
+            mock.Setup(db => db.Roles.GetAll()).Returns(GetRoles());
+            controller.ModelState.AddModelError("Model", "Model is invalid");
+
+            //Act
+            var result = controller.CreateUser(GetUser()) as ViewResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void EditUser_HappyPath()
+        {
+            //Arrange
+            mock.Setup(db => db.Users.Get(It.IsAny<int>())).Returns(GetUser());
+            mock.Setup(db => db.Roles.GetAll()).Returns(GetRoles());
+
+            //Act
+            var result = controller.EditUser(0) as ViewResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void EditUser_NullArgument_ReturnsNotFound()
+        {
+            //Arrange
+
+            //Act
+            var result = controller.EditUser(null) as NotFoundResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void EditUser_RecordNotFoundInDB_ReturnNotFound()
+        {
+            //Arrange
+            mock.Setup(db => db.Users.Get(It.IsAny<int>())).Returns(GetNullUser());
+
+            //Act
+            var result = controller.EditUser(0) as NotFoundResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void EditUser_HttpPost_HappyPath()
+        {
+            //Arrange
+            mock.Setup(db => db.Users.Update(It.IsAny<User>())).Verifiable();
+            mock.Setup(db => db.Save()).Verifiable();
+
+            //Act
+            var result = controller.EditUser(0, GetUser()) as RedirectToActionResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+            mock.VerifyAll();
+        }
+
+        [Test]
+        public void EditUser_HttpPost_NullArgument_ReturnsNotFound()
+        {
+            //Arrange
+
+            //Act
+            var result = controller.EditUser(0, GetNullUser()) as NotFoundResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void EditUser_HttpPost_InvalidModelState_ReturnsView()
+        {
+            //Arrange
+            mock.Setup(db => db.Roles.GetAll()).Returns(GetRoles());
+            controller.ModelState.AddModelError("Model", "Model is invalid");
+
+            //Act
+            var result = controller.EditUser(0, GetUser()) as ViewResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void DeleteUser_HappyPath()
+        {
+            //Arrange
+            mock.Setup(db => db.Users.Get(It.IsAny<int>())).Returns(GetUser());
+
+            //Act
+            var result = controller.DeleteUser(0) as ViewResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void DeleteUser_NullArgument_ReturnsNotFound()
+        {
+            //Arrange
+
+            //Act
+            var result = controller.DeleteUser(null) as NotFoundResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void DeleteUser_UserNotFoundInDB_ReturnsNotFound()
+        {
+            //Arrange
+            mock.Setup(db => db.Users.Get(It.IsAny<int>())).Returns(GetNullUser());
+
+            //Act
+            var result = controller.DeleteUser(0) as NotFoundResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+        }
+
+        [Test]
+        public void DeleteUserConfirmed_HappyPath()
+        {
+            //Arrange
+            mock.Setup(db => db.Users.Delete(It.IsAny<int>())).Verifiable();
+            mock.Setup(db => db.Save()).Verifiable();
+
+            //Act
+            var result = controller.DeleteConfirmedUser(0) as RedirectToActionResult;
+
+            //Assert
+            Assert.IsNotNull(result);
+            mock.VerifyAll();
+        }
+
+
+
+        #endregion
+
+
+
+
+
+
+
+
+        [TearDown]
+        public void TearDown()
+        {
+            mock = null;
+            controller = null;
+
+        }
 
 
         private List<Facility> GetFacilities()
@@ -357,6 +470,61 @@ namespace Catalog.Tests.Presentation_Layer.Controllers
         private Facility ReturnNullFacility()
         {
             return null;
+        }
+
+        private User GetUser()
+        {
+            return new User
+            {
+                Id = 0,
+                Email = "",
+                Name = "",
+                Password = "",
+                Roleid = 2
+            };
+        }
+
+        private User GetNullUser()
+        {
+            return null;
+        }
+
+        private List<User> GetUsers()
+        {
+            return new List<User>
+            {
+                new User
+                    {
+                        Email = "",
+                        Name = "",
+                        Password = "",
+                        Roleid = 2
+
+                    },
+                new User
+                    {
+                        Email = "",
+                        Name = "",
+                        Password = "",
+                        Roleid = 2
+
+                    }
+            };
+        }
+
+        private List<Role> GetRoles()
+        {
+            return new List<Role>
+            {
+                new Role
+                    {
+                        Name = ""
+                    },
+                new Role
+                    {
+                        Name = ""
+                    }
+            };
         }
 
     }

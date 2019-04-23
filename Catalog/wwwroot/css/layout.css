@@ -18,4 +18,9 @@ footer .nav-footer ul li a :hover {
 #l1 :hover {
     text-decoration: underline !important;
     color: #0086db !important;
-} 
+}
+
+.navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover {
+    text-decoration: underline !important;
+    color: #0086db !important;
+}

@@ -13,7 +13,6 @@ body {
     /* equal to footer height */
    /* margin-bottom: -50px;*/
     min-height: calc(100vh - 100px);
-    margin-bottom: -100px;
 }
 
     .page-wrapper:after {

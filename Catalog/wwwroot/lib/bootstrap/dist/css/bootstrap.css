@@ -43,6 +43,71 @@ video {
         height: 0;
     }
 
+#createFacWrapper {
+    min-height: calc(100vh - 170px);
+}
+
+#createUserWrapper {
+    min-height: calc(100vh - 170px);
+}
+
+#deleteFacWrapper {
+    min-height: calc(100vh - 170px);
+}
+
+#deleteUserWrapper {
+    min-height: calc(100vh - 170px);
+}
+
+#editFacWrapper {
+    min-height: calc(100vh - 160px);
+}
+
+#editUserWrapper {
+    min-height: calc(100vh - 170px);
+}
+
+#adminIndexWrapper {
+    min-height: calc(100vh - 170px);
+}
+
+#regDiv {
+    min-height: calc(100vh - 190px);
+}
+
+#loginDiv {
+    min-height: calc(100vh - 190px);
+}
+
+#placeWrapper {
+    min-height: calc(100vh - 200px);
+}
+
+#aboutWrapper {
+    min-height: calc(100vh - 200px);
+}
+
+#addFacWrapper {
+    min-height: calc(100vh - 170px);
+}
+
+#manageDeleteWrapper {
+    min-height: calc(100vh - 170px);
+}
+
+#manageEditWrapper {
+    min-height: calc(100vh - 160px);
+}
+
+#userCabinetWrapper {
+    min-height: calc(100vh - 170px);
+}
+
+#searchResultWrapper {
+    min-height: calc(100vh - 150px);
+}
+
+
 /* ------------- Êîíòåéíåð ñ àäàïòèâíûìè áëîêàìè------------- */
 .masonry {
     font-family: sfuidisplay-thin;
@@ -152,6 +217,42 @@ video {
         font-weight: bold;
     }
 
+#feedbacks {
+    box-shadow: 2px 2px 4px 2px #ccc;
+    padding: 0 30px;
+    padding-bottom: 0px;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+#feedbacks h3 {
+    text-align: center;
+    margin-top: 50px;
+    font-family: sfuidisplay-thin;
+    color: #0086db;
+    font-weight: bold;
+    margin-bottom: 30px;
+    padding-top: 20px;
+}
+
+.feedBackAuthor {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.feedBackDate {
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+.feedBackItem {
+    box-shadow: 2px 2px 4px 0 #ccc;
+    margin-bottom: 5px;
+    padding: 10px 10px;
+    margin-bottom: 10px;
+}
+
 .clear {
     clear: both;
 }
@@ -163,7 +264,6 @@ footer {
     position: relative;
     bottom: 0px !important;
     right: 0;
-    margin-top: 50px;
 }
 
     footer p {

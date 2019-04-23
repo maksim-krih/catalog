@@ -109,7 +109,6 @@ namespace Catalog.Controllers
             {
                 return NotFound();
             }
-            //Undone: notfoundResult!!!!
             //Todo: Fix Issue when there can be many facilities with same address
             return RedirectToAction("UserCabinet", new  { id = userId.Value });
         }

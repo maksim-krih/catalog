@@ -1,5 +1,5 @@
-﻿@model Catalog.Models.IndexView
-@addTagHelper "*, Catalog"
+﻿@model Catalog.BLL.Pagination.IndexView
+@addTagHelper "*, Catalog.BLL"
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -11,27 +11,7 @@
 <div class="page-wrapper">
     <section class="cards-section text-center">
         <div class="box">
-            <!--
-            <div class=" left ">
-                <div class="dropdown">
-                    <button class="dropbtn">Sort by</button>
-                    <div class="dropdown-content">
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]">Price</a><br/>
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["RatingSortParm"]">Rating</a>
-                    </div>
-                </div>
-                <div class="filter">
-                    <h4>Facility type</h4>
-                    <select class="js-example-basic-single" name="state">
-                        <option value="">--Choose an option--</option>
-                        <option value="bar">Bar</option>
-                        <option value="restaurant">Restaurant</option>
-                        <option value="pub">Pub</option>
-                    </select>
-                </div>
-
-            </div>
-            -->
+            
             <div class="container  right">
                 <div id="cards-wrapper" class="cards-wrapper row">
                     @foreach (var item in Model.FacilityModels)

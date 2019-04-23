@@ -12,6 +12,7 @@ using Catalog.BLL.Interfaces;
 using Catalog.BLL.Repositories;
 using Catalog.DAL.Data;
 using Catalog.BLL.ViewModels;
+using Catalog.BLL.Pagination;
 
 namespace Catalog.Controllers
 {

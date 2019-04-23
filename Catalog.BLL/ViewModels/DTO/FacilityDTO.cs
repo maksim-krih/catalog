@@ -5,8 +5,6 @@ using System.Text;
 
 namespace Catalog.BLL.ViewModels.DTO
 {
-    //TODO: Data transfer objects are for using in controller methods
-
     public class FacilityDTO
     {
         public string Name { get; set; }

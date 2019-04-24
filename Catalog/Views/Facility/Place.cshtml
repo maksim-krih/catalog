@@ -8,7 +8,7 @@
 <div class="masonry" style="margin-top: 50px;">
     <!-- Adaptive blocks -->
     <div class="itemT">
-    
+
         <div id="itemRate">
             <h3>@Model.Name rate: </h3>
             <p>@Model.Rating</p>
@@ -33,16 +33,19 @@
 <!-- End of container -->
 
 
-
 <div id="map" style=" width: 100%; height: 400px;"></div>
+<input type="hidden" id="city" value="@Model.Address.City" />
+<input type="hidden" id="street" value="@Model.Address.Street" />
+<input type="hidden" id="houseNumber" value="@Model.Address.HouseNumber" />
+
 
 <div id="feedbacks">
     <h3>Feedbacks</h3>
     @foreach (var item in Model.Feedbacks)
     {
-         <p>@item.Author, @item.Rating - @item.Price</p>
-         <p>@item.Message</p>
-         <p>@item.Date.Day, @item.Date.Month</p>
+        <p>@item.Author, @item.Rating - @item.Price</p>
+        <p>@item.Message</p>
+        <p>@item.Date.Day, @item.Date.Month</p>
     }
 
 </div>
@@ -50,52 +53,52 @@
 <div style="width: 100%">
     @if (User.Identity.IsAuthenticated)
     {
-    <form asp-action="AddFeedback" asp-route-id="@Model.Id">
-        <div class="container-fluid" style="margin-top:15px;">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>Leave Feedback</h4>
-                </div>
-                <input name="Rating" type="hidden" id="mark" />
-                <input name="Price" type="hidden" id="price" />
-                <input name="Author" type="hidden" value="@User.Claims.ToList()[2].Value" />
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
-                            <ul class="rating text-center">
-                                <li class="star" id="mark-one" onclick="Star(1)"></li>
-                                <li class="star" id="mark-two" onclick="Star(2)"></li>
-                                <li class="star" id="mark-three" onclick="Star(3)"></li>
-                                <li class="star" id="mark-four" onclick="Star(4)"></li>
-                                <li class="star" id="mark-five" onclick="Star(5)"></li>
-                            </ul>
-                            <p class="text-center col-md-12 col-sm-12 col-xs-12">Rating</p>
-                        </div>
-                        <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
-                            <ul class="price text-center">
-                                <li class="dollar" id="dollar-one" onclick="Dollar(1)"></li>
-                                <li class="dollar" id="dollar-two" onclick="Dollar(2)"></li>
-                                <li class="dollar" id="dollar-three" onclick="Dollar(3)"></li>
-                                <li class="dollar" id="dollar-four" onclick="Dollar(4)"></li>
-                                <li class="dollar" id="dollar-five" onclick="Dollar(5)"></li>
-                            </ul>
-                            <p class="text-center col-md-12 col-sm-12 col-xs-12">Price</p>
-                        </div>
+        <form asp-action="AddFeedback" asp-route-id="@Model.Id">
+            <div class="container-fluid" style="margin-top:15px;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4>Leave Feedback</h4>
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <input name="Message" type="text" class="form-control  " />
+                    <input name="Rating" type="hidden" id="mark" />
+                    <input name="Price" type="hidden" id="price" />
+                    <input name="Author" type="hidden" value="@User.Claims.ToList()[2].Value" />
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
+                                <ul class="rating text-center">
+                                    <li class="star" id="mark-one" onclick="Star(1)"></li>
+                                    <li class="star" id="mark-two" onclick="Star(2)"></li>
+                                    <li class="star" id="mark-three" onclick="Star(3)"></li>
+                                    <li class="star" id="mark-four" onclick="Star(4)"></li>
+                                    <li class="star" id="mark-five" onclick="Star(5)"></li>
+                                </ul>
+                                <p class="text-center col-md-12 col-sm-12 col-xs-12">Rating</p>
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
+                                <ul class="price text-center">
+                                    <li class="dollar" id="dollar-one" onclick="Dollar(1)"></li>
+                                    <li class="dollar" id="dollar-two" onclick="Dollar(2)"></li>
+                                    <li class="dollar" id="dollar-three" onclick="Dollar(3)"></li>
+                                    <li class="dollar" id="dollar-four" onclick="Dollar(4)"></li>
+                                    <li class="dollar" id="dollar-five" onclick="Dollar(5)"></li>
+                                </ul>
+                                <p class="text-center col-md-12 col-sm-12 col-xs-12">Price</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-3 pull-right">
-                            <input type="submit" class="form-control btn btn-success " value="Leave Feedback" />
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <input name="Message" type="text" class="form-control  " />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-3 pull-right">
+                                <input type="submit" class="form-control btn btn-success " value="Leave Feedback" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
     }
 </div>
 
@@ -132,41 +135,37 @@
     }
 </script>
 
+
 <script>
     function initMap() {
-        var element = document.getElementById('map');
-        var options = {
-            zoom: 15,
-            //TODO: take this from db
-            center: { lat: 49.8412929, lng: 24.0322702 }
-        };
-
-        var myMap = new google.maps.Map(element, options);
-
-        var marker = addMarker(options.center.lat, options.center.lng);
-
-        var InfoWidow = new google.maps.InfoWindow({
-            content: '<h4>@Model.Name</h4><p>@Model.FacilityType</p>'
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 18,
+            center: { lat: 49.5017, lng: 24.0123 }
         });
-
-        InfoWidow.open(myMap, marker);
-
-        marker.addListener('click', function () { InfoWidow.open(myMap, marker);})
-
-        function addMarker(lat, lng) {
-            var marker = new google.maps.Marker({
-                position: { lat: lat, lng: lng},
-                map: myMap,
-
-            });
-            marker.setIcon('https://cdn3.iconfinder.com/data/icons/wpzoom-developer-icon-set/500/108-24.png');
-            return marker;
-        }
-
+        var geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map);
 
     }
 
+    var ModelAddress = document.getElementById('city').value + " " + document.getElementById('street').value + " " + document.getElementById('houseNumber').value;
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = ModelAddress;
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
 </script>
+
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBW9c1zAjzY6_4YXrZNowJyQrJLOz8RAS8&callback=initMap">

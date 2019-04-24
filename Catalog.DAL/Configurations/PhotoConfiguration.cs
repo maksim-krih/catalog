@@ -11,7 +11,29 @@ namespace Catalog.DAL.Configurations
     {
         public void Configure(EntityTypeBuilder<Photo> builder)
         {
-            throw new NotImplementedException();
+            builder.HasData(
+                new List<Photo>
+                {
+                    new Photo
+                    {
+                        Id = 1,
+                        FacilityId = 1,
+                        Path = "C:/Users/pampa/Desktop/catalog/Catalog/wwwroot/images/bulldozer.jpg"
+                    },
+                    new Photo
+                    {
+                        Id = 2,
+                        FacilityId = 1,
+                        Path = "C:/Users/pampa/Desktop/catalog/Catalog/wwwroot/images/bulldozer.jpg"
+                    },
+                    new Photo
+                    {
+                        Id = 3,
+                        FacilityId = 1,
+                        Path = "C:/Users/pampa/Desktop/catalog/Catalog/wwwroot/images/bulldozer.jpg"
+                    }
+                }
+                );
         }
     }
 }

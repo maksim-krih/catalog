@@ -32,10 +32,8 @@ namespace Catalog.DAL.Configurations
                                 Rating = 3,
                                 Message = "Feedback message 2"
                             },
-
                         });
 
-            
         }
     }
 }

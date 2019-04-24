@@ -29,7 +29,8 @@ namespace Catalog.DAL.Configurations
                         Rating = 5,
                         Phone = "0997513669",
                         FacilityType = "Hookah",
-                        FacilityOwnerId = 2
+                        FacilityOwnerId = 2,
+                        
                     },
                     new Facility
                     {

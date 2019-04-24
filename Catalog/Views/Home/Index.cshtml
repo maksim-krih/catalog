@@ -27,7 +27,7 @@
 
                     <input type="submit" value="Filter" class="btn btn-default" style="margin-left:20px" />
                     <div class="dropdown">
-                        <button class="dropbtn">Sort by</button>
+                        <button class="dropbtn btn btn-default" style="background-color: cornflowerblue;margin-left:20px">Sort by</button>
                         <div class="dropdown-content">
                             <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]"
                                asp-route-facilityType="@(Model.FilterModel.SelectedType)"

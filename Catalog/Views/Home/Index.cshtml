@@ -1,4 +1,5 @@
-﻿@model Catalog.Models.IndexView
+﻿
+@model Catalog.Models.IndexView
 @addTagHelper "*, Catalog"
 @{
     ViewData["Title"] = "Home Page";
@@ -11,27 +12,7 @@
 <div class="page-wrapper" style="min-height: calc(100vh - 150px);">
     <section class="cards-section text-center">
         <div class="container">
-            <!--
-            <div class=" left ">
-                <div class="dropdown">
-                    <button class="dropbtn">Sort by</button>
-                    <div class="dropdown-content">
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["PriceSortParm"]">Price</a><br/>
-                        <a asp-action="Index" asp-route-sortOrder="@ViewData["RatingSortParm"]">Rating</a>
-                    </div>
-                </div>
-                <div class="filter">
-                    <h4>Facility type</h4>
-                    <select class="js-example-basic-single" name="state">
-                        <option value="">--Choose an option--</option>
-                        <option value="bar">Bar</option>
-                        <option value="restaurant">Restaurant</option>
-                        <option value="pub">Pub</option>
-                    </select>
-                </div>
-
-            </div>
-            -->
+            
             <div class="container  right">
                 <div id="cards-wrapper" class="cards-wrapper row">
                     @foreach (var item in Model.FacilityModels)
@@ -39,38 +20,25 @@
                         <div class="item item-green col-md-4 col-sm-6 col-xs-12">
                             <div class="item-inner">
                                 <div class="cardImage"></div>
-                                <p class="cardStars"><span>@for (int i = 0; i < @item.Rating; i++){<span style="color: orange;">★</span>}</span></p>
+                                <p class="cardStars"><span>
+                                    @if (@item.Rating == 0)
+                                    {
+                                        {<span style="color: orange;">☆</span>}
+                                    }
+                                    @for (int i = 0; i < @item.Rating; i++)
+                                    {<span style="color: orange;">★</span>}
+                                </span></p>
                                 <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
                                     <h3 class="cardTitle">@item.Name</h3>
                                 </a>
                                 <h4 class="cardType">@item.FacilityType</h4>
-
-
-                                <!--<div class="innerRectangle">
-        @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
-        <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
-            <h3 class="title">@item.Name</h3>
-        </a>
-    </div>-->
 
                             </div>
                         </div>
 
 
 
-                        <!--
-        <div class="item item-green col-md-4 col-sm-6 col-xs-12">
-            <div class="item-inner" id="card1">
-                <div class="innerRectangle">
-                    @*id is for image binding. (wwwroot -> assets -> css -> #card1)*@
-                    <a asp-controller="Facility" asp-action="Place" asp-route-id="@item.Id">
-                        <h3 class="title">@item.Name</h3>
-                    </a>
-                </div>
-
-            </div>
-        </div>
-        -->
+                        
                     }
                 </div><!--//cards-->
             </div><!--//container-->
@@ -78,42 +46,65 @@
     </section><!--//cards-section-->
 
     <page-link page-model="Model.PageViewModel" page-action="Index"
-        page-url-sortorder="@ViewData["Buffer"]"></page-link>
-    
+               page-url-sortorder="@ViewData["Buffer"]"></page-link>
+
     <div id="mapWithAllItems">
         <div id="map" style=" width: 100%; height: 400px;"></div>
         <script>
             function initMap() {
-                @foreach (var item in Model.FacilityModels)
-                {
-
-                }
-                geo = new google.maps.Geocoder();
-                var addres; 
                 var element = document.getElementById('map');
                 var options = {
-                    zoom: 15,
+                    zoom: 13,
                     center: { lat: 49.8412929, lng: 24.0322702 }
                 };
-                var myMap = new google.maps.Map(element, options);
-                var marker = addMArker(49.8412929, 24.0322702);
-                var InfoWidow = new google.maps.InfoWindow({
-                    content: '<h4>Name</h4><p>FacilityType</p>'
-                });
-                InfoWidow.open(myMap, marker);
-                marker.addListener('click', function () { InfoWidow.open(myMap, marker);})
-                function addMArker(lat, lng) {
-                    var marker = new google.maps.Marker({
-                        position: { lat: lat, lng: lng},
-                        map: myMap,
+
+
+
+                var map = new google.maps.Map(element, options);
+
+                var geocoder = new google.maps.Geocoder();
+
+               
+
+                @foreach (var item in Model.FacilityModels)
+                {
+                    @:var address = "@item.Address.City, @item.Address.Street, @item.Address.HouseNumber";
+                    @:geocodeAddress(geocoder, map, address, "@item.Name", "@item.FacilityType");
+
+                }
+
+                function geocodeAddress(geocoder, resultsMap, address, name, type) {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            var pos = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            resultsMap.setCenter(pos);
+                        });
+                    } 
+
+
+
+                    geocoder.geocode({ 'address': address }, function (results, status) {
+                        if (status === 'OK') {
+                            var marker = new google.maps.Marker({
+                                map: resultsMap,
+                                position: results[0].geometry.location
+                            });
+                            var InfoWidow = new google.maps.InfoWindow({
+                                content: name
+                            });
+                            marker.addListener('click', function() { InfoWidow.open(resultsMap, marker); });
+                        } else {
+                            alert('Geocode was not successful for the following reason: ' + status);
+                        }
                     });
-                    marker.setIcon('https://cdn3.iconfinder.com/data/icons/wpzoom-developer-icon-set/500/108-24.png');
-                    return marker;
                 }
             }
         </script>
         <script async defer
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBW9c1zAjzY6_4YXrZNowJyQrJLOz8RAS8&callback=initMap">
-        </script>
+                                        </script>
     </div>
 </div><!--//page-wrapper-->

@@ -108,20 +108,20 @@ video {
 }
 
 
-/* ------------- Êîíòåéíåð ñ àäàïòèâíûìè áëîêàìè------------- */
+
 .masonry {
     font-family: sfuidisplay-thin;
     font-size: 14px;
     margin: 1.5em 0;
     padding: 0;
-    column-gap: 1.5em; /* Îáùåå ðàññòîÿíèå ìåæäó êîëîíêàìè */
+    column-gap: 1.5em; 
     font-size: .85em;
-    -moz-column-gap: 1.5em; /* Ðàññòîÿíèå ìåæäó êîëîíêàìè äëÿ Firefox */
-    -webkit-column-gap: 1.5em; /* Ðàññòîÿíèå ìåæäó êîëîíêàìè  äëÿ Safari, Chrome è iOS */
+    -moz-column-gap: 1.5em; 
+    -webkit-column-gap: 1.5em; 
     box-shadow: 2px 2px 4px 0 #ccc;
 }
 
-/* Ýëåìåíòû â âèäå ïëèòîê ñ ñîäåðæàíèåì */
+
 .itemT {
     font-size: 18px;
     display: inline-block;
@@ -129,13 +129,11 @@ video {
     padding: 1em;
     margin: 0 0 1.5em;
     width: 100%;
-    box-sizing: border-box; /* Èçìåíåíèÿ àëãîðèòìà ðàñ÷åòà øèðèíû è âûñîòû ýëåìåíòà.*/
-    -moz-box-sizing: border-box; /* Äëÿ Firefox */
-    -webkit-box-sizing: border-box; /* Äëÿ Safari, Chrome, iOS èAndroid */
+    box-sizing: border-box; 
+    -moz-box-sizing: border-box; 
+    -webkit-box-sizing: border-box; 
 }
 
-
-    /* Ñòèëè ññûëîê âíóòðè ïëèòîê */
     .itemT a {
         text-decoration: none;
         color: #359CC6;
@@ -143,7 +141,6 @@ video {
     }
 
 
-/* Ìåäèà-çàïðîñû äëÿ ðàçëè÷íûõ ðàçìåðîâ àäàïòèâíîãî ìàêåòà */
 @media only screen and (min-width: 400px) {
     .masonry {
         -moz-column-count: 2;

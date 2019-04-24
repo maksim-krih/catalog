@@ -6,7 +6,7 @@
                 <a asp-controller="Manage" asp-action="UserCabinet"  title="Manage">Hello, @User.Claims.ToList()[1].Value</a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link" id="logoutButton">Log out</button>
             </li>
         </ul>
     </form>

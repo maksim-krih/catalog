@@ -24,3 +24,11 @@ footer .nav-footer ul li a :hover {
     text-decoration: underline !important;
     color: #0086db !important;
 }
+
+#logoutButton {
+    color: #0086db;
+    font-family: sfuidisplay-thin;
+    font-size: 18px;
+    margin-top: 5px;
+    font-weight: normal;
+}

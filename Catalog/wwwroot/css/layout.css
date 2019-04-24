@@ -1,0 +1,34 @@
+﻿.navbar-inverse .navbar-nav > li > a {
+    color: #0086db;
+}
+
+navbar-collapse collapse #nav-bar-nav > li > a :hover {
+    text-decoration: underline !important;
+    color: #0086db !important;
+}
+
+footer .nav-footer ul li a {
+    color: white;
+}
+
+footer .nav-footer ul li a :hover {
+    text-decoration: underline !important;
+}
+
+#l1 :hover {
+    text-decoration: underline !important;
+    color: #0086db !important;
+}
+
+.navbar-inverse .navbar-nav > li > a:focus, .navbar-inverse .navbar-nav > li > a:hover {
+    text-decoration: underline !important;
+    color: #0086db !important;
+}
+
+#logoutButton {
+    color: #0086db;
+    font-family: sfuidisplay-thin;
+    font-size: 18px;
+    margin-top: 5px;
+    font-weight: normal;
+}

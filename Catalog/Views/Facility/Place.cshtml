@@ -1,102 +1,112 @@
-﻿@model Catalog.DAL.Models.Facility
+﻿@using System.Globalization
+@model Catalog.DAL.Models.Facility
 
 @{
     ViewData["Title"] = "Place";
 }
 
-<!-- Container with adaptive blocks -->
-<div class="masonry" style="margin-top: 50px;">
-    <!-- Adaptive blocks -->
-    <div class="itemT">
-    
-        <div id="itemRate">
-            <h3>@Model.Name rate: </h3>
-            <p>@Model.Rating</p>
-        </div>
-    </div>
+<div id="placeWrapper">
 
-    <div class="itemT">
-        <div id="itemInfo">
-            <p class="itemDesc">Phone</p>
-            <p>@Model.Phone</p>
-            <p class="itemDesc">Schedule:</p>
-            <p>@Model.Schedule.Open - @Model.Schedule.Closed</p>
-            <p class="itemDesc">Address</p>
-            <p>@Model.Address.Street</p>
-            <p class="itemDesc">Type</p>
-            <p>@Model.FacilityType</p>
-        </div>
-    </div>
-    <!-- End of block with adaptive -->
+    <!-- Container with adaptive blocks -->
+    <div class="masonry" style="margin-top: 50px;">
+        <!-- Adaptive blocks -->
+        <div class="itemT">
 
-</div>
-<!-- End of container -->
-
-
-
-<div id="map" style=" width: 100%; height: 400px;"></div>
-
-<div id="feedbacks">
-    <h3>Feedbacks</h3>
-    @foreach (var item in Model.Feedbacks)
-    {
-         <p>@item.Author, @item.Rating - @item.Price</p>
-         <p>@item.Message</p>
-         <p>@item.Date.Day, @item.Date.Month</p>
-    }
-
-</div>
-
-<div style="width: 100%">
-    @if (User.Identity.IsAuthenticated)
-    {
-    <form asp-action="AddFeedback" asp-route-id="@Model.Id">
-        <div class="container-fluid" style="margin-top:15px;">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4>Leave Feedback</h4>
-                </div>
-                <input name="Rating" type="hidden" id="mark" />
-                <input name="Price" type="hidden" id="price" />
-                <input name="Author" type="hidden" value="@User.Claims.ToList()[2].Value" />
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
-                            <ul class="rating text-center">
-                                <li class="star" id="mark-one" onclick="Star(1)"></li>
-                                <li class="star" id="mark-two" onclick="Star(2)"></li>
-                                <li class="star" id="mark-three" onclick="Star(3)"></li>
-                                <li class="star" id="mark-four" onclick="Star(4)"></li>
-                                <li class="star" id="mark-five" onclick="Star(5)"></li>
-                            </ul>
-                            <p class="text-center col-md-12 col-sm-12 col-xs-12">Rating</p>
-                        </div>
-                        <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
-                            <ul class="price text-center">
-                                <li class="dollar" id="dollar-one" onclick="Dollar(1)"></li>
-                                <li class="dollar" id="dollar-two" onclick="Dollar(2)"></li>
-                                <li class="dollar" id="dollar-three" onclick="Dollar(3)"></li>
-                                <li class="dollar" id="dollar-four" onclick="Dollar(4)"></li>
-                                <li class="dollar" id="dollar-five" onclick="Dollar(5)"></li>
-                            </ul>
-                            <p class="text-center col-md-12 col-sm-12 col-xs-12">Price</p>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            <input name="Message" type="text" class="form-control  " />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-md-3 pull-right">
-                            <input type="submit" class="form-control btn btn-success " value="Leave Feedback" />
-                        </div>
-                    </div>
-                </div>
+            <div id="itemRate">
+                <h3>@Model.Name rate: </h3>
+                <p>@Model.Rating</p>
+                @for (int i = 0; i < (int)@Model.Rating; i++)
+                {<span style="color: orange; font-size: 30px;">★</span>}
             </div>
         </div>
-    </form>
-    }
+
+        <div class="itemT">
+            <div id="itemInfo">
+                <p class="itemDesc">Phone</p>
+                <p>@Model.Phone</p>
+                <p class="itemDesc">Schedule:</p>
+                <p>@Model.Schedule.Open - @Model.Schedule.Closed</p>
+                <p class="itemDesc">Address</p>
+                <p>@Model.Address.Street</p>
+                <p class="itemDesc">Type</p>
+                <p>@Model.FacilityType</p>
+            </div>
+        </div>
+        <!-- End of block with adaptive -->
+
+    </div>
+    <!-- End of container -->
+
+
+
+    <div id="map" style=" width: 100%; height: 400px;"></div>
+
+    <div id="feedbacks">
+        <h3>Feedbacks</h3>
+
+        @foreach (var item in Model.Feedbacks)
+        {
+            <div class="feedBackItem">
+                <p class="feedBackAuthor"><span>@item.Author</span> @for(int i = 0; i < @item.Rating; i++) {<span style="color: orange;">★</span>}   @for(int i = 0; i < @item.Price; i++) {<span style="color: green;">$</span>}</p>
+                <p class="feedBackMessage">@item.Message</p>
+                <p class="feedBackDate">@item.Date.Day. @item.Date.ToString("MMMM", new CultureInfo("en"))</p>
+            </div>
+                }
+            
+        </div>
+
+
+    <div style="width: 100%">
+        @if (User.Identity.IsAuthenticated)
+        {
+            <form asp-action="AddFeedback" asp-route-id="@Model.Id">
+                <div class="container-fluid" style="margin-top:15px;">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>Leave Feedback</h4>
+                        </div>
+                        <input name="Rating" type="hidden" id="mark" />
+                        <input name="Price" type="hidden" id="price" />
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
+                                    <ul class="rating text-center">
+                                        <li class="star" id="mark-one" onclick="Star(1)"></li>
+                                        <li class="star" id="mark-two" onclick="Star(2)"></li>
+                                        <li class="star" id="mark-three" onclick="Star(3)"></li>
+                                        <li class="star" id="mark-four" onclick="Star(4)"></li>
+                                        <li class="star" id="mark-five" onclick="Star(5)"></li>
+                                    </ul>
+                                    <p class="text-center col-md-12 col-sm-12 col-xs-12">Rating</p>
+                                </div>
+                                <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
+                                    <ul class="price text-center">
+                                        <li class="dollar" id="dollar-one" onclick="Dollar(1)"></li>
+                                        <li class="dollar" id="dollar-two" onclick="Dollar(2)"></li>
+                                        <li class="dollar" id="dollar-three" onclick="Dollar(3)"></li>
+                                        <li class="dollar" id="dollar-four" onclick="Dollar(4)"></li>
+                                        <li class="dollar" id="dollar-five" onclick="Dollar(5)"></li>
+                                    </ul>
+                                    <p class="text-center col-md-12 col-sm-12 col-xs-12">Price</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <input name="Message" type="text" class="form-control  " />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 pull-right">
+                                    <input type="submit" class="form-control btn btn-success " value="Leave Feedback" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+
 </div>
 
 <script>

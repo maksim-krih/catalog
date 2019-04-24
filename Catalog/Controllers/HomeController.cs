@@ -41,6 +41,7 @@ namespace Catalog.Controllers
             ViewData["RatingSortParm"] = String.IsNullOrEmpty(sortOrder) || sortOrder == "rate_desc" ? "rate_asc" : "rate_desc";
             ViewData["Buffer"] = sortOrder;
 
+
             var facilities = db.Facilities.GetAll().AsQueryable();
 
             if (!String.IsNullOrEmpty(filterOption))

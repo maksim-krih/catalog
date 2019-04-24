@@ -24,8 +24,8 @@ namespace Catalog.Controllers
         {
             var facility = db.Facilities.Get(id);
 
-            if(facility == null)
-                throw new ArgumentNullException();
+            if (facility == null)
+                return NotFound();
 
 
             return View(facility);
@@ -33,25 +33,27 @@ namespace Catalog.Controllers
 
 
         [HttpPost]
-        public IActionResult AddFeedback(int id, [Bind("Rating,Price,AuthorId,Message")]FeedbackDTO feedbackDTO)
+        public IActionResult AddFeedback(int id, [Bind("Rating,Price,Message,Author")]FeedbackDTO feedbackDTO)
         {
             try
             {
                 var facility = db.Facilities.Get(id);
+                if (facility == null)
+                    return NotFound();
+
                 var feedback = new Feedback
                 {
-                    //Id = db.Feedbacks.GetAll().Count() + 1,
+                    Id = 0,
                     FacilityId = id,
                     Message = feedbackDTO.Message ?? "",
                     Rating = feedbackDTO.Rating,
                     Price = feedbackDTO.Price,
-                    Author = User.Claims.ToList()[2].Value,
+                    Author = feedbackDTO.Author ?? "Guest",
                     Date = DateTime.Now
                 };
-                            
 
-                UpdateRating(ref facility,feedbackDTO.Rating);
-                UpdatePrice(ref facility, feedbackDTO.Price);
+                UpdateRating(facility, feedbackDTO.Rating);
+                UpdatePrice(facility, feedbackDTO.Price);
 
                 db.Feedbacks.Create(feedback);
 
@@ -59,7 +61,7 @@ namespace Catalog.Controllers
             }
             catch (Exception)
             {
-                throw;
+                return NotFound();
             }
 
             return RedirectToAction("Place", id);
@@ -71,7 +73,7 @@ namespace Catalog.Controllers
         /// </summary>
         /// <param name="facility">Facility that we change properties</param>
         /// <param name="rating">field to update</param>
-        private void UpdateRating(ref Facility facility, int rating)
+        private void UpdateRating( Facility facility, int rating)
         {
             // Collection of facilities where feedbacks that were left are with rating field.
             var query = facility.Feedbacks.Where(feedback => feedback.Rating != 0);
@@ -102,7 +104,7 @@ namespace Catalog.Controllers
         /// </summary>
         /// <param name="facility">Facility that we change properties</param>
         /// <param name="price">field to update</param>
-        private void UpdatePrice(ref Facility facility, int price)
+        private void UpdatePrice(Facility facility, int price)
         {
             // Collection of facilities where feedbacks that were left are with rating field.
             var query = facility.Feedbacks.Where(feedback => feedback.Price != 0);

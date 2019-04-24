@@ -82,16 +82,15 @@ namespace Catalog.Views
             {
                 try
                 {
-                    //facility.FacilityOwnerId = Convert.ToInt32(HttpContext.User.Claims.ToList()[0].Value);
                     db.Facilities.Update(facility);
                     db.FacilityAddresses.Update(facility.Address);
                     db.Schedules.Update(facility.Schedule);
                     db.Save();
                     ViewBag.message = "Facility Updated!";
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
-                    throw;
+                    throw new NotImplementedException(e.Message, e.InnerException);
                 }
             }
             else
@@ -144,11 +143,14 @@ namespace Catalog.Views
         [ValidateAntiForgeryToken]
         public IActionResult CreateUser([Bind("Id,Name,Password,Email,Roleid")] User user)
         {
+            if (user == null)
+                return NotFound();
+
             if (ModelState.IsValid)
             {
                 db.Users.Create(user);
                 db.Save();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
             ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", user.Roleid);
             return View(user);
@@ -174,7 +176,7 @@ namespace Catalog.Views
         [ValidateAntiForgeryToken]
         public IActionResult EditUser(int id, [Bind("Id,Name,Password,Email,Roleid")] User user)
         {
-            if (id != user.Id)
+            if (user == null || id != user.Id)
             {
                 return NotFound();
             }
@@ -199,6 +201,7 @@ namespace Catalog.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["Roleid"] = new SelectList(db.Roles.GetAll(), "Id", "Name", user.Roleid);
             return View(user);
         }

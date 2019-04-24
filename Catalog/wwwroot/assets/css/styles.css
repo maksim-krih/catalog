@@ -13,7 +13,6 @@ body {
     /* equal to footer height */
    /* margin-bottom: -50px;*/
     min-height: calc(100vh - 100px);
-    margin-bottom: -100px;
 }
 
     .page-wrapper:after {
@@ -21,6 +20,14 @@ body {
         display: block;
         height: 50px;
     }
+
+#mapWithAllItems {
+    width: 100%;
+    height: 400px;
+    outline: 1px solid red;
+    margin-top: 40px;
+}
+
 
 p {
     line-height: 1.5;
@@ -35,30 +42,6 @@ a.btn {
     font-weight: 600;
     font-size: 14px;
     line-height: 1.5;
-}
-
-#card1 {
-    background-image: url(../images/rests/donerburger.jpg);
-}
-
-#card2 {
-    background-image: url(../images/rests/greengarden.jpg);
-}
-
-#card3 {
-    background-image: url(../images/rests/shopen.jpg);
-}
-
-#card4 {
-    background-image: url(../images/rests/tistopizza.jpg);
-}
-
-#card5 {
-    background-image: url(../images/rests/rissoteria.jpg);
-}
-
-#card6 {
-    background-image: url(../images/rests/flyashka.jpg);
 }
 
 .cards-section {
@@ -80,6 +63,12 @@ a.btn {
         margin-right: auto;
     }
 
+.cardImage {
+    background-image: url(../images/rests/donerburger.jpg);
+    width: inherit;
+    height: 150px;
+}
+
     .cards-section .item {
         margin-bottom: 30px;
     }
@@ -94,10 +83,7 @@ a.btn {
         }
 
     .cards-section .item-inner {
-        padding: 45px 30px;
-        background: #0086db;
         position: relative;
-        border: 1px solid #f0f0f0;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
         -ms-border-radius: 4px;
@@ -106,8 +92,36 @@ a.btn {
         -moz-background-clip: padding;
         -webkit-background-clip: padding-box;
         background-clip: padding-box;
+        box-shadow: 0 4px 10px rgba(0,0,0,.1);
+        transition: all .5s ease-out;
     }
 
+.cards-section .item-inner:hover{
+    box-shadow: 0 4px 10px rgba(0,0,0,.3);
+}
+
+.cardStars {
+    font-size: 20px;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.item-inner a {
+    display: block;
+    margin-top: -10px;
+    text-align: left;
+    padding-left: 12px;
+}
+
+.cardType {
+    text-align: left;
+    padding-left: 12px;
+}
+
+.item-inner h3 {
+    font-family: sfuidisplay-thin;
+    font-weight: bold;
+}
         .cards-section .item-inner .link {
             position: absolute;
             width: 100%;
@@ -120,7 +134,11 @@ a.btn {
         }
 
 #pagination {
-    outline: 1px solid red;
+    /*outline: 1px solid red;*/
+}
+
+.item-inner {
+    padding-bottom: 5px;
 }
 
 .innerRectangle

@@ -3,43 +3,46 @@
     ViewData["Title"] = "Index";
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Type</th>
-            <th scope="col">Price</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Schedule</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div id="searchResultWrapper">
 
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    <a href="Facility/@item.Id">
-                        @item.Name
-                    </a>
-                </td>
-                <td>
-                    @item.FacilityType
-                </td>
-                <td>
-                    @item.Price
-                </td>
-                <td>
-                    @item.Rating
-                </td>
-                <td>
-                    @item.Phone
-                </td>
-                <td>
-                    @item.Schedule.Open - @item.Schedule.Closed
-                </td>
+                <th scope="col">Name</th>
+                <th scope="col">Type</th>
+                <th scope="col">Price</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Schedule</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        <a href="Facility/@item.Id">
+                            @item.Name
+                        </a>
+                    </td>
+                    <td>
+                        @item.FacilityType
+                    </td>
+                    <td>
+                        @item.Price
+                    </td>
+                    <td>
+                        @item.Rating
+                    </td>
+                    <td>
+                        @item.Phone
+                    </td>
+                    <td>
+                        @item.Schedule.Open - @item.Schedule.Closed
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

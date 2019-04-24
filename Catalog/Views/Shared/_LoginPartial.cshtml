@@ -6,7 +6,7 @@
                 <a asp-controller="Manage" asp-action="UserCabinet" asp-route-id="@User.Claims.ToList()[0].Value" title="Manage">Hello, @User.Claims.ToList()[1].Value</a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link" id="logoutButton">Log out</button>
             </li>
         </ul>
     </form>
@@ -14,7 +14,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Account" asp-action="Registrate" style="color:#0086db;">Sign up</a></li>
-        <li><a asp-controller="Account" asp-action="Login" style="color:#0086db;">Sing in</a></li>
+        <li><a asp-controller="Account" asp-action="Registrate">Sign up</a></li>
+        <li><a asp-controller="Account" asp-action="Login">Sing in</a></li>
     </ul>
 }

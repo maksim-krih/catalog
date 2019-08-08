@@ -1,11 +1,10 @@
-﻿using Catalog.Models;
-﻿using Catalog.DAL.Models;
-using System;
+﻿﻿using Catalog.DAL.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Catalog.BLL.ViewModels;
 
-namespace Catalog.Models
+namespace Catalog.BLL.Pagination
 {
     public class IndexView
     {

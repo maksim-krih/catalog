@@ -5,6 +5,7 @@
     ViewData["Title"] = "Place";
 }
 
+
 <div id="placeWrapper">
 
     <!-- Container with adaptive blocks -->
@@ -56,6 +57,7 @@
         </div>
 
 
+
     <div style="width: 100%">
         @if (User.Identity.IsAuthenticated)
         {
@@ -103,6 +105,7 @@
                         </div>
                     </div>
                 </div>
+
             </form>
         }
     </div>
@@ -142,41 +145,37 @@
     }
 </script>
 
+
 <script>
     function initMap() {
-        var element = document.getElementById('map');
-        var options = {
-            zoom: 15,
-            //TODO: take this from db
-            center: { lat: 49.8412929, lng: 24.0322702 }
-        };
-
-        var myMap = new google.maps.Map(element, options);
-
-        var marker = addMarker(options.center.lat, options.center.lng);
-
-        var InfoWidow = new google.maps.InfoWindow({
-            content: '<h4>@Model.Name</h4><p>@Model.FacilityType</p>'
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 18,
+            center: { lat: 49.5017, lng: 24.0123 }
         });
-
-        InfoWidow.open(myMap, marker);
-
-        marker.addListener('click', function () { InfoWidow.open(myMap, marker);})
-
-        function addMarker(lat, lng) {
-            var marker = new google.maps.Marker({
-                position: { lat: lat, lng: lng},
-                map: myMap,
-
-            });
-            marker.setIcon('https://cdn3.iconfinder.com/data/icons/wpzoom-developer-icon-set/500/108-24.png');
-            return marker;
-        }
-
+        var geocoder = new google.maps.Geocoder();
+        geocodeAddress(geocoder, map);
 
     }
 
+    var ModelAddress = document.getElementById('city').value + " " + document.getElementById('street').value + " " + document.getElementById('houseNumber').value;
+
+    function geocodeAddress(geocoder, resultsMap) {
+        var address = ModelAddress;
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status === 'OK') {
+                resultsMap.setCenter(results[0].geometry.location);
+                var marker = new google.maps.Marker({
+                    map: resultsMap,
+                    position: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    }
+
 </script>
+
 
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBW9c1zAjzY6_4YXrZNowJyQrJLOz8RAS8&callback=initMap">

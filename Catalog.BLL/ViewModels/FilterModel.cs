@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Catalog.Models
+﻿namespace Catalog.BLL.ViewModels
 {
     public class FilterModel
     {
